@@ -1,0 +1,9 @@
+/target
+*.log
+/.vscode
+dist
+node_modules
+*.tsbuildinfo
+*.mypy_cache
+/checksums
+/pkgbuild
