@@ -3,3 +3,10 @@ name = "todo-yaml"
 version = "0.0.0"
 authors = ["khai96_ <hvksmr1996@gmail.com>"]
 edition = "2018"
+
+[dependencies]
+serde_yaml = "^0.8.12"
+
+[dependencies.serde]
+version = "^1.0.111"
+features = ["derive"]
