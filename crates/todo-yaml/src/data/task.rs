@@ -8,4 +8,5 @@ pub struct Task {
     pub summary: String,
     pub details: String,
     pub sub: Vec<Task>,
+    pub tags: Vec<String>,
 }
