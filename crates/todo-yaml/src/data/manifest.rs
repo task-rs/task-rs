@@ -1,4 +1,4 @@
-use super::Task;
+use super::{Tag, Task};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -6,4 +6,5 @@ use serde::{Deserialize, Serialize};
 pub struct Manifest {
     pub manifest_version: String,
     pub tasks: Vec<Task>,
+    pub tags: Vec<Tag>,
 }
