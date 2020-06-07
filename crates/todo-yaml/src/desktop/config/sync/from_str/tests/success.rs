@@ -1,4 +1,4 @@
-use super::Sync;
+use super::super::Sync;
 use std::str::FromStr;
 
 #[test]
