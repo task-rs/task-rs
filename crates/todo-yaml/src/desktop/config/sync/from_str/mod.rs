@@ -37,8 +37,8 @@ impl std::str::FromStr for Sync {
 
             _ => match segments[0] {
                 "git-push-pull" => match segments.len() {
-                    1 => Reason::GitPushPullMissingArgument,
-                    2 => unreachable!(),
+                    2 => Reason::GitPushPullMissingArgument,
+                    1 | 3 => unreachable!(),
                     _ => Reason::GitPushPullRedundantArgument(
                         segments[1..]
                             .iter()
