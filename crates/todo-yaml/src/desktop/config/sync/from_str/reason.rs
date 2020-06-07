@@ -1,6 +1,6 @@
 use super::Error;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Reason {
     Empty,
     UndefinedTag(String),

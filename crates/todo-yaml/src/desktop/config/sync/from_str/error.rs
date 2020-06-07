@@ -1,6 +1,6 @@
 use super::Reason;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Error {
     pub text: String,
     pub reason: Reason,
