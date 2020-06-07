@@ -11,6 +11,3 @@ pub enum Sync {
         force: bool,
     },
 }
-
-#[cfg(test)]
-mod test_sync_from_str;

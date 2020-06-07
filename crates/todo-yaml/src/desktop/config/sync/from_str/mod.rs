@@ -53,3 +53,6 @@ impl std::str::FromStr for Sync {
         }
     }
 }
+
+#[cfg(test)]
+mod tests;
