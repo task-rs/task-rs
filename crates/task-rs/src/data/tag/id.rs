@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Ord, PartialOrd)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd)]
+#[serde(from = "String", into = "String")]
 pub struct Id(pub String);
 
 impl<Text: AsRef<str>> From<Text> for Id {
