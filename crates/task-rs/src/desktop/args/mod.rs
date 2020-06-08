@@ -5,7 +5,7 @@ pub use command::Command;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
-#[structopt(name = "todo-yaml")]
+#[structopt(name = "task-rs")]
 pub struct Args {
     #[structopt(subcommand)]
     pub command: Option<Command>,
