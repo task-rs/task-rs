@@ -3,7 +3,7 @@ pub mod tag;
 pub mod task;
 
 pub use status::Status;
-pub use tag::{TagData, TagId};
+pub use tag::{Data as TagData, Id as TagId};
 pub use task::Task;
 
 use serde::{Deserialize, Serialize};
