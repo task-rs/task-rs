@@ -1,5 +1,7 @@
 pub mod sync;
 
+pub use sync::Sync;
+
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use structopt::StructOpt;
@@ -11,5 +13,5 @@ pub struct Config {
     pub local_repo_location: PathBuf,
 
     #[structopt(long, default_value = "git-push-pull --force")]
-    pub sync: sync::Sync,
+    pub sync: Sync,
 }

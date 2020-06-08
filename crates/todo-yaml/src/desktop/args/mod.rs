@@ -1,6 +1,7 @@
 pub mod command;
 
-use command::Command;
+pub use command::Command;
+
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]

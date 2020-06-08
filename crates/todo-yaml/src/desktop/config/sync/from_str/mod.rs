@@ -1,8 +1,8 @@
 pub mod error;
 pub mod reason;
 
-pub use error::*;
-pub use reason::*;
+pub use error::Error;
+pub use reason::Reason;
 
 use super::Sync;
 
