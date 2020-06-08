@@ -6,5 +6,5 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserInterface {
-    pub state: Data,
+    pub data: Data,
 }
