@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Data {
-    Unloaded,
+    Blank,
     EditManifest { config: Config, manifest: Manifest },
     EditConfig { config: Option<Config> },
 }
