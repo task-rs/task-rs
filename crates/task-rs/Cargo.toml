@@ -1,5 +1,6 @@
 [package]
 name = "task-rs"
+description = "TODO app that uses git to sync"
 version = "0.0.0"
 authors = ["khai96_ <hvksmr1996@gmail.com>"]
 edition = "2018"
