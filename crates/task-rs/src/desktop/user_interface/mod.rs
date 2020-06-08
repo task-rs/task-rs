@@ -1,10 +1,10 @@
-pub mod state;
+pub mod data;
 
-pub use state::State;
+pub use data::Data;
 
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserInterface {
-    pub state: State,
+    pub state: Data,
 }
