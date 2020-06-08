@@ -1,9 +1,10 @@
-use super::super::super::config::Config;
+use super::super::super::{config::Config, data::Manifest};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Data {
     Unloaded,
-    Loaded { config: Config },
+    Loaded { config: Config, manifest: Manifest },
+    EditConfig { config: Option<Config> },
 }
