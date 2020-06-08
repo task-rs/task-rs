@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Ord, PartialOrd)]
+pub struct TagId(pub String);
+
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Tag {
-    pub name: String,
+pub struct TagData {
     pub description: Option<String>,
 }
