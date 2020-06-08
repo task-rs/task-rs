@@ -5,6 +5,6 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "kebab-case")]
 pub enum Data {
     Unloaded,
-    Loaded { config: Config, manifest: Manifest },
+    EditManifest { config: Config, manifest: Manifest },
     EditConfig { config: Option<Config> },
 }
