@@ -1,4 +1,4 @@
-use super::super::Config;
+use super::super::super::config::Config;
 use std::path::PathBuf;
 use structopt::StructOpt;
 

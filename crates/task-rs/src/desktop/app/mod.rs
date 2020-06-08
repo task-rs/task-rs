@@ -1,5 +1,5 @@
+use super::super::config::Config;
 use super::super::data::Manifest;
-use super::Config;
 
 #[derive(Debug)]
 pub struct App {
