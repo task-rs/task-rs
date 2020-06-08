@@ -1,5 +1,6 @@
-use super::Status;
+use super::{Status, TagId};
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeSet;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -8,5 +9,5 @@ pub struct Task {
     pub summary: String,
     pub details: String,
     pub sub: Vec<Task>,
-    pub tags: Vec<String>,
+    pub tags: BTreeSet<TagId>,
 }
