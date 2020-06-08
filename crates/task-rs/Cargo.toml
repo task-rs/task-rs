@@ -3,6 +3,7 @@ name = "task-rs"
 version = "0.0.0"
 authors = ["khai96_ <hvksmr1996@gmail.com>"]
 edition = "2018"
+license = "MIT"
 
 [dependencies]
 serde_yaml = "^0.8.12"
