@@ -1,5 +1,5 @@
 use super::{ManifestVersion, MANIFEST_VERSION};
-use ron::{de::from_str, ser::to_string};
+use serde_yaml::{from_str, to_string};
 
 #[test]
 fn try_from_success() {
@@ -19,6 +19,6 @@ fn try_from_failure() {
 fn into() {
     assert_eq!(
         to_string(&ManifestVersion).unwrap(),
-        format!("{}", MANIFEST_VERSION),
+        format!("---\n{}", MANIFEST_VERSION),
     );
 }
