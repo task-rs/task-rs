@@ -9,4 +9,5 @@ pub enum View {
     Tasks(Tasks),
     Config,
     Wait,
+    About,
 }
