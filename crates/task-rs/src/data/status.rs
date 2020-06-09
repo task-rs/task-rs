@@ -6,3 +6,9 @@ pub enum Status {
     Uncompleted,
     Completed,
 }
+
+impl Default for Status {
+    fn default() -> Self {
+        Status::Uncompleted
+    }
+}

@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug, Default, Serialize, Deserialize, Clone, Eq, PartialEq, Ord, PartialOrd)]
 #[serde(from = "String", into = "String")]
 pub struct Id(pub String);
 
