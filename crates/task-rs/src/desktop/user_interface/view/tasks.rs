@@ -1,4 +1,4 @@
-use super::super::super::super::data::TagId;
+use super::super::super::super::{data::TagId, default_enum};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 
@@ -9,8 +9,4 @@ pub enum Tasks {
     MultipleTags(BTreeSet<TagId>),
 }
 
-impl Default for Tasks {
-    fn default() -> Self {
-        Tasks::All
-    }
-}
+default_enum!(Tasks::All);

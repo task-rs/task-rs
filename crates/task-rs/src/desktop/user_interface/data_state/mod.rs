@@ -1,4 +1,4 @@
-use super::super::super::{config::Config, data::Data};
+use super::super::super::{config::Config, data::Data, default_enum};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9,8 +9,4 @@ pub enum DataState {
     EditConfig { config: Option<Config> },
 }
 
-impl Default for DataState {
-    fn default() -> Self {
-        DataState::Blank
-    }
-}
+default_enum!(DataState::Blank);

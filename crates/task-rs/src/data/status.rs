@@ -1,3 +1,4 @@
+use super::super::default_enum;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -7,8 +8,4 @@ pub enum Status {
     Completed,
 }
 
-impl Default for Status {
-    fn default() -> Self {
-        Status::Uncompleted
-    }
-}
+default_enum!(Status::Uncompleted);
