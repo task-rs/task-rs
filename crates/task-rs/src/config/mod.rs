@@ -1,5 +1,7 @@
+pub mod source;
 pub mod sync;
 
+pub use source::Source;
 pub use sync::Sync;
 
 use serde::{Deserialize, Serialize};
