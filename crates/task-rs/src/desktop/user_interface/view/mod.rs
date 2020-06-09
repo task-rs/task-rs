@@ -8,6 +8,5 @@ use serde::{Deserialize, Serialize};
 pub enum View {
     Tasks(Tasks),
     Config,
-    Wait,
     About,
 }
