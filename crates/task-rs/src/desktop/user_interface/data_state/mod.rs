@@ -8,3 +8,9 @@ pub enum DataState {
     EditManifest { config: Config, data: Data },
     EditConfig { config: Option<Config> },
 }
+
+impl Default for DataState {
+    fn default() -> Self {
+        DataState::Blank
+    }
+}

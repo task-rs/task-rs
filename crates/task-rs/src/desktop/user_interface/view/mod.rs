@@ -10,3 +10,9 @@ pub enum View {
     Config,
     About,
 }
+
+impl Default for View {
+    fn default() -> Self {
+        View::Config
+    }
+}

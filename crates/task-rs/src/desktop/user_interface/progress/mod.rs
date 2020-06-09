@@ -5,3 +5,9 @@ pub enum Progress {
     Operational,
     Wait,
 }
+
+impl Default for Progress {
+    fn default() -> Self {
+        Progress::Operational
+    }
+}

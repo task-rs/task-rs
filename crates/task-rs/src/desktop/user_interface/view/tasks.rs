@@ -8,3 +8,9 @@ pub enum Tasks {
     SingleTag(TagId),
     MultipleTags(BTreeSet<TagId>),
 }
+
+impl Default for Tasks {
+    fn default() -> Self {
+        Tasks::All
+    }
+}
