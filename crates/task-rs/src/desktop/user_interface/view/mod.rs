@@ -2,14 +2,13 @@ pub mod tasks;
 
 pub use tasks::Tasks;
 
-use super::super::super::default_enum;
 use serde::{Deserialize, Serialize};
+use smart_default::SmartDefault;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, SmartDefault, Serialize, Deserialize)]
 pub enum View {
     Tasks(Tasks),
+    #[default]
     Config,
     About,
 }
-
-default_enum!(View::Config);

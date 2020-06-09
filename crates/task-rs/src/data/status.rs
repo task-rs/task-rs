@@ -1,11 +1,10 @@
-use super::super::default_enum;
 use serde::{Deserialize, Serialize};
+use smart_default::SmartDefault;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, SmartDefault, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Status {
+    #[default]
     Uncompleted,
     Completed,
 }
-
-default_enum!(Status::Uncompleted);

@@ -8,6 +8,7 @@ license = "MIT"
 repository = "https://github.com/task-rs/task-rs.git"
 
 [dependencies]
+smart-default = "^0.6.0"
 serde_yaml = "^0.8.12"
 structopt = "^0.3.14"
 iced = "^0.1.1"

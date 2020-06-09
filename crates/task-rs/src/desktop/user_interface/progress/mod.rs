@@ -1,10 +1,9 @@
-use super::super::super::default_enum;
 use serde::{Deserialize, Serialize};
+use smart_default::SmartDefault;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, SmartDefault, Serialize, Deserialize)]
 pub enum Progress {
+    #[default]
     Operational,
     Wait,
 }
-
-default_enum!(Progress::Operational);
