@@ -5,3 +5,8 @@ impl ToString for Title {
         self.0.to_owned()
     }
 }
+
+#[test]
+fn test_to_string() {
+    assert_eq!(Title("foo".to_owned()).to_string(), "foo");
+}

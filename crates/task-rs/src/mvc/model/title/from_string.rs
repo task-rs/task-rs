@@ -5,3 +5,8 @@ impl From<String> for Title {
         Title(text)
     }
 }
+
+#[test]
+fn test_from_string() {
+    assert_eq!(Title::from("foo".to_owned()), Title("foo".to_owned()));
+}
