@@ -11,6 +11,10 @@ repository = "https://github.com/task-rs/task-rs.git"
 name = "task_rs"
 path = "src/lib.rs"
 
+[[bin]]
+name = "task_rs"
+path = "bin/task_rs.rs"
+
 [dependencies]
 smart-default = "^0.6.0"
 ron = "^0.6.0"
