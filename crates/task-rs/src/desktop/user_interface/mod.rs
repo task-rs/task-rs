@@ -1,6 +1,8 @@
+pub mod message;
 pub mod progress;
 pub mod view;
 
+pub use message::Message;
 pub use progress::Progress;
 pub use view::View;
 
@@ -19,3 +21,5 @@ pub struct UserInterface {
     pub config: Option<Config>,
     pub config_source: CfgSrc,
 }
+
+mod uv;
