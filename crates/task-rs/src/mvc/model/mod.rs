@@ -1,8 +1,6 @@
-pub mod message;
 pub mod progress;
 pub mod view;
 
-pub use message::Message;
 pub use progress::Progress;
 pub use view::View;
 
@@ -14,12 +12,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
-pub struct UserInterface {
+pub struct Model {
     pub progress: Progress,
     pub view: View,
     pub data: Data,
     pub config: Option<Config>,
     pub config_source: CfgSrc,
 }
-
-mod uv;

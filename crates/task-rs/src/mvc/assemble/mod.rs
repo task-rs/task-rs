@@ -1,11 +1,11 @@
-use super::{Message, UserInterface};
+use super::{controller::update, view::view, Message, Model};
 use iced::{Element, Sandbox};
 
-impl Sandbox for UserInterface {
+impl Sandbox for Model {
     type Message = Message;
 
     fn new() -> Self {
-        UserInterface::default()
+        Model::default()
     }
 
     fn title(&self) -> String {
@@ -13,13 +13,10 @@ impl Sandbox for UserInterface {
     }
 
     fn update(&mut self, message: Self::Message) {
-        update::update(self, message)
+        update(self, message)
     }
 
     fn view(&mut self) -> Element<'_, Self::Message> {
-        view::view(self)
+        view(self)
     }
 }
-
-mod update;
-mod view;
