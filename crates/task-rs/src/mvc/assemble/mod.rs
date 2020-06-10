@@ -9,7 +9,7 @@ impl Sandbox for Model {
     }
 
     fn title(&self) -> String {
-        self.title.clone().into()
+        self.title.to_string()
     }
 
     fn update(&mut self, message: Self::Message) {

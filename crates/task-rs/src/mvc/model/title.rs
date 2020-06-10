@@ -4,6 +4,12 @@ use serde::{Deserialize, Serialize};
 #[serde(from = "String", into = "String")]
 pub struct Title(String);
 
+impl ToString for Title {
+    fn to_string(&self) -> String {
+        self.0.to_owned()
+    }
+}
+
 impl From<String> for Title {
     fn from(text: String) -> Self {
         Title(text)
