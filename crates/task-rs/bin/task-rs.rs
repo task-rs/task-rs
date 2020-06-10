@@ -1,5 +1,4 @@
 fn main() {
-    use iced::{Sandbox, Settings};
-    let settings = Settings::default();
-    task_rs::mvc::Model::run(settings);
+    use pipe_trait::*;
+    task_rs::desktop::App::main().pipe(std::process::exit)
 }

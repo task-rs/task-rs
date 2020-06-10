@@ -1,4 +1,5 @@
 pub mod command;
+pub mod get;
 
 pub use command::Command;
 
