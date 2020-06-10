@@ -12,8 +12,8 @@ name = "task_rs"
 path = "src/lib.rs"
 
 [[bin]]
-name = "task_rs"
-path = "bin/task_rs.rs"
+name = "task-rs"
+path = "bin/task-rs.rs"
 
 [dependencies]
 smart-default = "^0.6.0"
