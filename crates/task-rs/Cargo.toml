@@ -7,6 +7,10 @@ edition = "2018"
 license = "MIT"
 repository = "https://github.com/task-rs/task-rs.git"
 
+[lib]
+name = "task_rs"
+path = "src/lib.rs"
+
 [dependencies]
 smart-default = "^0.6.0"
 ron = "^0.6.0"
