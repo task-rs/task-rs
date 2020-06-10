@@ -9,7 +9,7 @@ impl Sandbox for Model {
     }
 
     fn title(&self) -> String {
-        "TaskRs".to_owned()
+        self.title.clone().into()
     }
 
     fn update(&mut self, message: Self::Message) {
