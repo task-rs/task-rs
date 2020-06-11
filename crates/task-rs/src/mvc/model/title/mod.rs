@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 #[serde(from = "String", into = "String")]
 pub struct Title(String);
 
+mod borrow;
 mod default;
 mod from_string;
 mod into_string;
