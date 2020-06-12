@@ -1,7 +1,7 @@
 use super::super::super::mvc::Model;
 use super::super::status::{code, Status};
 use super::{App, Args};
-use iced::{Sandbox, Settings};
+use iced::{Application, Settings};
 use pipe_trait::*;
 
 impl App {
