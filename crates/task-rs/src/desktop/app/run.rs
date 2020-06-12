@@ -1,7 +1,7 @@
 use super::super::super::mvc::Model;
 use super::super::status::{code, Status};
 use super::{App, Args};
-use iced::{window, Application, Settings};
+use iced::{Application, Settings};
 use pipe_trait::*;
 
 impl App {
@@ -12,12 +12,9 @@ impl App {
     }
 
     pub fn settings(&self) -> Settings<Model> {
-        Settings {
-            antialiasing: true,
-            default_font: None,
-            flags: Model::default(),
-            window: window::Settings::default(),
-        }
+        let mut settings = Settings::with_flags(Model::default());
+        settings.antialiasing = true;
+        settings
     }
 
     pub fn run(&self) -> Status<()> {
