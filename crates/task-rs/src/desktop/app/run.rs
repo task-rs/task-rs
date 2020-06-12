@@ -11,9 +11,12 @@ impl App {
         Ok(app)
     }
 
+    pub fn settings(&self) -> Settings<Model> {
+        Settings::default()
+    }
+
     pub fn run(&self) -> Status<()> {
-        let settings = Settings::default();
-        Model::run(settings);
+        Model::run(self.settings());
         Ok(())
     }
 
