@@ -11,7 +11,7 @@ impl App {
         Ok(app)
     }
 
-    pub fn settings(&self) -> Settings<Model> {
+    fn settings(&self) -> Settings<Model> {
         let mut settings = Settings::with_flags(Model::default());
         settings.antialiasing = true;
         settings

@@ -1,5 +1,4 @@
 pub mod command;
-pub mod get;
 
 pub use command::Command;
 
@@ -11,3 +10,5 @@ pub struct Args {
     #[structopt(subcommand)]
     pub command: Option<Command>,
 }
+
+mod get;
