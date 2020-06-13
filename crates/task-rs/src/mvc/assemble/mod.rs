@@ -1,13 +1,13 @@
 use super::{
     controller::{new, update},
     view::view,
-    Message, Model, UiState,
+    Message, Model,
 };
 use iced::{executor, Application, Command, Element};
 
 impl Application for Model {
     type Message = Message;
-    type Flags = UiState;
+    type Flags = Model;
     type Executor = executor::Default;
 
     fn new(flags: Self::Flags) -> (Self, Command<Self::Message>) {

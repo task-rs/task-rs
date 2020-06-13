@@ -1,6 +1,6 @@
 use super::super::super::{
-    mvc::model::{Progress, Title, UiState, View},
-    utils::{deserialize_file, ui_state_file},
+    mvc::model::{Model, Progress, Title, UiState, View},
+    utils::{deserialize_file, load_data_from_ui_state, ui_state_file},
 };
 use super::App;
 
@@ -28,10 +28,12 @@ impl App {
         }
     }
 
-    pub(crate) fn flags(&self) -> UiState {
-        self.load_saved_state().unwrap_or_else(|error| {
+    pub(crate) fn flags(&self) -> Model {
+        let ui_state = self.load_saved_state().unwrap_or_else(|error| {
             eprintln!("WARN {}", error);
             self.fallback_state()
-        })
+        });
+        let data = load_data_from_ui_state(&ui_state);
+        Model { ui_state, data }
     }
 }
