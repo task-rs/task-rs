@@ -5,7 +5,7 @@ use super::super::super::{
 use super::App;
 
 impl App {
-    fn default_flags(&self) -> Model {
+    fn fallback_flags(&self) -> Model {
         let config = match self.config() {
             Ok(config) => Some(config),
             Err(error) => {
@@ -23,6 +23,6 @@ impl App {
     }
 
     pub(crate) fn flags(&self) -> Model {
-        self.default_flags()
+        self.fallback_flags()
     }
 }
