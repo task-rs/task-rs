@@ -5,7 +5,7 @@ use super::super::super::{
 use super::App;
 
 impl App {
-    pub(crate) fn flags(&self) -> Model {
+    fn default_flags(&self) -> Model {
         let config = match self.config() {
             Ok(config) => Some(config),
             Err(error) => {
@@ -20,5 +20,9 @@ impl App {
             title: Title::default(),
             view: View::default(),
         }
+    }
+
+    pub(crate) fn flags(&self) -> Model {
+        self.default_flags()
     }
 }
