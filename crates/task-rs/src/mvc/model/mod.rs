@@ -15,9 +15,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct Model {
+    pub ui_state: UiState,
+    pub data: Data,
+}
+
+#[derive(Debug, Default, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct UiState {
     pub title: Title,
     pub progress: Progress,
     pub view: View,
-    pub data: Data,
     pub config: Option<(Config, CfgSrc)>,
 }

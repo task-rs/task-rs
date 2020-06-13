@@ -1,17 +1,23 @@
-use super::{controller::update, view::view, Message, Model};
+use super::super::data::Data;
+use super::{controller::update, view::view, Message, Model, UiState};
 use iced::{executor, Application, Command, Element};
 
 impl Application for Model {
     type Message = Message;
-    type Flags = Model;
+    type Flags = UiState;
     type Executor = executor::Default;
 
     fn new(flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        (flags, Command::none())
+        let data = Data::default();
+        let model = Model {
+            data,
+            ui_state: flags,
+        };
+        (model, Command::none())
     }
 
     fn title(&self) -> String {
-        self.title.to_string()
+        self.ui_state.title.to_string()
     }
 
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
