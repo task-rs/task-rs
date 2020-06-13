@@ -1,6 +1,5 @@
 use super::super::status::code;
 use super::App;
-use iced::Application;
 use pipe_trait::*;
 
 impl App {
