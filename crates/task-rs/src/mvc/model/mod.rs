@@ -19,6 +19,5 @@ pub struct Model {
     pub progress: Progress,
     pub view: View,
     pub data: Data,
-    pub config: Option<Config>,
-    pub config_source: CfgSrc,
+    pub config: Option<(Config, CfgSrc)>,
 }
