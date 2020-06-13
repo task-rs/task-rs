@@ -19,14 +19,14 @@ fn load_from_file(filename: &PathBuf) -> Result<Model, String> {
 }
 
 impl App {
-    fn load_flags(&self) -> Result<Model, String> {
+    fn load_saved_state(&self) -> Result<Model, String> {
         match ui_state_file() {
             Some(ui_state_file) => load_from_file(&ui_state_file),
             None => Err("Cannot determine ui state file location".to_owned()),
         }
     }
 
-    fn fallback_flags(&self) -> Model {
+    fn fallback_state(&self) -> Model {
         let config = match self.config() {
             Ok(config) => Some(config),
             Err(error) => {
@@ -44,9 +44,9 @@ impl App {
     }
 
     pub(crate) fn flags(&self) -> Model {
-        self.load_flags().unwrap_or_else(|error| {
+        self.load_saved_state().unwrap_or_else(|error| {
             eprintln!("WARN {}", error);
-            self.fallback_flags()
+            self.fallback_state()
         })
     }
 }
