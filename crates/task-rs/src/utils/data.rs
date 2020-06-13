@@ -1,13 +1,17 @@
-use super::super::{config::Config, data::Data, mvc::model::UiState, utils::deserialize_file};
+use super::super::{
+    config::{Config, Source as CfgSrc},
+    data::Data,
+    utils::deserialize_file,
+};
 
-pub fn from_ui_state(ui_state: &UiState) -> Data {
+pub fn from_cfg_opt(config: &Option<(Config, CfgSrc)>) -> Data {
     if let Some((
         Config {
             local_repo_location,
             ..
         },
         _,
-    )) = &ui_state.config
+    )) = config
     {
         match deserialize_file(&local_repo_location) {
             Ok(data) => data,

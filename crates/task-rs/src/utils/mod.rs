@@ -1,7 +1,7 @@
 pub mod data;
 pub mod xdg;
 
-pub use data::from_ui_state as load_data_from_ui_state;
+pub use data::from_cfg_opt as load_data_from_cfg_opt;
 pub use xdg::{config_file, ui_state_file};
 
 use pipe_trait::*;

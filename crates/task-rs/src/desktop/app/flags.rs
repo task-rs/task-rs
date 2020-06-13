@@ -1,6 +1,6 @@
 use super::super::super::{
     mvc::model::{Model, Progress, Title, UiState, View},
-    utils::{deserialize_file, load_data_from_ui_state, ui_state_file},
+    utils::{deserialize_file, load_data_from_cfg_opt, ui_state_file},
 };
 use super::App;
 
@@ -33,7 +33,7 @@ impl App {
             eprintln!("WARN {}", error);
             self.fallback_state()
         });
-        let data = load_data_from_ui_state(&ui_state);
+        let data = load_data_from_cfg_opt(&ui_state.config);
         Model { ui_state, data }
     }
 }
