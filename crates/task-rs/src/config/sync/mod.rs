@@ -2,7 +2,7 @@ pub mod from_str;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub enum Sync {
     NoSync,
     GitPushPull {

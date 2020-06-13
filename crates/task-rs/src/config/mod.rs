@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use structopt::StructOpt;
 
-#[derive(Debug, Serialize, Deserialize, StructOpt)]
+#[derive(Debug, Serialize, Deserialize, StructOpt, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub struct Config {
     #[structopt(long)]
