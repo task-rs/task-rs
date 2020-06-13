@@ -1,5 +1,8 @@
-use super::super::data::Data;
-use super::{controller::update, view::view, Message, Model, UiState};
+use super::{
+    controller::{new, update},
+    view::view,
+    Message, Model, UiState,
+};
 use iced::{executor, Application, Command, Element};
 
 impl Application for Model {
@@ -8,12 +11,7 @@ impl Application for Model {
     type Executor = executor::Default;
 
     fn new(flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        let data = Data::default();
-        let model = Model {
-            data,
-            ui_state: flags,
-        };
-        (model, Command::none())
+        new(flags)
     }
 
     fn title(&self) -> String {
