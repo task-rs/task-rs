@@ -2,7 +2,6 @@ pub mod xdg;
 
 pub use xdg::{config_file, ui_state_file};
 
-use core::fmt::Display;
 use serde::de::DeserializeOwned;
 use std::{fs::File, path::PathBuf};
 
