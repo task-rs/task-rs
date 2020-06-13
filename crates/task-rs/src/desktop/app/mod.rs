@@ -5,4 +5,7 @@ pub struct App {
     pub args: Args,
 }
 
+mod init;
+mod main;
 mod run;
+mod settings;
