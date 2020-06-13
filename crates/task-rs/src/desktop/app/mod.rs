@@ -6,6 +6,7 @@ pub struct App {
 }
 
 mod config;
+mod flags;
 mod init;
 mod main;
 mod run;
