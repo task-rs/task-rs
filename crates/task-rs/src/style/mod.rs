@@ -7,7 +7,7 @@ pub use light::LIGHT;
 use iced::Color;
 
 #[derive(Debug, PartialEq, Clone)]
-pub struct Styling {
+pub struct Style {
     pub bg: Color,
     pub text: Color,
 }

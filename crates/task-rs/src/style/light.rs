@@ -1,7 +1,7 @@
-use super::Styling;
+use super::Style;
 use iced::Color;
 
-pub const LIGHT: Styling = Styling {
+pub const LIGHT: Style = Style {
     bg: Color::WHITE,
     text: Color::BLACK,
 };
