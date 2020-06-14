@@ -1,5 +1,5 @@
 use super::super::super::{
-    mvc::model::{Model, Progress, Title, UiState, View},
+    mvc::model::{Model, Progress, Theme, Title, UiState, View},
     utils::{deserialize_file, load_data_from_cfg_opt, ui_state_file},
 };
 use super::App;
@@ -25,6 +25,7 @@ impl App {
             progress: Progress::default(),
             title: Title::default(),
             view: View::default(),
+            theme: Theme::default(),
         }
     }
 
