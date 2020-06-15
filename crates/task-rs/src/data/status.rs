@@ -5,6 +5,6 @@ use smart_default::SmartDefault;
 #[serde(rename_all = "kebab-case")]
 pub enum Status {
     #[default]
-    Uncompleted,
+    Active,
     Completed,
 }
