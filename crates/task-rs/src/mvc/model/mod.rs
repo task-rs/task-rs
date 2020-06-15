@@ -1,8 +1,10 @@
+pub mod details;
 pub mod progress;
 pub mod theme;
 pub mod title;
 pub mod view;
 
+pub use details::Details;
 pub use progress::Progress;
 pub use theme::Theme;
 pub use title::Title;
@@ -29,4 +31,5 @@ pub struct UiState {
     pub view: View,
     pub config: Option<(Config, CfgSrc)>,
     pub theme: Theme,
+    pub details: Details,
 }

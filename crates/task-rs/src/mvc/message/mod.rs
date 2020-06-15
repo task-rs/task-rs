@@ -1,2 +1,5 @@
 #[derive(Debug, Copy, Clone)]
-pub enum Message {}
+pub enum Message {
+    TaskStatusFilterActive(bool),
+    TaskStatusFilterCompleted(bool),
+}

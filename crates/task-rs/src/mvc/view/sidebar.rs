@@ -4,7 +4,18 @@ use iced::*;
 use pipe_trait::*;
 
 pub fn create(model: &Model) -> Element<'_, Message> {
-    let mut sidebar = Column::new().push(Text::new("TaskRs").size(40));
+    let mut sidebar = Column::new()
+        .push(Text::new("TaskRs").size(40))
+        .push(Checkbox::new(
+            model.ui_state.details.task_status_filter.active,
+            "show active",
+            Message::TaskStatusFilterActive,
+        ))
+        .push(Checkbox::new(
+            model.ui_state.details.task_status_filter.completed,
+            "show completed",
+            Message::TaskStatusFilterCompleted,
+        ));
 
     sidebar = "All".pipe(Text::new).pipe(|text| sidebar.push(text));
 

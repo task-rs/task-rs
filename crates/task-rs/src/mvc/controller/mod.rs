@@ -6,5 +6,14 @@ pub fn new(model: Model) -> (Model, Command<Message>) {
 }
 
 pub fn update(model: &mut Model, message: Message) -> Command<Message> {
+    match message {
+        Message::TaskStatusFilterActive(x) => {
+            model.ui_state.details.task_status_filter.active = x;
+        }
+        Message::TaskStatusFilterCompleted(x) => {
+            model.ui_state.details.task_status_filter.completed = x;
+        }
+    }
+
     Command::none()
 }
