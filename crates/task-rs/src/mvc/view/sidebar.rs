@@ -6,6 +6,8 @@ use pipe_trait::*;
 pub fn create(model: &Model) -> Element<'_, Message> {
     let mut sidebar = Column::new().push(Text::new("TaskRs").size(40));
 
+    sidebar = "All".pipe(Text::new).pipe(|text| sidebar.push(text));
+
     for entry in &model.data.tags {
         sidebar = entry
             .pipe(tag::entry::display)
