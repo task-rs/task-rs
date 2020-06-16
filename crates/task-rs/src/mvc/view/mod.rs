@@ -1,15 +1,18 @@
 use super::{Message, Model};
 use iced::*;
+use pipe_trait::*;
 
 pub fn view(model: &mut Model) -> Element<'_, Message> {
     let style = model.ui_state.theme.style();
 
-    let row = Row::new().push(sidebar::create(model));
-
-    Container::new(row)
+    Column::new()
+        .push(header::create(model))
+        .push(Row::new().push(sidebar::create(model)))
+        .pipe(Container::new)
         .style(stylesheets::Container(style))
         .into()
 }
 
+mod header;
 mod sidebar;
 mod stylesheets;
