@@ -1,5 +1,5 @@
 use super::super::super::{
-    mvc::model::{Model, UiState},
+    mvc::model::{Controls, Model, UiState},
     utils::{deserialize_file, load_data_from_cfg_opt, ui_state_file},
 };
 use super::App;
@@ -32,6 +32,10 @@ impl App {
             self.fallback_state()
         });
         let data = load_data_from_cfg_opt(&ui_state.config);
-        Model { ui_state, data }
+        Model {
+            ui_state,
+            data,
+            controls: Controls::default(),
+        }
     }
 }

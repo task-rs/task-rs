@@ -7,11 +7,11 @@ pub struct Details {
     pub task_status_filter: TaskStatusFilter,
 }
 
-#[derive(Debug, SmartDefault, Serialize, Deserialize)]
+#[derive(Debug, SmartDefault, Serialize, Deserialize, Eq, PartialEq, Copy, Clone)]
 #[serde(rename_all = "kebab-case")]
-pub struct TaskStatusFilter {
-    #[default(true)]
-    pub active: bool,
-    #[default(false)]
-    pub completed: bool,
+pub enum TaskStatusFilter {
+    All,
+    #[default]
+    ActiveOnly,
+    CompletedOnly,
 }

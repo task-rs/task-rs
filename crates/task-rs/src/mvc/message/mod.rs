@@ -1,5 +1,6 @@
+use super::model::details::TaskStatusFilter;
+
 #[derive(Debug, Copy, Clone)]
 pub enum Message {
-    TaskStatusFilterActive(bool),
-    TaskStatusFilterCompleted(bool),
+    SetTaskStatusFilter(TaskStatusFilter),
 }

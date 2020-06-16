@@ -21,6 +21,8 @@ use serde::{Deserialize, Serialize};
 pub struct Model {
     pub ui_state: UiState,
     pub data: Data,
+    #[serde(skip_serializing, skip_deserializing)]
+    pub(crate) controls: Controls,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -32,4 +34,11 @@ pub struct UiState {
     pub config: Option<(Config, CfgSrc)>,
     pub theme: Theme,
     pub details: Details,
+}
+
+#[derive(Debug, Default, Clone)]
+pub(crate) struct Controls {
+    pub task_state_filter_all: iced::button::State,
+    pub task_state_filter_active: iced::button::State,
+    pub task_state_filter_completed: iced::button::State,
 }
