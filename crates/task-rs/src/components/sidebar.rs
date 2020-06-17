@@ -1,5 +1,4 @@
-use super::super::super::data::tag;
-use super::super::Message;
+use super::super::data::tag;
 use iced::*;
 use pipe_trait::*;
 
@@ -7,9 +6,10 @@ pub struct Sidebar<'a, Entries>(pub Entries)
 where
     Entries: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>;
 
-impl<'a, Entries> Into<Element<'a, Message>> for Sidebar<'a, Entries>
+impl<'a, Entries, Message> Into<Element<'a, Message>> for Sidebar<'a, Entries>
 where
     Entries: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
+    Message: 'a,
 {
     fn into(self) -> Element<'a, Message> {
         let mut sidebar = Column::new();

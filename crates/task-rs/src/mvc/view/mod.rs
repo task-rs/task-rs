@@ -1,3 +1,4 @@
+use super::super::components::Sidebar;
 use super::{Message, Model};
 use iced::*;
 use pipe_trait::*;
@@ -12,12 +13,11 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
             actual_value: task_status_filter,
             theme,
         })
-        .push(Row::new().push(sidebar::Sidebar(&model.data.tags)))
+        .push(Row::new().push(Sidebar(&model.data.tags)))
         .pipe(Container::new)
         .style(stylesheets::Container(theme.style()))
         .into()
 }
 
 mod header;
-mod sidebar;
 mod stylesheets;
