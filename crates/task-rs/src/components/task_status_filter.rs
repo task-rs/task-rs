@@ -1,4 +1,5 @@
 use super::super::style;
+use super::theme;
 use iced::*;
 use pipe_trait::*;
 use serde::{Deserialize, Serialize};
@@ -13,14 +14,10 @@ pub enum Value {
     CompletedOnly,
 }
 
-pub trait Theme {
-    fn style(&self) -> style::Style;
-}
-
 pub struct Button<'state, Label, Theme, Message>
 where
     Label: Into<String>,
-    Theme: self::Theme,
+    Theme: theme::Theme,
     Message: Clone,
 {
     pub state: &'state mut button::State,
@@ -35,7 +32,7 @@ impl<'state, Label, Theme, Message> Into<Element<'state, Message>>
     for Button<'state, Label, Theme, Message>
 where
     Label: Into<String>,
-    Theme: self::Theme,
+    Theme: theme::Theme,
     Message: Clone + 'state,
 {
     fn into(self) -> Element<'state, Message> {

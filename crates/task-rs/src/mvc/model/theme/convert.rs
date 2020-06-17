@@ -1,5 +1,5 @@
 use super::super::super::super::{
-    components::task_status_filter,
+    components::theme,
     style::{Style, DARK, LIGHT},
 };
 use super::Theme;
@@ -13,7 +13,7 @@ impl Theme {
     }
 }
 
-impl task_status_filter::Theme for &Theme {
+impl theme::Theme for &Theme {
     fn style(&self) -> Style {
         Theme::style(self)
     }
