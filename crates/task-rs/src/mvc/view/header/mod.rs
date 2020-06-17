@@ -9,17 +9,17 @@ pub(crate) fn create(controls: &mut Controls) -> Element<'_, Message> {
         .push(Text::new("TaskRs").size(40))
         .push(task_status_filter::create_button(
             &mut controls.task_state_filter_all,
-            "all",
+            "All",
             TaskStatusFilter::All,
         ))
         .push(task_status_filter::create_button(
             &mut controls.task_state_filter_active,
-            "active",
+            "Active",
             TaskStatusFilter::ActiveOnly,
         ))
         .push(task_status_filter::create_button(
             &mut controls.task_state_filter_completed,
-            "completed",
+            "Completed",
             TaskStatusFilter::CompletedOnly,
         ))
         .into()
