@@ -28,7 +28,7 @@ where
     pub represented_value: Value,
     pub actual_value: Value,
     pub theme: Theme,
-    pub on_press: fn(Value) -> Message,
+    pub message: Message,
 }
 
 impl<'state, Label, Theme, Message> Into<Element<'state, Message>>
@@ -45,11 +45,11 @@ where
             represented_value,
             actual_value,
             theme,
-            on_press,
+            message,
         } = self;
 
         iced::Button::new(state, Text::new(label))
-            .on_press(on_press(represented_value))
+            .on_press(message)
             .style(StyleSheet {
                 activated: represented_value == actual_value,
                 style: theme.style(),

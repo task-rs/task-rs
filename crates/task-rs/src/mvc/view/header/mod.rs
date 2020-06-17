@@ -25,7 +25,7 @@ impl<'ctrl, 'theme> Into<Element<'ctrl, Message>> for Header<'ctrl, 'theme> {
                 state: &mut controls.task_state_filter_all,
                 label: "All",
                 represented_value: TaskStatusFilter::All,
-                on_press: Message::SetTaskStatusFilter,
+                message: Message::SetTaskStatusFilter(TaskStatusFilter::All),
                 theme,
                 actual_value,
             })
@@ -33,7 +33,7 @@ impl<'ctrl, 'theme> Into<Element<'ctrl, Message>> for Header<'ctrl, 'theme> {
                 state: &mut controls.task_state_filter_active,
                 label: "Active",
                 represented_value: TaskStatusFilter::ActiveOnly,
-                on_press: Message::SetTaskStatusFilter,
+                message: Message::SetTaskStatusFilter(TaskStatusFilter::ActiveOnly),
                 theme,
                 actual_value,
             })
@@ -41,7 +41,7 @@ impl<'ctrl, 'theme> Into<Element<'ctrl, Message>> for Header<'ctrl, 'theme> {
                 state: &mut controls.task_state_filter_completed,
                 label: "Completed",
                 represented_value: TaskStatusFilter::CompletedOnly,
-                on_press: Message::SetTaskStatusFilter,
+                message: Message::SetTaskStatusFilter(TaskStatusFilter::CompletedOnly),
                 theme,
                 actual_value,
             })
