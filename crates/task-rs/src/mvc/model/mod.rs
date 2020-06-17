@@ -11,6 +11,7 @@ pub use title::Title;
 pub use view::View;
 
 use super::super::{
+    components::task_status_filter::Controls,
     config::{Config, Source as CfgSrc},
     data::Data,
 };
@@ -34,11 +35,4 @@ pub struct UiState {
     pub config: Option<(Config, CfgSrc)>,
     pub theme: Theme,
     pub details: Details,
-}
-
-#[derive(Debug, Default, Clone)]
-pub(crate) struct Controls {
-    pub task_state_filter_all: iced::button::State,
-    pub task_state_filter_active: iced::button::State,
-    pub task_state_filter_completed: iced::button::State,
 }
