@@ -10,4 +10,8 @@ use iced::Color;
 pub struct Style {
     pub bg: Color,
     pub text: Color,
+    pub task_status_filter_activated_bg: Color,
+    pub task_status_filter_inactivated_bg: Color,
+    pub task_status_filter_activated_text: Color,
+    pub task_status_filter_inactivated_text: Color,
 }
