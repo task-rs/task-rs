@@ -4,7 +4,7 @@ use iced::*;
 use pipe_trait::*;
 
 pub fn create<'a>(
-    entries: impl Iterator<Item = (&'a tag::Id, &'a tag::Data)>,
+    entries: impl IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
 ) -> Element<'a, Message> {
     let mut sidebar = Column::new();
 

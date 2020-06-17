@@ -7,7 +7,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
 
     Column::new()
         .push(header::create(&mut model.controls))
-        .push(Row::new().push(sidebar::create(model.data.tags.iter())))
+        .push(Row::new().push(sidebar::create(&model.data.tags)))
         .pipe(Container::new)
         .style(stylesheets::Container(style))
         .into()
