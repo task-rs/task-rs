@@ -12,7 +12,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
             task_status_filter,
             theme,
         ))
-        .push(Row::new().push(sidebar::create(&model.data.tags)))
+        .push(Row::new().push(sidebar::Sidebar(&model.data.tags)))
         .pipe(Container::new)
         .style(stylesheets::Container(theme.style()))
         .into()
