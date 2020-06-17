@@ -1,5 +1,5 @@
-use super::super::components::{theme::Theme, Header, Sidebar, TaskStatusFilter};
-use super::{Message, Model};
+use super::super::components::{theme::Theme, Header, Sidebar, TaskStatusFilter, ThemeSwitcher};
+use super::{model, Message, Model};
 use iced::*;
 use pipe_trait::*;
 
@@ -13,6 +13,11 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
                 controls: &mut model.controls,
                 actual_value: task_status_filter,
                 get_message: Message::SetTaskStatusFilter,
+                theme,
+            },
+            theme_switcher: ThemeSwitcher {
+                dark_mode: model.ui_state.theme == model::Theme::Dark,
+                get_message: Message::SetDarkMode,
                 theme,
             },
         })
