@@ -1,4 +1,4 @@
-use super::super::components::{theme::Theme, Sidebar};
+use super::super::components::{theme::Theme, Header, Sidebar, TaskStatusFilter};
 use super::{Message, Model};
 use iced::*;
 use pipe_trait::*;
@@ -8,10 +8,13 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
     let task_status_filter = model.ui_state.details.task_status_filter;
 
     Column::new()
-        .push(header::Header {
-            controls: &mut model.controls,
-            actual_value: task_status_filter,
-            theme,
+        .push(Header {
+            task_status_filter: TaskStatusFilter {
+                controls: &mut model.controls,
+                actual_value: task_status_filter,
+                get_message: Message::SetTaskStatusFilter,
+                theme,
+            },
         })
         .push(Row::new().push(Sidebar(&model.data.tags)))
         .pipe(Container::new)
@@ -19,5 +22,4 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         .into()
 }
 
-mod header;
 mod stylesheets;
