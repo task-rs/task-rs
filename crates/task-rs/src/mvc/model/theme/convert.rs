@@ -4,17 +4,11 @@ use super::super::super::super::{
 };
 use super::Theme;
 
-impl Theme {
-    pub fn style(&self) -> Style {
+impl theme::Theme for Theme {
+    fn style(&self) -> Style {
         match self {
             Theme::Light => LIGHT,
             Theme::Dark => DARK,
         }
-    }
-}
-
-impl theme::Theme for &Theme {
-    fn style(&self) -> Style {
-        Theme::style(self)
     }
 }

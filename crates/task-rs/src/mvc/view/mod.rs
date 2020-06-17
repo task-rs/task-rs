@@ -1,4 +1,4 @@
-use super::super::components::Sidebar;
+use super::super::components::{theme::Theme, Sidebar};
 use super::{Message, Model};
 use iced::*;
 use pipe_trait::*;
