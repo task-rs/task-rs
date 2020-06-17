@@ -20,27 +20,27 @@ impl<'ctrl, 'theme> Into<Element<'ctrl, Message>> for Header<'ctrl, 'theme> {
 
         Row::new()
             .push(Text::new("TaskRs").size(40))
-            .push(task_status_filter::create_button(
-                &mut controls.task_state_filter_all,
-                "All",
-                TaskStatusFilter::All,
+            .push(task_status_filter::Button {
+                state: &mut controls.task_state_filter_all,
+                label: "All",
+                represented_value: TaskStatusFilter::All,
                 actual_value,
                 theme,
-            ))
-            .push(task_status_filter::create_button(
-                &mut controls.task_state_filter_active,
-                "Active",
-                TaskStatusFilter::ActiveOnly,
+            })
+            .push(task_status_filter::Button {
+                state: &mut controls.task_state_filter_active,
+                label: "Active",
+                represented_value: TaskStatusFilter::ActiveOnly,
                 actual_value,
                 theme,
-            ))
-            .push(task_status_filter::create_button(
-                &mut controls.task_state_filter_completed,
-                "Completed",
-                TaskStatusFilter::CompletedOnly,
+            })
+            .push(task_status_filter::Button {
+                state: &mut controls.task_state_filter_completed,
+                label: "Completed",
+                represented_value: TaskStatusFilter::CompletedOnly,
                 actual_value,
                 theme,
-            ))
+            })
             .into()
     }
 }
