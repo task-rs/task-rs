@@ -1,14 +1,16 @@
 use super::super::super::data::tag;
-use super::super::{Message, Model};
+use super::super::Message;
 use iced::*;
 use pipe_trait::*;
 
-pub fn create(model: &Model) -> Element<'_, Message> {
+pub fn create<'a>(
+    entries: impl Iterator<Item = (&'a tag::Id, &'a tag::Data)>,
+) -> Element<'a, Message> {
     let mut sidebar = Column::new();
 
     sidebar = "All".pipe(Text::new).pipe(|text| sidebar.push(text));
 
-    for entry in &model.data.tags {
+    for entry in entries {
         sidebar = entry
             .pipe(tag::entry::display)
             .pipe(Text::new)

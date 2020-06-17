@@ -4,7 +4,7 @@ use super::super::{
 };
 use iced::*;
 
-pub fn create(controls: &mut Controls) -> Element<'_, Message> {
+pub(crate) fn create(controls: &mut Controls) -> Element<'_, Message> {
     Row::new()
         .push(Text::new("TaskRs").size(40))
         .push(task_status_filter::create_button(
