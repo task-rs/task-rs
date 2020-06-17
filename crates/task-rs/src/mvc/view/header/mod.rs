@@ -1,3 +1,4 @@
+use super::super::super::components::task_status_filter;
 use super::super::{
     model::{details::TaskStatusFilter, Controls, Theme},
     Message,
@@ -24,25 +25,26 @@ impl<'ctrl, 'theme> Into<Element<'ctrl, Message>> for Header<'ctrl, 'theme> {
                 state: &mut controls.task_state_filter_all,
                 label: "All",
                 represented_value: TaskStatusFilter::All,
-                actual_value,
+                on_press: Message::SetTaskStatusFilter,
                 theme,
+                actual_value,
             })
             .push(task_status_filter::Button {
                 state: &mut controls.task_state_filter_active,
                 label: "Active",
                 represented_value: TaskStatusFilter::ActiveOnly,
-                actual_value,
+                on_press: Message::SetTaskStatusFilter,
                 theme,
+                actual_value,
             })
             .push(task_status_filter::Button {
                 state: &mut controls.task_state_filter_completed,
                 label: "Completed",
                 represented_value: TaskStatusFilter::CompletedOnly,
-                actual_value,
+                on_press: Message::SetTaskStatusFilter,
                 theme,
+                actual_value,
             })
             .into()
     }
 }
-
-mod task_status_filter;
