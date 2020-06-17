@@ -14,13 +14,13 @@ pub enum Value {
     CompletedOnly,
 }
 
-pub struct Button<'state, Label, Theme, Message>
+pub struct Button<'a, Label, Theme, Message>
 where
     Label: Into<String>,
     Theme: theme::Theme,
     Message: Clone,
 {
-    pub state: &'state mut button::State,
+    pub state: &'a mut button::State,
     pub label: Label,
     pub represented_value: Value,
     pub actual_value: Value,
@@ -28,14 +28,13 @@ where
     pub message: Message,
 }
 
-impl<'state, Label, Theme, Message> Into<Element<'state, Message>>
-    for Button<'state, Label, Theme, Message>
+impl<'a, Label, Theme, Message> Into<Element<'a, Message>> for Button<'a, Label, Theme, Message>
 where
     Label: Into<String>,
     Theme: theme::Theme,
-    Message: Clone + 'state,
+    Message: Clone + 'a,
 {
-    fn into(self) -> Element<'state, Message> {
+    fn into(self) -> Element<'a, Message> {
         let Button {
             state,
             label,

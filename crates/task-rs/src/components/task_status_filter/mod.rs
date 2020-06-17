@@ -7,23 +7,22 @@ pub use controls::Controls;
 use super::theme;
 use iced::*;
 
-pub struct TaskStatusFilter<'ctrl, Theme, Message>
+pub struct TaskStatusFilter<'a, Theme, Message>
 where
     Theme: theme::Theme,
 {
-    pub(crate) controls: &'ctrl mut Controls,
+    pub(crate) controls: &'a mut Controls,
     pub actual_value: Value,
     pub theme: Theme,
     pub get_message: fn(Value) -> Message,
 }
 
-impl<'ctrl, Theme, Message> Into<Element<'ctrl, Message>>
-    for TaskStatusFilter<'ctrl, Theme, Message>
+impl<'a, Theme, Message> Into<Element<'a, Message>> for TaskStatusFilter<'a, Theme, Message>
 where
     Theme: theme::Theme + Copy,
-    Message: Clone + 'ctrl,
+    Message: Clone + 'a,
 {
-    fn into(self) -> Element<'ctrl, Message> {
+    fn into(self) -> Element<'a, Message> {
         let TaskStatusFilter {
             controls,
             actual_value,
