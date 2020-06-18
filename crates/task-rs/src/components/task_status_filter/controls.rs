@@ -2,7 +2,7 @@ use iced::button::State;
 
 #[derive(Debug, Default, Clone)]
 pub struct Controls {
-    pub all: State,
-    pub active: State,
-    pub completed: State,
+    pub(crate) all: State,
+    pub(crate) active: State,
+    pub(crate) completed: State,
 }
