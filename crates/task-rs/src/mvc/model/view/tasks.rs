@@ -3,10 +3,18 @@ use serde::{Deserialize, Serialize};
 use smart_default::SmartDefault;
 use std::collections::BTreeSet;
 
+#[derive(Debug, Default, Serialize, Deserialize)]
+pub struct Tasks {
+    pub filter_method: FilterMethod,
+    pub single_tag: TagId,
+    pub multiple_tags: BTreeSet<TagId>,
+}
+
 #[derive(Debug, SmartDefault, Serialize, Deserialize)]
-pub enum Tasks {
+#[serde(rename_all = "kebab-case")]
+pub enum FilterMethod {
     #[default]
     All,
-    SingleTag(TagId),
-    MultipleTags(BTreeSet<TagId>),
+    SingleTag,
+    MultipleTags,
 }
