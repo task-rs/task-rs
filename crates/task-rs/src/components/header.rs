@@ -6,7 +6,7 @@ where
     Theme: theme::Theme + Copy,
 {
     pub task_status_filter: TaskStatusFilter<'a, Theme, Message>,
-    pub theme_switcher: ThemeSwitcher<Theme, Message>,
+    pub theme_switcher: ThemeSwitcher<'a, Theme, Message>,
 }
 
 impl<'a, Theme, Message> Into<Element<'a, Message>> for Header<'a, Theme, Message>

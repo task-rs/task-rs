@@ -18,6 +18,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
             theme_switcher: ThemeSwitcher {
                 dark_mode: model.ui_state.theme == model::Theme::Dark,
                 get_message: Message::SetDarkMode,
+                controls: &mut model.controls.theme_switcher,
                 theme,
             },
         })
