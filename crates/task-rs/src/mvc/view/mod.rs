@@ -10,7 +10,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
     Column::new()
         .push(Header {
             task_status_filter: TaskStatusFilter {
-                controls: &mut model.controls,
+                controls: &mut model.controls.task_status_filter,
                 actual_value: task_status_filter,
                 get_message: Message::SetTaskStatusFilter,
                 theme,

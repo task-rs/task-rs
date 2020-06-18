@@ -9,3 +9,7 @@ pub use sidebar::Sidebar;
 pub use task_status_filter::TaskStatusFilter;
 pub use theme::Theme;
 pub use theme_switcher::ThemeSwitcher;
+
+pub(crate) mod controls;
+
+pub(crate) use controls::Controls;

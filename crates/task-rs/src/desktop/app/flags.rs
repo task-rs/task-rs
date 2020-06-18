@@ -1,5 +1,5 @@
 use super::super::super::{
-    components::task_status_filter::Controls,
+    components::Controls,
     mvc::model::{Model, UiState},
     utils::{deserialize_file, load_data_from_cfg_opt, ui_state_file},
 };

@@ -11,7 +11,7 @@ pub use title::Title;
 pub use view::View;
 
 use super::super::{
-    components::task_status_filter::Controls,
+    components::Controls,
     config::{Config, Source as CfgSrc},
     data::Data,
 };

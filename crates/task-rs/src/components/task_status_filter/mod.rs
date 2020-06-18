@@ -32,7 +32,7 @@ where
 
         Row::new()
             .push(Button {
-                state: &mut controls.task_state_filter_all,
+                state: &mut controls.all,
                 label: "All",
                 represented_value: Value::All,
                 message: get_message(Value::All),
@@ -40,7 +40,7 @@ where
                 actual_value,
             })
             .push(Button {
-                state: &mut controls.task_state_filter_active,
+                state: &mut controls.active,
                 label: "Active",
                 represented_value: Value::ActiveOnly,
                 message: get_message(Value::ActiveOnly),
@@ -48,7 +48,7 @@ where
                 actual_value,
             })
             .push(Button {
-                state: &mut controls.task_state_filter_completed,
+                state: &mut controls.completed,
                 label: "Completed",
                 represented_value: Value::CompletedOnly,
                 message: get_message(Value::CompletedOnly),
