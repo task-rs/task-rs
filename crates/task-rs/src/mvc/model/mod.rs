@@ -30,6 +30,7 @@ pub struct Model {
 #[serde(rename_all = "kebab-case")]
 pub struct UiState {
     pub title: Title,
+    #[serde(skip_serializing, skip_deserializing)]
     pub progress: Progress,
     pub view: View,
     pub config: Option<(Config, CfgSrc)>,
