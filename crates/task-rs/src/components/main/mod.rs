@@ -34,6 +34,8 @@ where
             })
             .push(Row::new().push(Sidebar(&self.model.data.tags)))
             .pipe(Container::new)
+            .width(Length::Fill)
+            .height(Length::Fill)
             .style(stylesheets::Container(theme.style()))
             .into()
     }
