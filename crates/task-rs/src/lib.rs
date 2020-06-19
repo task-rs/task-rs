@@ -1,3 +1,4 @@
+pub mod components;
 pub mod config;
 pub mod data;
 pub mod desktop;
@@ -7,5 +8,4 @@ pub use iced;
 pub use serde;
 pub use structopt;
 
-mod components;
 mod utils;
