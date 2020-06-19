@@ -2,7 +2,7 @@ use maplit::btreemap;
 use task_rs::{
     data::{Data, TagData},
     iced::{Application, Settings},
-    mvc::{Model, UiState},
+    mvc::Model,
 };
 
 fn main() {
@@ -21,14 +21,11 @@ fn main() {
         ..Data::default()
     };
 
-    let flags = Model {
-        data,
-        ui_state: UiState::default(),
-        ..Model::default()
-    };
-
     let settings = Settings {
-        flags,
+        flags: Model {
+            data,
+            ..Model::default()
+        },
         ..Settings::default()
     };
 
