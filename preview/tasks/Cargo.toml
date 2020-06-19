@@ -1,0 +1,11 @@
+[package]
+name = "preview-tasks"
+version = "0.0.0"
+description = "Preview widgets"
+edition = "2018"
+
+[dependencies]
+maplit = "^1.0.2"
+
+[dependencies.task-rs]
+path = "../../crates/task-rs/"
