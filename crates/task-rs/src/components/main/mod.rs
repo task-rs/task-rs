@@ -32,7 +32,9 @@ where
                     theme,
                 },
             })
-            .push(Row::new().push(Sidebar(&self.model.data.tags)))
+            .push(Row::new().push(Sidebar {
+                tags: &self.model.data.tags,
+            }))
             .pipe(Container::new)
             .width(Length::Fill)
             .height(Length::Fill)
