@@ -23,7 +23,7 @@ pub struct Model {
     pub ui_state: UiState,
     pub data: Data,
     #[serde(skip_serializing, skip_deserializing)]
-    pub(crate) controls: Controls,
+    pub controls: Controls,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
