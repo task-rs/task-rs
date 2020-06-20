@@ -10,7 +10,7 @@ pub struct Tasks {
     pub multiple_tags: BTreeSet<TagId>,
 }
 
-#[derive(Debug, SmartDefault, Serialize, Deserialize)]
+#[derive(Debug, SmartDefault, Serialize, Deserialize, Copy, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub enum FilterMethod {
     #[default]

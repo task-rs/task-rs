@@ -7,6 +7,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         model,
         set_task_status_filter: Message::SetTaskStatusFilter,
         set_dark_mode: Message::SetDarkMode,
+        set_tag_filter_method: Message::SetTaskFilterMethod,
     }
     .into()
 }

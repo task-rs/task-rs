@@ -1,5 +1,7 @@
 use super::super::mvc::{model, Model};
-use super::{task_status_filter, Header, Sidebar, TaskStatusFilter, Theme, ThemeSwitcher};
+use super::{
+    tag_filter_method, task_status_filter, Header, Sidebar, TaskStatusFilter, Theme, ThemeSwitcher,
+};
 use iced::*;
 use pipe_trait::*;
 
@@ -7,6 +9,7 @@ pub struct Main<'a, Message> {
     pub model: &'a mut Model,
     pub set_task_status_filter: fn(task_status_filter::Value) -> Message,
     pub set_dark_mode: fn(bool) -> Message,
+    pub set_tag_filter_method: fn(tag_filter_method::Value) -> Message,
 }
 
 impl<'a, Message> Into<Element<'a, Message>> for Main<'a, Message>
@@ -34,6 +37,10 @@ where
             })
             .push(Row::new().push(Sidebar {
                 tags: &self.model.data.tags,
+                task_view: &self.model.ui_state.view.tasks,
+                set_task_filter_method: self.set_tag_filter_method,
+                tag_filter_method_controls: &mut self.model.controls.tag_filter_method,
+                theme,
             }))
             .pipe(Container::new)
             .width(Length::Fill)

@@ -11,6 +11,7 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
         Message::SetDarkMode(x) => {
             model.ui_state.theme = if x { Theme::Dark } else { Theme::Light }
         }
+        Message::SetTaskFilterMethod(x) => model.ui_state.view.tasks.filter_method = x,
     }
 
     Command::none()
