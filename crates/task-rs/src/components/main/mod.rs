@@ -1,4 +1,5 @@
 use super::super::{
+    data::TagId,
     mvc::{model, Model},
     style::Theme,
 };
@@ -11,6 +12,7 @@ pub struct Main<'a, Message> {
     pub set_task_status_filter: fn(task_status_filter::Value) -> Message,
     pub set_dark_mode: fn(bool) -> Message,
     pub set_tag_filter_method_to_all: Message,
+    pub filter_tasks_by_single_tag: fn(&TagId) -> Message,
 }
 
 impl<'a, Message> Into<Element<'a, Message>> for Main<'a, Message>
@@ -41,6 +43,8 @@ where
                 task_view: &self.model.ui_state.view.tasks,
                 set_task_filter_method_to_all: self.set_tag_filter_method_to_all,
                 tag_filter_method_controls: &mut self.model.controls.tag_filter_method,
+                single_tag: self.model.ui_state.view.tasks.single_tag.clone(), // TODO: optimize
+                filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
                 theme,
             }))
             .pipe(Container::new)

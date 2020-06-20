@@ -8,6 +8,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         set_task_status_filter: Message::SetTaskStatusFilter,
         set_dark_mode: Message::SetDarkMode,
         set_tag_filter_method_to_all: Message::SetTaskFilterMethod(FilterMethod::All),
+        filter_tasks_by_single_tag: |id| Message::FilterTasksBySingleTag(id.clone()),
     }
     .into()
 }
