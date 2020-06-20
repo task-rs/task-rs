@@ -12,16 +12,16 @@ impl button::StyleSheet for StyleSheet {
 
         button::Style {
             background: if *activated {
-                style.task_status_filter_activated_bg
+                style.activated_button_bg
             } else {
-                style.task_status_filter_inactivated_bg
+                style.inactivated_button_bg
             }
             .pipe(Background::Color)
             .pipe(Some),
             text_color: if *activated {
-                style.task_status_filter_activated_text
+                style.activated_button_text
             } else {
-                style.task_status_filter_inactivated_text
+                style.inactivated_button_text
             },
             ..button::Style::default()
         }

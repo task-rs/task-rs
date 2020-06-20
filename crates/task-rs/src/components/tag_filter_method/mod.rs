@@ -57,16 +57,16 @@ impl button::StyleSheet for AllButtonStyleSheet {
 
         button::Style {
             background: if *activated {
-                style.tag_filter_method_activated_bg
+                style.activated_button_bg
             } else {
-                style.tag_filter_method_inactivated_bg
+                style.inactivated_button_bg
             }
             .pipe(Background::Color)
             .pipe(Some),
             text_color: if *activated {
-                style.tag_filter_method_activated_text
+                style.activated_button_text
             } else {
-                style.tag_filter_method_inactivated_text
+                style.inactivated_button_text
             },
             ..button::Style::default()
         }
