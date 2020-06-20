@@ -29,18 +29,12 @@ where
     Message: Clone + 'static,
 {
     fn into(self) -> Element<'a, Message> {
-        let mut sidebar = Column::<'a, Message>::new()
-            .push(
-                Row::new()
-                    .push(Text::new("select"))
-                    .push(Text::new("filter")),
-            )
-            .push(TagFilterMethod {
-                controls: self.tag_filter_method_controls,
-                filter_method: self.task_view.filter_method,
-                theme: self.theme,
-                all_message: self.set_task_filter_method_to_all,
-            });
+        let mut sidebar = Column::<'a, Message>::new().push(TagFilterMethod {
+            controls: self.tag_filter_method_controls,
+            filter_method: self.task_view.filter_method,
+            theme: self.theme,
+            all_message: self.set_task_filter_method_to_all,
+        });
 
         for entry in self.tags {
             let (id, _) = entry;

@@ -23,23 +23,48 @@ where
     Theme: style::Theme + Copy,
 {
     fn into(self) -> Element<'a, Message> {
-        match self.filter_method {
-            Value::All => Button::new(&mut self.controls.0, Text::new("All"))
-                .style(style::BinaryStateButton {
-                    style: self.theme.style(),
-                    activated: true,
-                })
-                .into(),
-            Value::SingleTag => Button::new(&mut self.controls.0, Text::new("All"))
-                .style(style::BinaryStateButton {
-                    style: self.theme.style(),
-                    activated: false,
-                })
-                .on_press(self.all_message)
-                .into(),
-            Value::MultipleTags => {
-                Button::new(&mut self.controls.0, Text::new("Select All")).into()
-            }
-        }
+        let Controls {
+            ref mut filter_method_single_tag,
+            ref mut filter_method_multiple_tags,
+            ref mut all_button,
+        } = self.controls;
+
+        Column::new()
+            .push(
+                Row::new()
+                    .push(
+                        Button::new(filter_method_single_tag, Text::new("select")).style(
+                            style::BinaryStateButton {
+                                style: self.theme.style(),
+                                activated: self.filter_method != Value::MultipleTags,
+                            },
+                        ),
+                    )
+                    .push(
+                        Button::new(filter_method_multiple_tags, Text::new("filter")).style(
+                            style::BinaryStateButton {
+                                style: self.theme.style(),
+                                activated: self.filter_method == Value::MultipleTags,
+                            },
+                        ),
+                    ),
+            )
+            .push::<Element<'a, Message>>(match self.filter_method {
+                Value::All => Button::new(all_button, Text::new("All"))
+                    .style(style::BinaryStateButton {
+                        style: self.theme.style(),
+                        activated: true,
+                    })
+                    .into(),
+                Value::SingleTag => Button::new(all_button, Text::new("All"))
+                    .style(style::BinaryStateButton {
+                        style: self.theme.style(),
+                        activated: false,
+                    })
+                    .on_press(self.all_message)
+                    .into(),
+                Value::MultipleTags => Button::new(all_button, Text::new("Select All")).into(),
+            })
+            .into()
     }
 }
