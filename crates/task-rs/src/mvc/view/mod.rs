@@ -9,6 +9,8 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         set_dark_mode: Message::SetDarkMode,
         set_tag_filter_method_to_all: Message::SetTaskFilterMethod(FilterMethod::All),
         filter_tasks_by_single_tag: |id| Message::FilterTasksBySingleTag(id.clone()),
+        add_tag_to_multiple_tags: Message::AddTagToMultipleTags,
+        remove_tag_from_multiple_tags: Message::RemoveTagFromMultipleTags,
     }
     .into()
 }

@@ -13,6 +13,8 @@ pub struct Main<'a, Message> {
     pub set_dark_mode: fn(bool) -> Message,
     pub set_tag_filter_method_to_all: Message,
     pub filter_tasks_by_single_tag: fn(&TagId) -> Message,
+    pub add_tag_to_multiple_tags: fn(TagId) -> Message,
+    pub remove_tag_from_multiple_tags: fn(TagId) -> Message,
 }
 
 impl<'a, Message> Into<Element<'a, Message>> for Main<'a, Message>
@@ -45,6 +47,8 @@ where
                 tag_filter_method_controls: &mut self.model.controls.tag_filter_method,
                 single_tag: self.model.ui_state.view.tasks.single_tag.clone(), // TODO: optimize
                 filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
+                add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
+                remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
                 theme,
             }))
             .pipe(Container::new)

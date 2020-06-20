@@ -8,4 +8,6 @@ pub enum Message {
     SetDarkMode(bool),
     SetTaskFilterMethod(FilterMethod),
     FilterTasksBySingleTag(TagId), // TODO: This is expensive, try replacing it with reference
+    AddTagToMultipleTags(TagId),
+    RemoveTagFromMultipleTags(TagId),
 }

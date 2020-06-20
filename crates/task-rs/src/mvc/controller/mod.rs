@@ -19,6 +19,14 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
             model.ui_state.view.tasks.filter_method = FilterMethod::SingleTag;
             model.ui_state.view.tasks.single_tag = x;
         }
+        Message::AddTagToMultipleTags(x) => {
+            model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
+            model.ui_state.view.tasks.multiple_tags.insert(x);
+        }
+        Message::RemoveTagFromMultipleTags(x) => {
+            model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
+            model.ui_state.view.tasks.multiple_tags.remove(&x);
+        }
     }
 
     Command::none()

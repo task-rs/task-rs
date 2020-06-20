@@ -17,6 +17,8 @@ where
     pub theme: Theme,
     pub set_task_filter_method_to_all: Message,
     pub filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
+    pub add_tag_to_multiple_tags: fn(tag::Id) -> Message,
+    pub remove_tag_from_multiple_tags: fn(tag::Id) -> Message,
     pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
 }
 
@@ -43,13 +45,29 @@ where
         for entry in self.tags {
             let (id, _) = entry;
             let label = tag::entry::display(entry);
-            let selected = if self.task_view.filter_method == FilterMethod::SingleTag {
-                Some(&self.single_tag)
-            } else {
-                None
-            };
-            let tag_radio = Radio::new(id, label, selected, self.filter_tasks_by_single_tag);
-            sidebar = sidebar.push(tag_radio);
+            let tag_button: Element<'a, Message> =
+                if self.task_view.filter_method == FilterMethod::MultipleTags {
+                    let is_checked = self.task_view.multiple_tags.contains(id);
+                    let add = self.add_tag_to_multiple_tags;
+                    let remove = self.remove_tag_from_multiple_tags;
+                    let id = id.clone();
+                    Checkbox::new(is_checked, label, move |checked| {
+                        if checked {
+                            add(id.clone())
+                        } else {
+                            remove(id.clone())
+                        }
+                    })
+                    .into()
+                } else {
+                    let selected = if self.task_view.filter_method == FilterMethod::SingleTag {
+                        Some(&self.single_tag)
+                    } else {
+                        None
+                    };
+                    Radio::new(id, label, selected, self.filter_tasks_by_single_tag).into()
+                };
+            sidebar = sidebar.push(tag_button);
         }
 
         sidebar.into()
