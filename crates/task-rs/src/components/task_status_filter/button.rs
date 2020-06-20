@@ -1,4 +1,4 @@
-use super::super::super::style::{self, theme};
+use super::super::super::style;
 use iced::*;
 use serde::{Deserialize, Serialize};
 use smart_default::SmartDefault;
@@ -15,7 +15,7 @@ pub enum Value {
 pub struct Button<'a, Label, Theme, Message>
 where
     Label: Into<String>,
-    Theme: theme::Theme,
+    Theme: style::Theme,
     Message: Clone,
 {
     pub state: &'a mut button::State,
@@ -29,7 +29,7 @@ where
 impl<'a, Label, Theme, Message> Into<Element<'a, Message>> for Button<'a, Label, Theme, Message>
 where
     Label: Into<String>,
-    Theme: theme::Theme,
+    Theme: style::Theme,
     Message: Clone + 'a,
 {
     fn into(self) -> Element<'a, Message> {

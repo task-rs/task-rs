@@ -1,4 +1,4 @@
-use super::super::{data::tag, mvc::model::view::tasks::Tasks as TaskView, style::theme};
+use super::super::{data::tag, mvc::model::view::tasks::Tasks as TaskView, style};
 use super::{controls, TagFilterMethod};
 use iced::*;
 use pipe_trait::*;
@@ -6,7 +6,7 @@ use pipe_trait::*;
 pub struct Sidebar<'a, Tags, Theme, Message>
 where
     Tags: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
-    Theme: theme::Theme,
+    Theme: style::Theme,
 {
     pub tags: Tags,
     pub task_view: &'a TaskView,
@@ -18,7 +18,7 @@ where
 impl<'a, Tags, Theme, Message> Into<Element<'a, Message>> for Sidebar<'a, Tags, Theme, Message>
 where
     Tags: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
-    Theme: theme::Theme + Copy,
+    Theme: style::Theme + Copy,
     Message: Clone + 'a,
 {
     fn into(self) -> Element<'a, Message> {

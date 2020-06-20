@@ -1,7 +1,7 @@
-use super::super::super::super::style::{theme, Style, DARK, LIGHT};
+use super::super::super::super::style::{self, Style, DARK, LIGHT};
 use super::Theme;
 
-impl theme::Theme for Theme {
+impl style::Theme for Theme {
     fn style(&self) -> Style {
         match self {
             Theme::Light => LIGHT,

@@ -1,10 +1,10 @@
-use super::super::style::theme;
+use super::super::style;
 use super::{task_status_filter::TaskStatusFilter, ThemeSwitcher};
 use iced::*;
 
 pub struct Header<'a, Theme, Message>
 where
-    Theme: theme::Theme + Copy,
+    Theme: style::Theme + Copy,
 {
     pub task_status_filter: TaskStatusFilter<'a, Theme, Message>,
     pub theme_switcher: ThemeSwitcher<'a, Theme, Message>,
@@ -12,7 +12,7 @@ where
 
 impl<'a, Theme, Message> Into<Element<'a, Message>> for Header<'a, Theme, Message>
 where
-    Theme: theme::Theme + Copy,
+    Theme: style::Theme + Copy,
     Message: Clone + 'static,
 {
     fn into(self) -> Element<'a, Message> {

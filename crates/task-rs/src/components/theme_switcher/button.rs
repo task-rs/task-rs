@@ -1,10 +1,10 @@
-use super::super::super::style::{self, theme};
+use super::super::super::style;
 use super::Controls;
 use iced::*;
 
 pub struct ThemeSwitcher<'a, Theme, Message>
 where
-    Theme: theme::Theme + Copy,
+    Theme: style::Theme + Copy,
 {
     pub dark_mode: bool,
     pub theme: Theme,
@@ -14,7 +14,7 @@ where
 
 impl<'a, Theme, Message> Into<Element<'a, Message>> for ThemeSwitcher<'a, Theme, Message>
 where
-    Theme: theme::Theme + Copy,
+    Theme: style::Theme + Copy,
     Message: Clone + 'static,
 {
     fn into(self) -> Element<'a, Message> {

@@ -4,12 +4,12 @@ pub mod controls;
 pub use button::{Button, Value};
 pub use controls::Controls;
 
-use super::super::style::theme;
+use super::super::style;
 use iced::*;
 
 pub struct TaskStatusFilter<'a, Theme, Message>
 where
-    Theme: theme::Theme,
+    Theme: style::Theme,
 {
     pub(crate) controls: &'a mut Controls,
     pub actual_value: Value,
@@ -19,7 +19,7 @@ where
 
 impl<'a, Theme, Message> Into<Element<'a, Message>> for TaskStatusFilter<'a, Theme, Message>
 where
-    Theme: theme::Theme + Copy,
+    Theme: style::Theme + Copy,
     Message: Clone + 'a,
 {
     fn into(self) -> Element<'a, Message> {
