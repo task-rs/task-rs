@@ -1,7 +1,6 @@
 use super::super::super::style;
 use super::super::theme;
 use iced::*;
-use pipe_trait::*;
 use serde::{Deserialize, Serialize};
 use smart_default::SmartDefault;
 
@@ -46,36 +45,10 @@ where
 
         iced::Button::new(state, Text::new(label))
             .on_press(message)
-            .style(StyleSheet {
+            .style(style::BinaryStateButton {
                 activated: represented_value == actual_value,
                 style: theme.style(),
             })
             .into()
-    }
-}
-
-pub struct StyleSheet {
-    pub style: style::Style,
-    pub activated: bool,
-}
-impl button::StyleSheet for StyleSheet {
-    fn active(&self) -> button::Style {
-        let StyleSheet { style, activated } = self;
-
-        button::Style {
-            background: if *activated {
-                style.activated_button_bg
-            } else {
-                style.inactivated_button_bg
-            }
-            .pipe(Background::Color)
-            .pipe(Some),
-            text_color: if *activated {
-                style.activated_button_text
-            } else {
-                style.inactivated_button_text
-            },
-            ..button::Style::default()
-        }
     }
 }

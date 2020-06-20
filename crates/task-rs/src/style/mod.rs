@@ -1,8 +1,10 @@
 pub mod dark;
 pub mod light;
+pub mod stylesheets;
 
 pub use dark::DARK;
 pub use light::LIGHT;
+pub use stylesheets::*;
 
 use iced::Color;
 

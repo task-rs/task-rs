@@ -1,7 +1,7 @@
 pub mod button;
 pub mod controls;
 
-pub use button::{Button, StyleSheet, Value};
+pub use button::{Button, Value};
 pub use controls::Controls;
 
 use super::theme;

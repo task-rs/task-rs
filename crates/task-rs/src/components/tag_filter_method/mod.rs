@@ -7,7 +7,6 @@ pub use super::super::mvc::model::view::tasks::FilterMethod as Value;
 use super::super::style;
 use super::theme;
 use iced::*;
-use pipe_trait::*;
 
 pub struct TagFilterMethod<'a, Theme, Message>
 where
@@ -27,13 +26,13 @@ where
     fn into(self) -> Element<'a, Message> {
         match self.filter_method {
             Value::All => Button::new(&mut self.controls.0, Text::new("All"))
-                .style(AllButtonStyleSheet {
+                .style(style::BinaryStateButton {
                     style: self.theme.style(),
                     activated: true,
                 })
                 .into(),
             Value::SingleTag => Button::new(&mut self.controls.0, Text::new("All"))
-                .style(AllButtonStyleSheet {
+                .style(style::BinaryStateButton {
                     style: self.theme.style(),
                     activated: false,
                 })
@@ -42,33 +41,6 @@ where
             Value::MultipleTags => {
                 Button::new(&mut self.controls.0, Text::new("Select All")).into()
             }
-        }
-    }
-}
-
-struct AllButtonStyleSheet {
-    pub style: style::Style,
-    pub activated: bool,
-}
-
-impl button::StyleSheet for AllButtonStyleSheet {
-    fn active(&self) -> button::Style {
-        let AllButtonStyleSheet { style, activated } = self;
-
-        button::Style {
-            background: if *activated {
-                style.activated_button_bg
-            } else {
-                style.inactivated_button_bg
-            }
-            .pipe(Background::Color)
-            .pipe(Some),
-            text_color: if *activated {
-                style.activated_button_text
-            } else {
-                style.inactivated_button_text
-            },
-            ..button::Style::default()
         }
     }
 }
