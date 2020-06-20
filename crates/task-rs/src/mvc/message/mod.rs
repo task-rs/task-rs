@@ -6,5 +6,5 @@ pub enum Message {
     SetTaskStatusFilter(TaskStatusFilter),
     SetDarkMode(bool),
     SetTaskFilterMethod(FilterMethod),
-    FilterTasksBySingleTag(TagId),
+    FilterTasksBySingleTag(TagId), // TODO: This is expensive, try replacing it with reference
 }
