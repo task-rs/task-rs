@@ -53,17 +53,18 @@ where
             )
             .push::<Element<'a, Message>>(match self.filter_method {
                 Value::All => Button::new(all_button, Text::new("All"))
+                    .on_press(self.all_message)
                     .style(style::BinaryStateButton {
                         style: self.theme.style(),
                         activated: true,
                     })
                     .into(),
                 Value::SingleTag => Button::new(all_button, Text::new("All"))
+                    .on_press(self.all_message)
                     .style(style::BinaryStateButton {
                         style: self.theme.style(),
                         activated: false,
                     })
-                    .on_press(self.all_message)
                     .into(),
                 Value::MultipleTags => Button::new(all_button, Text::new("Select All")).into(),
             })
