@@ -1,7 +1,4 @@
-use super::super::{
-    data::tag,
-    mvc::model::view::tasks::{FilterMethod, Tasks as TaskView},
-};
+use super::super::{data::tag, mvc::model::view::tasks::Tasks as TaskView};
 use super::{controls, theme, TagFilterMethod};
 use iced::*;
 use pipe_trait::*;
@@ -14,7 +11,7 @@ where
     pub tags: Tags,
     pub task_view: &'a TaskView,
     pub theme: Theme,
-    pub set_task_filter_method: fn(FilterMethod) -> Message,
+    pub set_task_filter_method_to_all: Message,
     pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
 }
 
@@ -35,7 +32,7 @@ where
                 controls: self.tag_filter_method_controls,
                 filter_method: self.task_view.filter_method,
                 theme: self.theme,
-                get_message: self.set_task_filter_method,
+                all_message: self.set_task_filter_method_to_all,
             });
 
         for entry in self.tags {

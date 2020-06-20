@@ -15,7 +15,7 @@ where
 {
     pub(crate) controls: &'a mut Controls,
     pub filter_method: Value,
-    pub get_message: fn(Value) -> Message,
+    pub all_message: Message,
     pub theme: Theme,
 }
 
@@ -37,6 +37,7 @@ where
                     style: self.theme.style(),
                     activated: false,
                 })
+                .on_press(self.all_message)
                 .into(),
             Value::MultipleTags => {
                 Button::new(&mut self.controls.0, Text::new("Select All")).into()
