@@ -2,7 +2,6 @@ use super::super::super::style;
 use super::super::theme;
 use super::Controls;
 use iced::*;
-use pipe_trait::*;
 
 pub struct ThemeSwitcher<'a, Theme, Message>
 where
@@ -31,18 +30,7 @@ where
 
         Button::new(&mut controls.0, Text::new(label))
             .on_press(get_message(!dark_mode))
-            .style(StyleSheet(theme.style()))
+            .style(style::SingleStateButton(theme.style()))
             .into()
-    }
-}
-
-struct StyleSheet(pub style::Style);
-impl button::StyleSheet for StyleSheet {
-    fn active(&self) -> button::Style {
-        button::Style {
-            background: Color::TRANSPARENT.pipe(Background::Color).pipe(Some),
-            text_color: self.0.text,
-            ..button::Style::default()
-        }
     }
 }
