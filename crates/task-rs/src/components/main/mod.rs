@@ -1,5 +1,8 @@
-use super::super::mvc::{model, Model};
-use super::{task_status_filter, Header, Sidebar, TaskStatusFilter, Theme, ThemeSwitcher};
+use super::super::{
+    mvc::{model, Model},
+    style::Theme,
+};
+use super::{task_status_filter, Header, Sidebar, TaskStatusFilter, ThemeSwitcher};
 use iced::*;
 use pipe_trait::*;
 

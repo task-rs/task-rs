@@ -1,10 +1,12 @@
 pub mod dark;
 pub mod light;
 pub mod stylesheets;
+pub mod theme;
 
 pub use dark::DARK;
 pub use light::LIGHT;
 pub use stylesheets::*;
+pub use theme::Theme;
 
 use iced::Color;
 

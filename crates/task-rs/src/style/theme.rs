@@ -1,4 +1,4 @@
-use super::super::style::Style;
+use super::Style;
 
 pub trait Theme {
     fn style(&self) -> Style;

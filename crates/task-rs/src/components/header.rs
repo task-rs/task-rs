@@ -1,4 +1,5 @@
-use super::{task_status_filter::TaskStatusFilter, theme, ThemeSwitcher};
+use super::super::style::theme;
+use super::{task_status_filter::TaskStatusFilter, ThemeSwitcher};
 use iced::*;
 
 pub struct Header<'a, Theme, Message>

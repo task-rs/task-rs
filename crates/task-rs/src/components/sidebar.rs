@@ -1,5 +1,5 @@
-use super::super::{data::tag, mvc::model::view::tasks::Tasks as TaskView};
-use super::{controls, theme, TagFilterMethod};
+use super::super::{data::tag, mvc::model::view::tasks::Tasks as TaskView, style::theme};
+use super::{controls, TagFilterMethod};
 use iced::*;
 use pipe_trait::*;
 

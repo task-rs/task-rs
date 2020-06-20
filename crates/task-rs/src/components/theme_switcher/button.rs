@@ -1,5 +1,4 @@
-use super::super::super::style;
-use super::super::theme;
+use super::super::super::style::{self, theme};
 use super::Controls;
 use iced::*;
 

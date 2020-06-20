@@ -1,5 +1,4 @@
-use super::super::super::style;
-use super::super::theme;
+use super::super::super::style::{self, theme};
 use iced::*;
 use serde::{Deserialize, Serialize};
 use smart_default::SmartDefault;

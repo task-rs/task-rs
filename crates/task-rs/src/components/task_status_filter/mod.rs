@@ -4,7 +4,7 @@ pub mod controls;
 pub use button::{Button, Value};
 pub use controls::Controls;
 
-use super::theme;
+use super::super::style::theme;
 use iced::*;
 
 pub struct TaskStatusFilter<'a, Theme, Message>

@@ -4,8 +4,7 @@ pub use controls::Controls;
 
 pub use super::super::mvc::model::view::tasks::FilterMethod as Value;
 
-use super::super::style;
-use super::theme;
+use super::super::style::{self, theme};
 use iced::*;
 
 pub struct TagFilterMethod<'a, Theme, Message>
