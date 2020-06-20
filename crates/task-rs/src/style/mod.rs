@@ -14,4 +14,8 @@ pub struct Style {
     pub task_status_filter_inactivated_bg: Color,
     pub task_status_filter_activated_text: Color,
     pub task_status_filter_inactivated_text: Color,
+    pub tag_filter_method_activated_bg: Color,
+    pub tag_filter_method_inactivated_bg: Color,
+    pub tag_filter_method_activated_text: Color,
+    pub tag_filter_method_inactivated_text: Color,
 }
