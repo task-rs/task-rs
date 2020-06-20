@@ -16,6 +16,8 @@ where
     pub single_tag: tag::Id,
     pub theme: Theme,
     pub set_task_filter_method_to_all: Message,
+    pub set_task_filter_method_to_single_tag: Message,
+    pub set_task_filter_method_to_multiple_tags: Message,
     pub filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
     pub add_tag_to_multiple_tags: fn(tag::Id) -> Message,
     pub remove_tag_from_multiple_tags: fn(tag::Id) -> Message,
@@ -34,6 +36,8 @@ where
             filter_method: self.task_view.filter_method,
             theme: self.theme,
             all_message: self.set_task_filter_method_to_all,
+            single_tag_message: self.set_task_filter_method_to_single_tag,
+            multiple_tags_message: self.set_task_filter_method_to_multiple_tags,
         });
 
         for entry in self.tags {

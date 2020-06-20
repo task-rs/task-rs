@@ -14,6 +14,8 @@ where
     pub(crate) controls: &'a mut Controls,
     pub filter_method: Value,
     pub all_message: Message,
+    pub single_tag_message: Message,
+    pub multiple_tags_message: Message,
     pub theme: Theme,
 }
 
@@ -33,20 +35,20 @@ where
             .push(
                 Row::new()
                     .push(
-                        Button::new(filter_method_single_tag, Text::new("select")).style(
-                            style::BinaryStateButton {
+                        Button::new(filter_method_single_tag, Text::new("select"))
+                            .on_press(self.single_tag_message)
+                            .style(style::BinaryStateButton {
                                 style: self.theme.style(),
                                 activated: self.filter_method != Value::MultipleTags,
-                            },
-                        ),
+                            }),
                     )
                     .push(
-                        Button::new(filter_method_multiple_tags, Text::new("filter")).style(
-                            style::BinaryStateButton {
+                        Button::new(filter_method_multiple_tags, Text::new("filter"))
+                            .on_press(self.multiple_tags_message)
+                            .style(style::BinaryStateButton {
                                 style: self.theme.style(),
                                 activated: self.filter_method == Value::MultipleTags,
-                            },
-                        ),
+                            }),
                     ),
             )
             .push::<Element<'a, Message>>(match self.filter_method {
