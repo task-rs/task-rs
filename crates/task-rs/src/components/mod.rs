@@ -14,5 +14,6 @@ pub use header::Header;
 pub use main::Main;
 pub use sidebar::Sidebar;
 pub use tag_filter_method::TagFilterMethod;
+pub use tag_list::TagList;
 pub use task_status_filter::TaskStatusFilter;
 pub use theme_switcher::ThemeSwitcher;
