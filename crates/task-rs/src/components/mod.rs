@@ -1,3 +1,4 @@
+pub mod button_list;
 pub mod controls;
 pub mod header;
 pub mod main;
@@ -6,6 +7,7 @@ pub mod tag_filter_method;
 pub mod task_status_filter;
 pub mod theme_switcher;
 
+pub use button_list::ButtonList;
 pub use controls::Controls;
 pub use header::Header;
 pub use main::Main;
