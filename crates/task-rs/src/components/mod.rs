@@ -4,6 +4,7 @@ pub mod header;
 pub mod main;
 pub mod sidebar;
 pub mod tag_filter_method;
+pub mod tag_list;
 pub mod task_status_filter;
 pub mod theme_switcher;
 
