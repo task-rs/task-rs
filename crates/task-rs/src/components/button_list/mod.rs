@@ -4,25 +4,27 @@ pub use controls::Controls;
 
 use iced::*;
 
-pub struct ButtonList<'a, Key, Value, Message, ButtonStyle>
+pub struct ButtonList<'a, Key, Value, Message, ButtonStyle, GetButtonStyle>
 where
     Key: Ord,
     ButtonStyle: button::StyleSheet,
+    GetButtonStyle: Fn(&Key) -> ButtonStyle,
 {
     pub(crate) controls: &'a mut Controls<Key>,
     pub get_content: fn(&Key) -> Value,
     pub get_message: fn(&Key) -> Message,
-    pub get_style: fn(&Key) -> ButtonStyle,
+    pub get_style: GetButtonStyle,
 }
 
 macro_rules! impl_into {
     ($container:ident) => {
-        impl<'a, Key, Message, ButtonStyle> Into<$container<'a, Message>>
-            for ButtonList<'a, Key, Element<'a, Message>, Message, ButtonStyle>
+        impl<'a, Key, Message, ButtonStyle, GetButtonStyle> Into<$container<'a, Message>>
+            for ButtonList<'a, Key, Element<'a, Message>, Message, ButtonStyle, GetButtonStyle>
         where
             Key: Ord + Clone + 'a,
             Message: Clone + 'a,
             ButtonStyle: button::StyleSheet + 'static,
+            GetButtonStyle: Fn(&Key) -> ButtonStyle,
         {
             fn into(self) -> $container<'a, Message> {
                 let mut container = $container::new();
