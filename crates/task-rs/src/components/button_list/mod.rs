@@ -18,11 +18,10 @@ where
 
 macro_rules! impl_into {
     ($container:ident) => {
-        impl<'a, Key, Value, Theme, Message> Into<$container<'a, Message>>
-            for ButtonList<'a, Key, Value, Theme, Message>
+        impl<'a, Key, Theme, Message> Into<$container<'a, Message>>
+            for ButtonList<'a, Key, Element<'a, Message>, Theme, Message>
         where
             Key: Ord + Clone + 'a,
-            Value: Into<Element<'a, Message>>,
             Theme: style::Theme,
             Message: Clone + 'a,
         {
