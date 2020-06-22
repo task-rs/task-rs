@@ -7,18 +7,13 @@ use iced::*;
 use pipe_trait::*;
 use std::collections::BTreeMap;
 
-pub fn new(model: Model) -> (Model, Command<Message>) {
+pub fn new(mut model: Model) -> (Model, Command<Message>) {
+    init_update(&mut model);
     (model, Command::none())
 }
 
 pub fn update(model: &mut Model, message: Message) -> Command<Message> {
-    model.controls.tag_list = model
-        .data
-        .tags
-        .iter()
-        .map(|(id, _)| (id.clone(), button::State::default()))
-        .collect::<BTreeMap<_, _>>()
-        .pipe(controls::TagList::new);
+    init_update(model);
 
     match message {
         Message::MultipleActions(x) => {
@@ -55,4 +50,14 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
     }
 
     Command::none()
+}
+
+fn init_update(model: &mut Model) {
+    model.controls.tag_list = model
+        .data
+        .tags
+        .iter()
+        .map(|(id, _)| (id.clone(), button::State::default()))
+        .collect::<BTreeMap<_, _>>()
+        .pipe(controls::TagList::new);
 }
