@@ -20,10 +20,18 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
         Message::SetDarkMode(x) => {
             model.ui_state.theme = if x { Theme::Dark } else { Theme::Light }
         }
-        Message::SetTaskFilterMethod(x) => model.ui_state.view.tasks.filter_method = x,
+        Message::SetTaskFilterMethod(x) => {
+            model.ui_state.view.tasks.filter_method = x;
+            if x == FilterMethod::All {
+                model.ui_state.view.tasks.single_tag = None;
+            }
+            if model.ui_state.view.tasks.single_tag.is_none() && x != FilterMethod::MultipleTags {
+                model.ui_state.view.tasks.filter_method = FilterMethod::All;
+            }
+        }
         Message::FilterTasksBySingleTag(x) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::SingleTag;
-            model.ui_state.view.tasks.single_tag = x;
+            model.ui_state.view.tasks.single_tag = Some(x);
         }
         Message::AddTagToMultipleTags(x) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;

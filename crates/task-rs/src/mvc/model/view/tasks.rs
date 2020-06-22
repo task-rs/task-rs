@@ -6,7 +6,7 @@ use std::collections::BTreeSet;
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Tasks {
     pub filter_method: FilterMethod,
-    pub single_tag: TagId,
+    pub single_tag: Option<TagId>,
     pub multiple_tags: BTreeSet<TagId>,
 }
 

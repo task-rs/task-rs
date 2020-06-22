@@ -13,7 +13,7 @@ use std::collections::BTreeMap;
 pub struct Sidebar<'a, Theme, Message> {
     pub tags: &'a BTreeMap<tag::Id, tag::Data>,
     pub task_view: &'a TaskView,
-    pub single_tag: tag::Id,
+    pub single_tag: Option<tag::Id>,
     pub theme: Theme,
     pub set_task_filter_method_to_all: Message,
     pub set_task_filter_method_to_single_tag: Message,
@@ -94,7 +94,13 @@ impl<'a> Callable for GetActivated<'a> {
     fn call(self, id: &tag::Id) -> bool {
         match self.0.filter_method {
             FilterMethod::All => false,
-            FilterMethod::SingleTag => &self.0.single_tag == id,
+            FilterMethod::SingleTag => {
+                if let Some(current_id) = &self.0.single_tag {
+                    current_id == id
+                } else {
+                    false
+                }
+            }
             FilterMethod::MultipleTags => self.0.multiple_tags.contains(id),
         }
     }
