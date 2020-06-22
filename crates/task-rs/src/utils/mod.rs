@@ -1,3 +1,4 @@
+pub mod callable;
 pub mod data;
 pub mod xdg;
 
