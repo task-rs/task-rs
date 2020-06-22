@@ -5,16 +5,16 @@ use super::super::{
     utils::Callable,
 };
 use super::{controls, TagFilterMethod, TagList};
+use core::marker::PhantomData;
 use iced::*;
 use pipe_trait::*;
 use std::collections::BTreeMap;
 
-pub struct Sidebar<'a, Tags, Theme, Message>
+pub struct Sidebar<'a, Theme, Message>
 where
-    Tags: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
     Theme: style::Theme,
 {
-    pub tags: Tags,
+    pub tags: &'a BTreeMap<tag::Id, tag::Data>,
     pub task_view: &'a TaskView,
     pub single_tag: tag::Id,
     pub theme: Theme,
@@ -28,9 +28,8 @@ where
     pub(crate) tag_list_controls: &'a mut controls::TagList,
 }
 
-impl<'a, Tags, Theme, Message> Into<Element<'a, Message>> for Sidebar<'a, Tags, Theme, Message>
+impl<'a, Theme, Message> Into<Element<'a, Message>> for Sidebar<'a, Theme, Message>
 where
-    Tags: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
     Theme: style::Theme + Copy,
     Message: Clone + 'a,
 {
@@ -46,14 +45,17 @@ where
 
         *self.tag_list_controls = self
             .tags
-            .into_iter()
+            .iter()
             .map(|(id, _)| (id.clone(), button::State::default()))
             .collect::<BTreeMap<_, _>>()
             .pipe(controls::TagList::new);
 
         let tag_list = TagList {
             controls: self.tag_list_controls,
-            get_content: GetContent::<'a, Message>::default(),
+            get_content: GetContent {
+                map: self.tags,
+                _phantom_msg: PhantomData,
+            },
             get_activated: GetActivated(self.task_view),
             get_message: GetMessage {
                 task_view: self.task_view,
@@ -69,22 +71,20 @@ where
 
 #[derive(Debug, Copy, Clone)]
 struct GetContent<'a, Message> {
-    _phantom_msg: Option<Message>,
-    _phantom_lt: Option<&'a ()>,
-}
-impl<'a, Message> Default for GetContent<'a, Message> {
-    fn default() -> Self {
-        GetContent {
-            _phantom_msg: None,
-            _phantom_lt: None,
-        }
-    }
+    map: &'a BTreeMap<tag::Id, tag::Data>,
+    _phantom_msg: PhantomData<Message>,
 }
 impl<'a, Message> Callable for GetContent<'a, Message> {
     type Input = &'a tag::Id;
     type Output = Element<'a, Message>;
-    fn call(self, x: Self::Input) -> Self::Output {
-        x.0.pipe_ref(Text::new).into()
+    fn call(self, id: Self::Input) -> Self::Output {
+        if let Some(data) = self.map.get(id) {
+            tag::entry::display((id, data))
+        } else {
+            id.0.clone()
+        }
+        .pipe_ref(Text::new)
+        .into()
     }
 }
 
