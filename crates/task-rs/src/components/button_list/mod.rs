@@ -8,9 +8,6 @@ use iced::*;
 pub struct ButtonList<'a, Key, GetContent, GetMessage, GetButtonStyle>
 where
     Key: Ord,
-    GetContent: Callable,
-    GetMessage: Callable,
-    GetButtonStyle: Callable,
 {
     pub(crate) controls: &'a mut Controls<Key>,
     pub get_content: GetContent,

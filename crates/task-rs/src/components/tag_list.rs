@@ -5,13 +5,7 @@ use pipe_trait::*;
 
 pub type Controls = button_list::Controls<TagId>;
 
-pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated>
-where
-    Theme: style::Theme,
-    GetContent: Callable,
-    GetMessage: Callable,
-    GetActivated: Callable,
-{
+pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
     pub(crate) controls: &'a mut Controls,
     pub get_content: GetContent,
     pub get_message: GetMessage,

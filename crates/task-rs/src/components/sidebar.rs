@@ -10,10 +10,7 @@ use iced::*;
 use pipe_trait::*;
 use std::collections::BTreeMap;
 
-pub struct Sidebar<'a, Theme, Message>
-where
-    Theme: style::Theme,
-{
+pub struct Sidebar<'a, Theme, Message> {
     pub tags: &'a BTreeMap<tag::Id, tag::Data>,
     pub task_view: &'a TaskView,
     pub single_tag: tag::Id,

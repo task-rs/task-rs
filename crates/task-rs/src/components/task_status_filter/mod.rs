@@ -7,10 +7,7 @@ pub use controls::Controls;
 use super::super::style;
 use iced::*;
 
-pub struct TaskStatusFilter<'a, Theme, Message>
-where
-    Theme: style::Theme,
-{
+pub struct TaskStatusFilter<'a, Theme, Message> {
     pub(crate) controls: &'a mut Controls,
     pub actual_value: Value,
     pub theme: Theme,

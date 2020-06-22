@@ -2,10 +2,7 @@ use super::super::super::style;
 use super::Controls;
 use iced::*;
 
-pub struct ThemeSwitcher<'a, Theme, Message>
-where
-    Theme: style::Theme + Copy,
-{
+pub struct ThemeSwitcher<'a, Theme, Message> {
     pub dark_mode: bool,
     pub theme: Theme,
     pub get_message: fn(bool) -> Message,

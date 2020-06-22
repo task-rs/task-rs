@@ -2,10 +2,7 @@ use super::super::style;
 use super::{task_status_filter::TaskStatusFilter, ThemeSwitcher};
 use iced::*;
 
-pub struct Header<'a, Theme, Message>
-where
-    Theme: style::Theme + Copy,
-{
+pub struct Header<'a, Theme, Message> {
     pub task_status_filter: TaskStatusFilter<'a, Theme, Message>,
     pub theme_switcher: ThemeSwitcher<'a, Theme, Message>,
 }

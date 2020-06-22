@@ -12,12 +12,7 @@ pub enum Value {
     CompletedOnly,
 }
 
-pub struct Button<'a, Label, Theme, Message>
-where
-    Label: Into<String>,
-    Theme: style::Theme,
-    Message: Clone,
-{
+pub struct Button<'a, Label, Theme, Message> {
     pub state: &'a mut button::State,
     pub label: Label,
     pub represented_value: Value,
