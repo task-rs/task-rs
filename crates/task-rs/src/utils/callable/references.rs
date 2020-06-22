@@ -10,12 +10,3 @@ where
         (*self).call(x)
     }
 }
-
-#[test]
-fn test_reference() {
-    use super::Function;
-    let f = |x: i32| x.to_string();
-    let g = Function::from(f);
-    let g = &g;
-    assert_eq!(g.call(12), f(12));
-}

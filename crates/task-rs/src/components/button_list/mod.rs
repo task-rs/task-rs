@@ -37,18 +37,18 @@ macro_rules! impl_into {
             Key: Ord + Clone + 'a,
             Message: Clone + 'a,
             ButtonStyle: button::StyleSheet + 'static,
-            GetContent: Callable<Input = &'a Key, Output = Element<'a, Message>>,
-            GetMessage: Callable<Input = &'a Key, Output = Message>,
-            GetButtonStyle: Callable<Input = &'a Key, Output = ButtonStyle>,
+            GetContent: Callable<Input = &'a Key, Output = Element<'a, Message>> + Clone,
+            GetMessage: Callable<Input = &'a Key, Output = Message> + Clone,
+            GetButtonStyle: Callable<Input = &'a Key, Output = ButtonStyle> + Clone,
         {
             fn into(self) -> $container<'a, Message> {
                 let mut container = $container::new();
 
                 for (key, state) in self.controls.0.iter_mut() {
-                    let value = self.get_content.call(key);
+                    let value = self.get_content.clone().call(key);
                     let button = Button::new(state, value)
-                        .on_press(self.get_message.call(key))
-                        .style(self.get_style.call(key));
+                        .on_press(self.get_message.clone().call(key))
+                        .style(self.get_style.clone().call(key));
                     container = container.push(button);
                 }
 

@@ -24,9 +24,9 @@ impl<'a, Theme, Message, GetContent, GetMessage, GetActivated> Into<Element<'a, 
 where
     Message: Clone + 'a,
     Theme: style::Theme + Copy,
-    GetContent: Callable<Input = &'a TagId, Output = Element<'a, Message>>,
-    GetMessage: Callable<Input = &'a TagId, Output = Message>,
-    GetActivated: Callable<Input = &'a TagId, Output = bool>,
+    GetContent: Callable<Input = &'a TagId, Output = Element<'a, Message>> + Clone,
+    GetMessage: Callable<Input = &'a TagId, Output = Message> + Clone,
+    GetActivated: Callable<Input = &'a TagId, Output = bool> + Clone,
 {
     fn into(self) -> Element<'a, Message> {
         let TagList {
@@ -51,6 +51,41 @@ where
     }
 }
 
+// impl<'a, Theme, Message, GetContent, GetMessage, GetActivated>
+//     From<TagList<'a, Theme, Message, GetContent, GetMessage, GetActivated>> for Element<'a, Message>
+// where
+//     Message: Clone + 'a,
+//     Theme: style::Theme + Copy,
+//     GetContent: Callable<Input = &'a TagId, Output = Element<'a, Message>> + Clone,
+//     GetMessage: Callable<Input = &'a TagId, Output = Message> + Clone,
+//     GetActivated: Callable<Input = &'a TagId, Output = bool> + Clone,
+// {
+//     fn from(
+//         tag_list: TagList<'a, Theme, Message, GetContent, GetMessage, GetActivated>,
+//     ) -> Element<'a, Message> {
+//         let TagList {
+//             controls,
+//             get_activated,
+//             get_message,
+//             get_content,
+//             theme,
+//         } = tag_list;
+
+//         ButtonList {
+//             controls,
+//             get_content,
+//             get_message,
+//             get_style: GetStyle {
+//                 get_activated,
+//                 theme,
+//             },
+//         }
+//         .pipe(Into::<Column<'a, Message>>::into)
+//         .into()
+//     }
+// }
+
+#[derive(Debug, Copy, Clone)]
 struct GetStyle<GetActivated, Theme> {
     get_activated: GetActivated,
     theme: Theme,

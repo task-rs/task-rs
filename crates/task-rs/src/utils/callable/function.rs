@@ -1,6 +1,7 @@
 use super::Callable;
 use core::marker::PhantomData;
 
+#[derive(Debug, Copy, Clone)]
 pub struct Function<F, X, Y> {
     function: F,
     _phantom: PhantomData<(X, Y)>,

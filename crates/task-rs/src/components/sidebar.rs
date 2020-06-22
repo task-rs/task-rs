@@ -32,7 +32,7 @@ impl<'a, Tags, Theme, Message> Into<Element<'a, Message>> for Sidebar<'a, Tags, 
 where
     Tags: IntoIterator<Item = (&'a tag::Id, &'a tag::Data)>,
     Theme: style::Theme + Copy,
-    Message: Clone + 'static,
+    Message: Clone + 'a,
 {
     fn into(self) -> Element<'a, Message> {
         let sidebar = Column::<'a, Message>::new().push(TagFilterMethod {
@@ -53,13 +53,12 @@ where
 
         let tag_list = TagList {
             controls: self.tag_list_controls,
-            get_content: |id| id.0.pipe_ref(Text::new).into(),
+            get_content: GetContent::<'a, Message>::default(),
             get_activated: GetActivated(self.task_view),
-            get_message: |id| match self.task_view.filter_method {
-                FilterMethod::All | FilterMethod::SingleTag => {
-                    (self.filter_tasks_by_single_tag)(id)
-                }
-                FilterMethod::MultipleTags => (self.add_tag_to_multiple_tags)(id),
+            get_message: GetMessage {
+                task_view: self.task_view,
+                filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
+                add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
             },
             theme: self.theme,
         };
@@ -68,6 +67,28 @@ where
     }
 }
 
+#[derive(Debug, Copy, Clone)]
+struct GetContent<'a, Message> {
+    _phantom_msg: Option<Message>,
+    _phantom_lt: Option<&'a ()>,
+}
+impl<'a, Message> Default for GetContent<'a, Message> {
+    fn default() -> Self {
+        GetContent {
+            _phantom_msg: None,
+            _phantom_lt: None,
+        }
+    }
+}
+impl<'a, Message> Callable for GetContent<'a, Message> {
+    type Input = &'a tag::Id;
+    type Output = Element<'a, Message>;
+    fn call(self, x: Self::Input) -> Self::Output {
+        x.0.pipe_ref(Text::new).into()
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
 struct GetActivated<'a>(&'a TaskView);
 impl<'a> Callable for GetActivated<'a> {
     type Input = &'a tag::Id;
@@ -77,6 +98,23 @@ impl<'a> Callable for GetActivated<'a> {
             FilterMethod::All => false,
             FilterMethod::SingleTag => &self.0.single_tag == id,
             FilterMethod::MultipleTags => self.0.multiple_tags.contains(id),
+        }
+    }
+}
+
+#[derive(Copy, Clone)]
+struct GetMessage<'a, Message> {
+    task_view: &'a TaskView,
+    filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
+    add_tag_to_multiple_tags: fn(tag::Id) -> Message,
+}
+impl<'a, Message> Callable for GetMessage<'a, Message> {
+    type Input = &'a tag::Id;
+    type Output = Message;
+    fn call(self, x: Self::Input) -> Self::Output {
+        match self.task_view.filter_method {
+            FilterMethod::All | FilterMethod::SingleTag => (self.filter_tasks_by_single_tag)(x),
+            FilterMethod::MultipleTags => (self.add_tag_to_multiple_tags)(x.clone()),
         }
     }
 }
