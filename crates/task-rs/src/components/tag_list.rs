@@ -5,12 +5,12 @@ use pipe_trait::*;
 
 pub type Controls = button_list::Controls<TagId>;
 
-pub struct TagList<'a, Theme, Message, GetContent, GetMessage, GetActivated>
+pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated>
 where
     Theme: style::Theme,
-    GetContent: Callable<Input = &'a TagId, Output = Element<'a, Message>>,
-    GetMessage: Callable<Input = &'a TagId, Output = Message>,
-    GetActivated: Callable<Input = &'a TagId, Output = bool>,
+    GetContent: Callable,
+    GetMessage: Callable,
+    GetActivated: Callable,
 {
     pub(crate) controls: &'a mut Controls,
     pub get_content: GetContent,
@@ -20,7 +20,7 @@ where
 }
 
 impl<'a, Theme, Message, GetContent, GetMessage, GetActivated> Into<Element<'a, Message>>
-    for TagList<'a, Theme, Message, GetContent, GetMessage, GetActivated>
+    for TagList<'a, Theme, GetContent, GetMessage, GetActivated>
 where
     Message: Clone + 'a,
     Theme: style::Theme + Copy,

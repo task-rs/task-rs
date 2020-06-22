@@ -5,13 +5,12 @@ pub use controls::Controls;
 use super::super::utils::Callable;
 use iced::*;
 
-pub struct ButtonList<'a, Key, Value, Message, ButtonStyle, GetContent, GetMessage, GetButtonStyle>
+pub struct ButtonList<'a, Key, GetContent, GetMessage, GetButtonStyle>
 where
     Key: Ord,
-    ButtonStyle: button::StyleSheet,
-    GetContent: Callable<Input = &'a Key, Output = Value>,
-    GetMessage: Callable<Input = &'a Key, Output = Message>,
-    GetButtonStyle: Callable<Input = &'a Key, Output = ButtonStyle>,
+    GetContent: Callable,
+    GetMessage: Callable,
+    GetButtonStyle: Callable,
 {
     pub(crate) controls: &'a mut Controls<Key>,
     pub get_content: GetContent,
@@ -23,16 +22,7 @@ macro_rules! impl_into {
     ($container:ident) => {
         impl<'a, Key, Message, ButtonStyle, GetContent, GetMessage, GetButtonStyle>
             Into<$container<'a, Message>>
-            for ButtonList<
-                'a,
-                Key,
-                Element<'a, Message>,
-                Message,
-                ButtonStyle,
-                GetContent,
-                GetMessage,
-                GetButtonStyle,
-            >
+            for ButtonList<'a, Key, GetContent, GetMessage, GetButtonStyle>
         where
             Key: Ord + Clone + 'a,
             Message: Clone + 'a,
