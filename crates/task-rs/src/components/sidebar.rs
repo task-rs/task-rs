@@ -83,7 +83,7 @@ impl<'a, Message> Callable for GetContent<'a, Message> {
         } else {
             id.0.clone()
         }
-        .pipe_ref(Text::new)
+        .pipe(Text::new)
         .into()
     }
 }
