@@ -2,38 +2,53 @@ pub mod controls;
 
 pub use controls::Controls;
 
+use super::super::utils::Callable;
 use iced::*;
 
-pub struct ButtonList<'a, Key, Value, Message, ButtonStyle, GetButtonStyle>
+pub struct ButtonList<'a, Key, Value, Message, ButtonStyle, GetContent, GetMessage, GetButtonStyle>
 where
     Key: Ord,
     ButtonStyle: button::StyleSheet,
-    GetButtonStyle: Fn(&Key) -> ButtonStyle,
+    GetContent: Callable<Input = &'a Key, Output = Value>,
+    GetMessage: Callable<Input = &'a Key, Output = Message>,
+    GetButtonStyle: Callable<Input = &'a Key, Output = ButtonStyle>,
 {
     pub(crate) controls: &'a mut Controls<Key>,
-    pub get_content: fn(&Key) -> Value,
-    pub get_message: fn(&Key) -> Message,
+    pub get_content: GetContent,
+    pub get_message: GetMessage,
     pub get_style: GetButtonStyle,
 }
 
 macro_rules! impl_into {
     ($container:ident) => {
-        impl<'a, Key, Message, ButtonStyle, GetButtonStyle> Into<$container<'a, Message>>
-            for ButtonList<'a, Key, Element<'a, Message>, Message, ButtonStyle, GetButtonStyle>
+        impl<'a, Key, Message, ButtonStyle, GetContent, GetMessage, GetButtonStyle>
+            Into<$container<'a, Message>>
+            for ButtonList<
+                'a,
+                Key,
+                Element<'a, Message>,
+                Message,
+                ButtonStyle,
+                GetContent,
+                GetMessage,
+                GetButtonStyle,
+            >
         where
             Key: Ord + Clone + 'a,
             Message: Clone + 'a,
             ButtonStyle: button::StyleSheet + 'static,
-            GetButtonStyle: Fn(&Key) -> ButtonStyle,
+            GetContent: Callable<Input = &'a Key, Output = Element<'a, Message>>,
+            GetMessage: Callable<Input = &'a Key, Output = Message>,
+            GetButtonStyle: Callable<Input = &'a Key, Output = ButtonStyle>,
         {
             fn into(self) -> $container<'a, Message> {
                 let mut container = $container::new();
 
                 for (key, state) in self.controls.0.iter_mut() {
-                    let value = (self.get_content)(key);
+                    let value = self.get_content.call(key);
                     let button = Button::new(state, value)
-                        .on_press((self.get_message)(key))
-                        .style((self.get_style)(key));
+                        .on_press(self.get_message.call(key))
+                        .style(self.get_style.call(key));
                     container = container.push(button);
                 }
 

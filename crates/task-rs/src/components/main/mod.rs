@@ -54,6 +54,7 @@ where
                 filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
                 add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
                 remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
+                tag_list_controls: &mut self.model.controls.tag_list,
                 theme,
             }))
             .pipe(Container::new)

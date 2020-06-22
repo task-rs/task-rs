@@ -2,9 +2,12 @@ use super::super::{
     data::tag,
     mvc::model::view::tasks::{FilterMethod, Tasks as TaskView},
     style,
+    utils::Callable,
 };
-use super::{controls, TagFilterMethod};
+use super::{controls, TagFilterMethod, TagList};
 use iced::*;
+use pipe_trait::*;
+use std::collections::BTreeMap;
 
 pub struct Sidebar<'a, Tags, Theme, Message>
 where
@@ -22,6 +25,7 @@ where
     pub add_tag_to_multiple_tags: fn(tag::Id) -> Message,
     pub remove_tag_from_multiple_tags: fn(tag::Id) -> Message,
     pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
+    pub(crate) tag_list_controls: &'a mut controls::TagList,
 }
 
 impl<'a, Tags, Theme, Message> Into<Element<'a, Message>> for Sidebar<'a, Tags, Theme, Message>
@@ -31,7 +35,7 @@ where
     Message: Clone + 'static,
 {
     fn into(self) -> Element<'a, Message> {
-        let mut sidebar = Column::<'a, Message>::new().push(TagFilterMethod {
+        let sidebar = Column::<'a, Message>::new().push(TagFilterMethod {
             controls: self.tag_filter_method_controls,
             filter_method: self.task_view.filter_method,
             theme: self.theme,
@@ -40,34 +44,39 @@ where
             multiple_tags_message: self.set_task_filter_method_to_multiple_tags,
         });
 
-        for entry in self.tags {
-            let (id, _) = entry;
-            let label = tag::entry::display(entry);
-            let tag_button: Element<'a, Message> =
-                if self.task_view.filter_method == FilterMethod::MultipleTags {
-                    let is_checked = self.task_view.multiple_tags.contains(id);
-                    let add = self.add_tag_to_multiple_tags;
-                    let remove = self.remove_tag_from_multiple_tags;
-                    let id = id.clone();
-                    Checkbox::new(is_checked, label, move |checked| {
-                        if checked {
-                            add(id.clone())
-                        } else {
-                            remove(id.clone())
-                        }
-                    })
-                    .into()
-                } else {
-                    let selected = if self.task_view.filter_method == FilterMethod::SingleTag {
-                        Some(&self.single_tag)
-                    } else {
-                        None
-                    };
-                    Radio::new(id, label, selected, self.filter_tasks_by_single_tag).into()
-                };
-            sidebar = sidebar.push(tag_button);
-        }
+        *self.tag_list_controls = self
+            .tags
+            .into_iter()
+            .map(|(id, _)| (id.clone(), button::State::default()))
+            .collect::<BTreeMap<_, _>>()
+            .pipe(controls::TagList::new);
 
-        sidebar.into()
+        let tag_list = TagList {
+            controls: self.tag_list_controls,
+            get_content: |id| id.0.pipe_ref(Text::new).into(),
+            get_activated: GetActivated(self.task_view),
+            get_message: |id| match self.task_view.filter_method {
+                FilterMethod::All | FilterMethod::SingleTag => {
+                    (self.filter_tasks_by_single_tag)(id)
+                }
+                FilterMethod::MultipleTags => (self.add_tag_to_multiple_tags)(id),
+            },
+            theme: self.theme,
+        };
+
+        sidebar.push(tag_list).into()
+    }
+}
+
+struct GetActivated<'a>(&'a TaskView);
+impl<'a> Callable for GetActivated<'a> {
+    type Input = &'a tag::Id;
+    type Output = bool;
+    fn call(self, id: &tag::Id) -> bool {
+        match self.0.filter_method {
+            FilterMethod::All => false,
+            FilterMethod::SingleTag => &self.0.single_tag == id,
+            FilterMethod::MultipleTags => self.0.multiple_tags.contains(id),
+        }
     }
 }
