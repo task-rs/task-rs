@@ -1,14 +1,25 @@
+use super::super::components::controls;
 use super::{
     model::{view::tasks::FilterMethod, Theme},
     Message, Model,
 };
-use iced::Command;
+use iced::*;
+use pipe_trait::*;
+use std::collections::BTreeMap;
 
 pub fn new(model: Model) -> (Model, Command<Message>) {
     (model, Command::none())
 }
 
 pub fn update(model: &mut Model, message: Message) -> Command<Message> {
+    model.controls.tag_list = model
+        .data
+        .tags
+        .iter()
+        .map(|(id, _)| (id.clone(), button::State::default()))
+        .collect::<BTreeMap<_, _>>()
+        .pipe(controls::TagList::new);
+
     match message {
         Message::MultipleActions(x) => {
             for x in x {

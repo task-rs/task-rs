@@ -40,13 +40,6 @@ where
             multiple_tags_message: self.set_task_filter_method_to_multiple_tags,
         });
 
-        *self.tag_list_controls = self
-            .tags
-            .iter()
-            .map(|(id, _)| (id.clone(), button::State::default()))
-            .collect::<BTreeMap<_, _>>()
-            .pipe(controls::TagList::new);
-
         let tag_list = TagList {
             controls: self.tag_list_controls,
             get_content: GetContent {
