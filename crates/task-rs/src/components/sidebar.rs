@@ -58,6 +58,7 @@ where
                 task_view: self.task_view,
                 filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
                 add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
+                remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
             },
             theme: self.theme,
         };
@@ -104,6 +105,7 @@ struct GetMessage<'a, Message> {
     task_view: &'a TaskView,
     filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
     add_tag_to_multiple_tags: fn(&tag::Id) -> Message,
+    remove_tag_from_multiple_tags: fn(&tag::Id) -> Message,
 }
 impl<'a, Message> Callable for GetMessage<'a, Message> {
     type Input = &'a tag::Id;
@@ -111,7 +113,11 @@ impl<'a, Message> Callable for GetMessage<'a, Message> {
     fn call(self, x: Self::Input) -> Self::Output {
         match self.task_view.filter_method {
             FilterMethod::All | FilterMethod::SingleTag => (self.filter_tasks_by_single_tag)(x),
-            FilterMethod::MultipleTags => (self.add_tag_to_multiple_tags)(x),
+            FilterMethod::MultipleTags => (if self.task_view.multiple_tags.contains(x) {
+                self.remove_tag_from_multiple_tags
+            } else {
+                self.add_tag_to_multiple_tags
+            })(x),
         }
     }
 }
