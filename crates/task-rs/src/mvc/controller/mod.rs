@@ -15,6 +15,7 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
                 update(model, x);
             }
         }
+        Message::Warn(x) => println!("WARNING: {}", x),
         Message::SetTaskStatusFilter(x) => model.ui_state.details.task_status_filter = x,
         Message::SetDarkMode(x) => {
             model.ui_state.theme = if x { Theme::Dark } else { Theme::Light }

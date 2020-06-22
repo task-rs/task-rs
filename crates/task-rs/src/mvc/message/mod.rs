@@ -5,6 +5,7 @@ use super::model::{details::TaskStatusFilter, view::tasks::FilterMethod};
 #[derive(Debug, Clone)]
 pub enum Message {
     MultipleActions(Vec<Message>),
+    Warn(String),
     SetTaskStatusFilter(TaskStatusFilter),
     SetDarkMode(bool),
     SetTaskFilterMethod(FilterMethod),
