@@ -19,8 +19,8 @@ pub struct Sidebar<'a, Theme, Message> {
     pub set_task_filter_method_to_single_tag: Message,
     pub set_task_filter_method_to_multiple_tags: Message,
     pub filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
-    pub add_tag_to_multiple_tags: fn(tag::Id) -> Message,
-    pub remove_tag_from_multiple_tags: fn(tag::Id) -> Message,
+    pub add_tag_to_multiple_tags: fn(&tag::Id) -> Message,
+    pub remove_tag_from_multiple_tags: fn(&tag::Id) -> Message,
     pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
     pub(crate) tag_list_controls: &'a mut controls::TagList,
 }
@@ -103,7 +103,7 @@ impl<'a> Callable for GetActivated<'a> {
 struct GetMessage<'a, Message> {
     task_view: &'a TaskView,
     filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
-    add_tag_to_multiple_tags: fn(tag::Id) -> Message,
+    add_tag_to_multiple_tags: fn(&tag::Id) -> Message,
 }
 impl<'a, Message> Callable for GetMessage<'a, Message> {
     type Input = &'a tag::Id;
@@ -111,7 +111,7 @@ impl<'a, Message> Callable for GetMessage<'a, Message> {
     fn call(self, x: Self::Input) -> Self::Output {
         match self.task_view.filter_method {
             FilterMethod::All | FilterMethod::SingleTag => (self.filter_tasks_by_single_tag)(x),
-            FilterMethod::MultipleTags => (self.add_tag_to_multiple_tags)(x.clone()),
+            FilterMethod::MultipleTags => (self.add_tag_to_multiple_tags)(x),
         }
     }
 }
