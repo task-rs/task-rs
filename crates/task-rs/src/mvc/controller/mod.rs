@@ -10,6 +10,11 @@ pub fn new(model: Model) -> (Model, Command<Message>) {
 
 pub fn update(model: &mut Model, message: Message) -> Command<Message> {
     match message {
+        Message::MultipleActions(x) => {
+            for x in x {
+                update(model, x);
+            }
+        }
         Message::SetTaskStatusFilter(x) => model.ui_state.details.task_status_filter = x,
         Message::SetDarkMode(x) => {
             model.ui_state.theme = if x { Theme::Dark } else { Theme::Light }
