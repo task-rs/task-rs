@@ -2,6 +2,7 @@ pub mod callable;
 pub mod data;
 pub mod xdg;
 
+pub use callable::Callable;
 pub use data::from_cfg_opt as load_data_from_cfg_opt;
 pub use xdg::{config_file, ui_state_file};
 
