@@ -163,6 +163,25 @@ fn test_iter_mut() {
 }
 
 #[test]
+fn test_iter_index() {
+    let actual: Vec<_> = MyStruct::default()
+        .with("ghi", 789)
+        .with("abc", 123)
+        .with("def", 456)
+        .iter_index()
+        .map(|(key, value)| (key, value.clone()))
+        .collect();
+
+    let expected = vec![
+        (Index::from(0), "ghi".to_owned()),
+        (Index::from(1), "abc".to_owned()),
+        (Index::from(2), "def".to_owned()),
+    ];
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
 fn test_insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
