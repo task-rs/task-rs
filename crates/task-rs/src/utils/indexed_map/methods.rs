@@ -1,5 +1,5 @@
 use super::IndexedMap;
-use std::rc::Rc;
+use std::{collections::BTreeMap, rc::Rc};
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum InsertResult<ReplacedValue> {
@@ -18,6 +18,22 @@ where
     Key: Ord + Clone,
     Value: Clone,
 {
+    pub fn into_btreemap(self) -> BTreeMap<Key, Value> {
+        self.into()
+    }
+
+    pub fn iter(&self) -> impl Iterator<Item = (&Key, &Value)> {
+        self.key_value
+            .iter()
+            .map(|(key, value)| (key.as_ref(), value))
+    }
+
+    pub fn iter_mut(&mut self) -> impl Iterator<Item = (&Key, &mut Value)> {
+        self.key_value
+            .iter_mut()
+            .map(|(key, value)| (key.as_ref(), value))
+    }
+
     pub fn get_value_by_key(&self, key: &Rc<Key>) -> Option<&Value> {
         self.key_value.get(key)
     }
