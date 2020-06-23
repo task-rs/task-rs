@@ -4,7 +4,6 @@ use super::{
 };
 use core::fmt::{Debug, Display};
 use pipe_trait::*;
-use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 
 fn assert_eq<Type: PartialEq + Debug>(a: Type, msg: impl Display) -> impl Fn(Type) -> () {
@@ -18,25 +17,10 @@ fn removed_value<Key, Value>(remove_result: RemoveResult<Key, Value>) -> Option<
     }
 }
 
-#[derive(Debug, Default, Serialize, Deserialize, Eq, PartialEq, Clone)]
-#[serde(rename_all = "kebab-case")]
-struct MyStruct {
-    indexed_map: IndexedMap<String, i32>,
-}
-
-impl MyStruct {
-    fn from_yaml(yaml: &str) -> Self {
-        serde_yaml::from_str(yaml).unwrap()
-    }
-
-    fn with<Key: Into<String>>(mut self, key: Key, value: i32) -> Self {
-        self.indexed_map.insert_key(Rc::new(key.into()), value);
-        self
-    }
-}
-
 const BEFORE: &str = include_str!("./assets/before.yaml");
 const AFTER: &str = include_str!("./assets/after.yaml");
+
+type MyStruct = IndexedMap<String, i32>;
 
 #[test]
 fn test_serialize_before() {
@@ -48,14 +32,8 @@ fn test_serialize_before() {
         .with("mno", 456)
         .with("ghi", 789);
     assert_eq!(&actual, &expected);
-    assert_ne!(
-        &actual.indexed_map.index_key,
-        &expected.indexed_map.index_key
-    );
-    assert_ne!(
-        &actual.indexed_map.key_index,
-        &expected.indexed_map.key_index
-    );
+    assert_ne!(&actual.index_key, &expected.index_key);
+    assert_ne!(&actual.key_index, &expected.key_index);
 }
 
 #[test]
@@ -68,14 +46,8 @@ fn test_serialize_after() {
         .with("ghi", 789)
         .with("jkl", 654);
     assert_eq!(&actual, &expected);
-    assert_ne!(
-        &actual.indexed_map.index_key,
-        &expected.indexed_map.index_key
-    );
-    assert_ne!(
-        &actual.indexed_map.key_index,
-        &expected.indexed_map.key_index
-    );
+    assert_ne!(&actual.index_key, &expected.index_key);
+    assert_ne!(&actual.key_index, &expected.key_index);
 }
 
 #[test]
@@ -108,16 +80,13 @@ fn test_deserialize_after() {
 fn test_insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
-        .indexed_map
         .remove_key(&Rc::new("mno".to_owned()))
         .pipe(removed_value)
         .pipe(assert_eq(Some(456), "removed value"));
     actual
-        .indexed_map
         .insert_key(Rc::new("foo".to_owned()), 321)
         .pipe(assert_eq(InsertResult::Added(5), "added index"));
     actual
-        .indexed_map
         .insert_key(Rc::new("jkl".to_owned()), 654)
         .pipe(assert_eq(InsertResult::Replaced(123), "replaced value"));
     let expected = MyStruct::from_yaml(AFTER);
@@ -134,24 +103,15 @@ fn test_replace_index() {
         .with("mno", 654)
         .with("pqr", 321);
 
-    let abc = actual
-        .indexed_map
-        .get_index_by_key(&Rc::new("abc".to_owned()))
-        .unwrap();
-    let ghi = actual
-        .indexed_map
-        .get_index_by_key(&Rc::new("ghi".to_owned()))
-        .unwrap();
+    let abc = actual.get_index_by_key(&Rc::new("abc".to_owned())).unwrap();
+    let ghi = actual.get_index_by_key(&Rc::new("ghi".to_owned())).unwrap();
     actual
-        .indexed_map
         .replace_index(abc, 111)
         .pipe(assert_eq(Some(123), "replaced value of index of 'abc'"));
     actual
-        .indexed_map
         .replace_index(ghi, 333)
         .pipe(assert_eq(Some(789), "replaced value of index of 'ghi'"));
     actual
-        .indexed_map
         .replace_index(999, 8)
         .pipe(assert_eq(None, "replaced value of non-existence index"));
 
@@ -176,24 +136,17 @@ fn test_remove_index() {
         .with("mno", 654)
         .with("pqr", 321);
 
-    let abc = actual
-        .indexed_map
-        .get_index_by_key(&Rc::new("abc".to_owned()))
-        .unwrap();
-    let ghi = actual
-        .indexed_map
-        .get_index_by_key(&Rc::new("ghi".to_owned()))
-        .unwrap();
-    actual.indexed_map.remove_index(abc).pipe(assert_eq(
+    let abc = actual.get_index_by_key(&Rc::new("abc".to_owned())).unwrap();
+    let ghi = actual.get_index_by_key(&Rc::new("ghi".to_owned())).unwrap();
+    actual.remove_index(abc).pipe(assert_eq(
         RemoveResult::Removed(Rc::new("abc".to_owned()), 123),
         "replaced value of index of 'abc'",
     ));
-    actual.indexed_map.remove_index(ghi).pipe(assert_eq(
+    actual.remove_index(ghi).pipe(assert_eq(
         RemoveResult::Removed(Rc::new("ghi".to_owned()), 789),
         "replaced value of index of 'ghi'",
     ));
     actual
-        .indexed_map
         .replace_index(999, 8)
         .pipe(assert_eq(None, "replaced value of non-existence index"));
 

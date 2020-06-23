@@ -1,7 +1,6 @@
 ---
-indexed-map:
-  abc: 123
-  def: 456
-  ghi: 789
-  jkl: 123
-  mno: 456
+abc: 123
+def: 456
+ghi: 789
+jkl: 123
+mno: 456
