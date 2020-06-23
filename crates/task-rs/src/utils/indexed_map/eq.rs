@@ -6,7 +6,7 @@ where
     Value: Clone + Eq,
 {
     fn eq(&self, other: &Self) -> bool {
-        self.key_value == other.key_value
+        self.entries == other.entries
     }
 }
 

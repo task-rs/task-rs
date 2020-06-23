@@ -44,8 +44,6 @@ fn test_serialize_before() {
         .with("mno", 456)
         .with("ghi", 789);
     assert_eq!(&actual, &expected);
-    assert_ne!(&actual.index_key, &expected.index_key);
-    assert_ne!(&actual.key_index, &expected.key_index);
 }
 
 #[test]
@@ -58,8 +56,6 @@ fn test_serialize_after() {
         .with("ghi", 789)
         .with("jkl", 654);
     assert_eq!(&actual, &expected);
-    assert_ne!(&actual.index_key, &expected.index_key);
-    assert_ne!(&actual.key_index, &expected.key_index);
 }
 
 #[test]
@@ -173,9 +169,9 @@ fn test_iter_index() {
         .collect();
 
     let expected = vec![
-        (Index::from(0), "ghi".to_owned()),
         (Index::from(1), "abc".to_owned()),
         (Index::from(2), "def".to_owned()),
+        (Index::from(0), "ghi".to_owned()),
     ];
 
     assert_eq!(actual, expected);

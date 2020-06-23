@@ -23,25 +23,25 @@ where
     }
 
     pub fn iter(&self) -> impl Iterator<Item = (&Key, &Value)> {
-        self.key_value
+        self.entries
             .iter()
             .map(|(key, value)| (key.as_ref(), value))
     }
 
     pub fn iter_mut(&mut self) -> impl Iterator<Item = (&Key, &mut Value)> {
-        self.key_value
+        self.entries
             .iter_mut()
             .map(|(key, value)| (key.as_ref(), value))
     }
 
     pub fn iter_index(&mut self) -> impl Iterator<Item = (Index, &Key)> {
-        self.index_key
+        self.indices
             .iter()
-            .map(|(index, key)| (*index, key.as_ref()))
+            .map(|(key, index)| (*index, key.as_ref()))
     }
 
     pub fn get_value_by_key(&self, key: &Rc<Key>) -> Option<&Value> {
-        self.key_value.get(key)
+        self.entries.get(key)
     }
 
     pub fn get_value_by_index(&self, index: Index) -> Option<&Value> {
@@ -50,32 +50,30 @@ where
     }
 
     pub fn get_key_by_index(&self, index: Index) -> Option<&Rc<Key>> {
-        self.index_key.get(&index)
+        self.indices.get_by_right(&index)
     }
 
     pub fn get_index_by_key(&self, key: &Rc<Key>) -> Option<Index> {
-        self.key_index.get(key).cloned()
+        self.indices.get_by_left(key).cloned()
     }
 
     pub fn insert_key(&mut self, key: Rc<Key>, value: Value) -> InsertResult<Value> {
-        if let Some(value) = self.key_value.insert(key.clone(), value) {
+        if let Some(value) = self.entries.insert(key.clone(), value) {
             InsertResult::Replaced(value)
         } else {
             let index = self.counter;
             *self.counter.as_mut() += 1;
-            self.key_index.insert(key.clone(), index);
-            self.index_key.insert(index, key);
+            self.indices.insert(key, index);
             InsertResult::Added(index)
         }
     }
 
     pub fn remove_key(&mut self, key: &Rc<Key>) -> RemoveResult<Index, Value> {
-        if let Some(value) = self.key_value.remove(key) {
-            let index = self
-                .key_index
-                .remove(key)
+        if let Some(value) = self.entries.remove(key) {
+            let (_, index) = self
+                .indices
+                .remove_by_left(key)
                 .expect("remove (key, index) from key_index");
-            self.index_key.remove(&index);
             RemoveResult::Removed(index, value)
         } else {
             RemoveResult::Unchanged
