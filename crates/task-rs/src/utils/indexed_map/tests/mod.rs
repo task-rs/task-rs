@@ -107,6 +107,23 @@ fn test_from_btreemap() {
 }
 
 #[test]
+fn test_into_btreemap() {
+    let actual: BTreeMap<_, _> = MyStruct::default()
+        .with("ghi", 789)
+        .with("abc", 123)
+        .with("def", 456)
+        .into();
+
+    let expected: BTreeMap<_, _> = [("abc", 123), ("def", 456), ("ghi", 789)]
+        .iter()
+        .cloned()
+        .map(|(key, value)| (key.to_owned(), value))
+        .collect();
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
 fn test_insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
