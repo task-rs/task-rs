@@ -124,6 +124,25 @@ fn test_into_btreemap() {
 }
 
 #[test]
+fn test_iter() {
+    let actual: Vec<_> = MyStruct::default()
+        .with("ghi", 789)
+        .with("abc", 123)
+        .with("def", 456)
+        .iter()
+        .map(|(key, value)| (key.clone(), *value))
+        .collect();
+
+    let expected = vec![
+        ("abc".to_owned(), 123),
+        ("def".to_owned(), 456),
+        ("ghi".to_owned(), 789),
+    ];
+
+    assert_eq!(actual, expected);
+}
+
+#[test]
 fn test_insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
