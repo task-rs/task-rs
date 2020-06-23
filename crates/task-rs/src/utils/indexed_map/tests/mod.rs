@@ -143,6 +143,29 @@ fn test_iter() {
 }
 
 #[test]
+fn test_iter_mut() {
+    let mut actual_map = MyStruct::default()
+        .with("ghi", 789)
+        .with("abc", 123)
+        .with("def", 456);
+
+    let mut actual_keys = Vec::new();
+    for (key, value) in actual_map.iter_mut() {
+        actual_keys.push(key.clone());
+        *value = *value * *value;
+    }
+
+    let expected_map = MyStruct::default()
+        .with("abc", 123 * 123)
+        .with("def", 456 * 456)
+        .with("ghi", 789 * 789);
+    let expected_keys = vec!["abc".to_owned(), "def".to_owned(), "ghi".to_owned()];
+
+    assert_eq!(actual_map, expected_map);
+    assert_eq!(actual_keys, expected_keys);
+}
+
+#[test]
 fn test_insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
