@@ -5,7 +5,7 @@ pub mod task;
 
 pub use manifest_version::ManifestVersion;
 pub use status::Status;
-pub use tag::{Data as TagData, Id as TagId, Map as TagMap};
+pub use tag::{Data as TagData, Id as TagId, Index as TagMapIndex, Map as TagMap};
 pub use task::Task;
 
 use serde::{Deserialize, Serialize};
