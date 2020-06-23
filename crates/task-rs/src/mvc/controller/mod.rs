@@ -66,8 +66,8 @@ fn init_update(model: &mut Model) {
     model.controls.tag_list = model
         .data
         .tags
-        .iter()
-        .map(|(id, _)| (id.clone(), button::State::default()))
+        .iter_index()
+        .map(|(index, _)| (index, button::State::default()))
         .collect::<BTreeMap<_, _>>()
         .pipe(controls::TagList::new);
 }
