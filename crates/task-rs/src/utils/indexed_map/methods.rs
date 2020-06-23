@@ -34,6 +34,12 @@ where
             .map(|(key, value)| (key.as_ref(), value))
     }
 
+    pub fn iter_index(&mut self) -> impl Iterator<Item = (Index, &Key)> {
+        self.index_key
+            .iter()
+            .map(|(index, key)| (*index, key.as_ref()))
+    }
+
     pub fn get_value_by_key(&self, key: &Rc<Key>) -> Option<&Value> {
         self.key_value.get(key)
     }
