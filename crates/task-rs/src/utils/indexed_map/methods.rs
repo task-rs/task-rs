@@ -73,7 +73,7 @@ where
             let (_, index) = self
                 .indices
                 .remove_by_left(key)
-                .expect("remove (key, index) from key_index");
+                .expect("remove (key, index) from indices");
             RemoveResult::Removed(index, value)
         } else {
             RemoveResult::Unchanged
