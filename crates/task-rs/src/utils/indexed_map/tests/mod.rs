@@ -1,7 +1,4 @@
-use super::{
-    methods::{InsertResult, RemoveResult},
-    IndexedMap,
-};
+use super::{Index, IndexedMap, InsertResult, RemoveResult};
 use core::fmt::{Debug, Display};
 use pipe_trait::*;
 use std::{collections::BTreeMap, rc::Rc};
@@ -174,7 +171,10 @@ fn test_insert_remove_key() {
         .pipe(assert_eq(Some(456), "removed value"));
     actual
         .insert_key(Rc::new("foo".to_owned()), 321)
-        .pipe(assert_eq(InsertResult::Added(5), "added index"));
+        .pipe(assert_eq(
+            5.pipe(Index::from).pipe(InsertResult::Added),
+            "added index",
+        ));
     actual
         .insert_key(Rc::new("jkl".to_owned()), 654)
         .pipe(assert_eq(InsertResult::Replaced(123), "replaced value"));
@@ -201,7 +201,7 @@ fn test_replace_index() {
         .replace_index(ghi, 333)
         .pipe(assert_eq(Some(789), "replaced value of index of 'ghi'"));
     actual
-        .replace_index(999, 8)
+        .replace_index(Index::from(999), 8)
         .pipe(assert_eq(None, "replaced value of non-existence index"));
 
     let expected = MyStruct::default()
@@ -236,7 +236,7 @@ fn test_remove_index() {
         "replaced value of index of 'ghi'",
     ));
     actual
-        .replace_index(999, 8)
+        .replace_index(Index::from(999), 8)
         .pipe(assert_eq(None, "replaced value of non-existence index"));
 
     let expected = MyStruct::default()

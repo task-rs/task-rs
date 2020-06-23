@@ -1,4 +1,8 @@
+pub mod index;
 pub mod methods;
+
+pub use index::Index;
+pub use methods::{InsertResult, RemoveResult};
 
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, rc::Rc};
@@ -11,9 +15,9 @@ where
     Value: Clone,
 {
     key_value: BTreeMap<Rc<Key>, Value>,
-    index_key: BTreeMap<u32, Rc<Key>>,
-    key_index: BTreeMap<Rc<Key>, u32>,
-    counter: u32,
+    index_key: BTreeMap<Index, Rc<Key>>,
+    key_index: BTreeMap<Rc<Key>, Index>,
+    counter: Index,
 }
 
 mod convert;

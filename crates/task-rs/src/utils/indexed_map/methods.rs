@@ -1,10 +1,10 @@
-use super::IndexedMap;
+use super::{Index, IndexedMap};
 use std::{collections::BTreeMap, rc::Rc};
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum InsertResult<ReplacedValue> {
     Replaced(ReplacedValue),
-    Added(u32),
+    Added(Index),
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
@@ -38,16 +38,16 @@ where
         self.key_value.get(key)
     }
 
-    pub fn get_value_by_index(&self, index: u32) -> Option<&Value> {
+    pub fn get_value_by_index(&self, index: Index) -> Option<&Value> {
         let key = self.get_key_by_index(index)?;
         self.get_value_by_key(key)
     }
 
-    pub fn get_key_by_index(&self, index: u32) -> Option<&Rc<Key>> {
+    pub fn get_key_by_index(&self, index: Index) -> Option<&Rc<Key>> {
         self.index_key.get(&index)
     }
 
-    pub fn get_index_by_key(&self, key: &Rc<Key>) -> Option<u32> {
+    pub fn get_index_by_key(&self, key: &Rc<Key>) -> Option<Index> {
         self.key_index.get(key).cloned()
     }
 
@@ -56,14 +56,14 @@ where
             InsertResult::Replaced(value)
         } else {
             let index = self.counter;
-            self.counter += 1;
+            *self.counter.as_mut() += 1;
             self.key_index.insert(key.clone(), index);
             self.index_key.insert(index, key);
             InsertResult::Added(index)
         }
     }
 
-    pub fn remove_key(&mut self, key: &Rc<Key>) -> RemoveResult<u32, Value> {
+    pub fn remove_key(&mut self, key: &Rc<Key>) -> RemoveResult<Index, Value> {
         if let Some(value) = self.key_value.remove(key) {
             let index = self
                 .key_index
@@ -76,7 +76,7 @@ where
         }
     }
 
-    pub fn replace_index(&mut self, index: u32, value: Value) -> Option<Value> {
+    pub fn replace_index(&mut self, index: Index, value: Value) -> Option<Value> {
         if let Some(key) = self.get_key_by_index(index).cloned() {
             if let InsertResult::Replaced(value) = self.insert_key(key, value) {
                 Some(value)
@@ -88,7 +88,7 @@ where
         }
     }
 
-    pub fn remove_index(&mut self, index: u32) -> RemoveResult<Rc<Key>, Value> {
+    pub fn remove_index(&mut self, index: Index) -> RemoveResult<Rc<Key>, Value> {
         if let Some(key) = self.get_key_by_index(index).cloned() {
             if let RemoveResult::Removed(_, value) = self.remove_key(&key) {
                 return RemoveResult::Removed(key, value);

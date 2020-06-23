@@ -1,4 +1,4 @@
-use super::IndexedMap;
+use super::{Index, IndexedMap};
 use std::{collections::BTreeMap, rc::Rc};
 
 impl<Key, Value> From<BTreeMap<Key, Value>> for IndexedMap<Key, Value>
@@ -10,10 +10,11 @@ where
         let mut key_value = BTreeMap::new();
         let mut index_key = BTreeMap::new();
         let mut key_index = BTreeMap::new();
-        let counter = source.len() as u32;
+        let counter = Index::from(source.len() as u32);
 
         for ((key, value), index) in source.into_iter().zip(0u32..) {
             let key = Rc::new(key);
+            let index = Index::from(index);
             key_value.insert(key.clone(), value);
             index_key.insert(index, key.clone());
             key_index.insert(key, index);
