@@ -22,6 +22,21 @@ const AFTER: &str = include_str!("./assets/after.yaml");
 
 type MyStruct = IndexedMap<String, i32>;
 
+impl MyStruct {
+    fn with(mut self, key: impl Into<String>, value: i32) -> Self {
+        self.insert_key(Rc::new(key.into()), value);
+        self
+    }
+
+    fn from_yaml(yaml: &str) -> Self {
+        serde_yaml::from_str(yaml).expect("parse IndexedMap from yaml string")
+    }
+
+    fn to_yaml(&self) -> String {
+        serde_yaml::to_string(self).expect("dump IndexedMap as yaml string")
+    }
+}
+
 #[test]
 fn test_serialize_before() {
     let actual = MyStruct::from_yaml(BEFORE);

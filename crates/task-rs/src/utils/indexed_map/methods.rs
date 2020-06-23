@@ -1,9 +1,6 @@
 use super::IndexedMap;
 use std::rc::Rc;
 
-#[cfg(test)]
-use serde::{de::DeserializeOwned, ser::Serialize};
-
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum InsertResult<ReplacedValue> {
     Replaced(ReplacedValue),
@@ -21,30 +18,6 @@ where
     Key: Ord + Clone,
     Value: Clone,
 {
-    #[cfg(test)]
-    pub(crate) fn with(mut self, key: impl Into<Key>, value: Value) -> Self {
-        self.insert_key(Rc::new(key.into()), value);
-        self
-    }
-
-    #[cfg(test)]
-    pub(crate) fn from_yaml(yaml: &str) -> Self
-    where
-        Key: DeserializeOwned,
-        Value: DeserializeOwned,
-    {
-        serde_yaml::from_str(yaml).expect("parse IndexedMap from yaml string")
-    }
-
-    #[cfg(test)]
-    pub(crate) fn to_yaml(&self) -> String
-    where
-        Key: Serialize,
-        Value: Serialize,
-    {
-        serde_yaml::to_string(self).expect("dump IndexedMap as yaml string")
-    }
-
     pub fn get_value_by_key(&self, key: &Rc<Key>) -> Option<&Value> {
         self.key_value.get(key)
     }
