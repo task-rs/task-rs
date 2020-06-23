@@ -17,7 +17,8 @@ fn main() {
             "mno".into() => TagData::default()
                 .with_name("MNO Tag")
                 .with_description("This is a tag with id 'mno'"),
-        },
+        }
+        .into(),
         ..Data::default()
     };
 

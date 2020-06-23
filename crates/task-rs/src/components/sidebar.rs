@@ -8,10 +8,10 @@ use super::{controls, TagFilterMethod, TagList};
 use core::marker::PhantomData;
 use iced::*;
 use pipe_trait::*;
-use std::collections::BTreeMap;
+use std::rc::Rc;
 
 pub struct Sidebar<'a, Theme, Message> {
-    pub tags: &'a BTreeMap<tag::Id, tag::Data>,
+    pub tags: &'a tag::Map,
     pub task_view: &'a TaskView,
     pub single_tag: Option<tag::Id>,
     pub theme: Theme,
@@ -62,14 +62,14 @@ where
 
 #[derive(Debug, Copy, Clone)]
 struct GetContent<'a, Message> {
-    map: &'a BTreeMap<tag::Id, tag::Data>,
+    map: &'a tag::Map,
     _phantom_msg: PhantomData<Message>,
 }
 impl<'a, Message> Callable for GetContent<'a, Message> {
     type Input = &'a tag::Id;
     type Output = Element<'a, Message>;
     fn call(self, id: Self::Input) -> Self::Output {
-        if let Some(data) = self.map.get(id) {
+        if let Some(data) = self.map.get_value_by_key(&Rc::new(id.clone())) {
             tag::entry::display((id, data))
         } else {
             id.0.clone()
