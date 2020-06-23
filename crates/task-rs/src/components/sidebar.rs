@@ -8,7 +8,6 @@ use super::{controls, TagFilterMethod, TagList};
 use core::marker::PhantomData;
 use iced::*;
 use pipe_trait::*;
-use std::rc::Rc;
 
 pub struct Sidebar<'a, Theme, Message> {
     pub tags: &'a tag::Map,
@@ -46,7 +45,10 @@ where
                 map: self.tags,
                 _phantom_msg: PhantomData,
             },
-            get_activated: GetActivated(self.task_view),
+            get_activated: GetActivated {
+                task_view: self.task_view,
+                tags: self.tags,
+            },
             get_message: GetMessage {
                 task_view: self.task_view,
                 tags: self.tags,
@@ -67,10 +69,15 @@ struct GetContent<'a, Message> {
     _phantom_msg: PhantomData<Message>,
 }
 impl<'a, Message> Callable for GetContent<'a, Message> {
-    type Input = &'a tag::Id;
+    type Input = tag::Index;
     type Output = Element<'a, Message>;
-    fn call(self, id: Self::Input) -> Self::Output {
-        if let Some(data) = self.map.get_value_by_key(&Rc::new(id.clone())) {
+    fn call(self, x: Self::Input) -> Self::Output {
+        let id = self
+            .map
+            .get_key_by_index(x)
+            .unwrap_or_else(|| panic!("Invalid State: tag of {:?} does not exist", x))
+            .as_ref();
+        if let Some(data) = self.map.get_value_by_index(x) {
             tag::entry::display((id, data))
         } else {
             id.0.clone()
@@ -81,21 +88,30 @@ impl<'a, Message> Callable for GetContent<'a, Message> {
 }
 
 #[derive(Debug, Copy, Clone)]
-struct GetActivated<'a>(&'a TaskView);
+struct GetActivated<'a> {
+    task_view: &'a TaskView,
+    tags: &'a tag::Map,
+}
 impl<'a> Callable for GetActivated<'a> {
-    type Input = &'a tag::Id;
+    type Input = tag::Index;
     type Output = bool;
-    fn call(self, id: &tag::Id) -> bool {
-        match self.0.filter_method {
+    fn call(self, x: Self::Input) -> Self::Output {
+        match self.task_view.filter_method {
             FilterMethod::All => false,
             FilterMethod::SingleTag => {
-                if let Some(current_id) = &self.0.single_tag {
-                    current_id == id
+                if let Some(current_id) = &self.task_view.single_tag {
+                    Some(current_id) == self.tags.get_key_by_index(x).map(AsRef::as_ref)
                 } else {
                     false
                 }
             }
-            FilterMethod::MultipleTags => self.0.multiple_tags.contains(id),
+            FilterMethod::MultipleTags => {
+                if let Some(id) = self.tags.get_key_by_index(x) {
+                    self.task_view.multiple_tags.contains(id.as_ref())
+                } else {
+                    false
+                }
+            }
         }
     }
 }
