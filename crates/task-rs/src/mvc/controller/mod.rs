@@ -15,6 +15,12 @@ pub fn new(mut model: Model) -> (Model, Command<Message>) {
 pub fn update(model: &mut Model, message: Message) -> Command<Message> {
     init_update(model);
 
+    macro_rules! lookup_tag_id {
+        ($index:ident) => {
+            model.data.tags.get_key_by_index($index).map(AsRef::as_ref)
+        };
+    }
+
     match message {
         Message::MultipleActions(x) => {
             for x in x {
@@ -37,15 +43,19 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
         }
         Message::FilterTasksBySingleTag(x) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::SingleTag;
-            model.ui_state.view.tasks.single_tag = Some(x);
+            model.ui_state.view.tasks.single_tag = lookup_tag_id!(x).cloned();
         }
         Message::AddTagToMultipleTags(x) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
-            model.ui_state.view.tasks.multiple_tags.insert(x);
+            if let Some(id) = lookup_tag_id!(x) {
+                model.ui_state.view.tasks.multiple_tags.insert(id.clone());
+            }
         }
         Message::RemoveTagFromMultipleTags(x) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
-            model.ui_state.view.tasks.multiple_tags.remove(&x);
+            if let Some(id) = lookup_tag_id!(x) {
+                model.ui_state.view.tasks.multiple_tags.remove(id);
+            }
         }
     }
 

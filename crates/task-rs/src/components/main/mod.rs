@@ -1,5 +1,5 @@
 use super::super::{
-    data::TagId,
+    data::TagMapIndex,
     mvc::{model, Model},
     style::Theme,
 };
@@ -14,9 +14,9 @@ pub struct Main<'a, Message> {
     pub set_tag_filter_method_to_all: Message,
     pub set_task_filter_method_to_single_tag: Message,
     pub set_task_filter_method_to_multiple_tags: Message,
-    pub filter_tasks_by_single_tag: fn(&TagId) -> Message,
-    pub add_tag_to_multiple_tags: fn(&TagId) -> Message,
-    pub remove_tag_from_multiple_tags: fn(&TagId) -> Message,
+    pub filter_tasks_by_single_tag: fn(TagMapIndex) -> Message,
+    pub add_tag_to_multiple_tags: fn(TagMapIndex) -> Message,
+    pub remove_tag_from_multiple_tags: fn(TagMapIndex) -> Message,
 }
 
 impl<'a, Message> Into<Element<'a, Message>> for Main<'a, Message>

@@ -1,9 +1,9 @@
-use super::super::{data::TagId, style, utils::Callable};
+use super::super::{data::TagMapIndex, style, utils::Callable};
 use super::{button_list, ButtonList};
 use iced::*;
 use pipe_trait::*;
 
-pub type Controls = button_list::Controls<TagId>;
+pub type Controls = button_list::Controls<TagMapIndex>;
 
 pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
     pub(crate) controls: &'a mut Controls,
@@ -18,9 +18,9 @@ impl<'a, Theme, Message, GetContent, GetMessage, GetActivated> Into<Element<'a, 
 where
     Message: Clone + 'a,
     Theme: style::Theme + Copy,
-    GetContent: Callable<Input = &'a TagId, Output = Element<'a, Message>> + Clone,
-    GetMessage: Callable<Input = &'a TagId, Output = Message> + Clone,
-    GetActivated: Callable<Input = &'a TagId, Output = bool> + Clone,
+    GetContent: Callable<Input = TagMapIndex, Output = Element<'a, Message>> + Clone,
+    GetMessage: Callable<Input = TagMapIndex, Output = Message> + Clone,
+    GetActivated: Callable<Input = TagMapIndex, Output = bool> + Clone,
 {
     fn into(self) -> Element<'a, Message> {
         let TagList {
@@ -52,10 +52,10 @@ struct GetStyle<GetActivated, Theme> {
 }
 impl<'a, GetActivated, Theme> Callable for GetStyle<GetActivated, Theme>
 where
-    GetActivated: Callable<Input = &'a TagId, Output = bool>,
+    GetActivated: Callable<Input = TagMapIndex, Output = bool>,
     Theme: style::Theme,
 {
-    type Input = &'a TagId;
+    type Input = TagMapIndex;
     type Output = style::BinaryStateButton;
     fn call(self, x: Self::Input) -> Self::Output {
         style::BinaryStateButton {

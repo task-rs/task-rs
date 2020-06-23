@@ -12,9 +12,9 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         set_task_filter_method_to_multiple_tags: Message::SetTaskFilterMethod(
             FilterMethod::MultipleTags,
         ),
-        filter_tasks_by_single_tag: |id| Message::FilterTasksBySingleTag(id.clone()),
-        add_tag_to_multiple_tags: |id| Message::AddTagToMultipleTags(id.clone()),
-        remove_tag_from_multiple_tags: |id| Message::RemoveTagFromMultipleTags(id.clone()),
+        filter_tasks_by_single_tag: Message::FilterTasksBySingleTag,
+        add_tag_to_multiple_tags: Message::AddTagToMultipleTags,
+        remove_tag_from_multiple_tags: Message::RemoveTagFromMultipleTags,
     }
     .into()
 }

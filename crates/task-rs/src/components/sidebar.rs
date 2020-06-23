@@ -18,9 +18,9 @@ pub struct Sidebar<'a, Theme, Message> {
     pub set_task_filter_method_to_all: Message,
     pub set_task_filter_method_to_single_tag: Message,
     pub set_task_filter_method_to_multiple_tags: Message,
-    pub filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
-    pub add_tag_to_multiple_tags: fn(&tag::Id) -> Message,
-    pub remove_tag_from_multiple_tags: fn(&tag::Id) -> Message,
+    pub filter_tasks_by_single_tag: fn(tag::Index) -> Message,
+    pub add_tag_to_multiple_tags: fn(tag::Index) -> Message,
+    pub remove_tag_from_multiple_tags: fn(tag::Index) -> Message,
     pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
     pub(crate) tag_list_controls: &'a mut controls::TagList,
 }
@@ -49,6 +49,7 @@ where
             get_activated: GetActivated(self.task_view),
             get_message: GetMessage {
                 task_view: self.task_view,
+                tags: self.tags,
                 filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
                 add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
                 remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
@@ -102,21 +103,28 @@ impl<'a> Callable for GetActivated<'a> {
 #[derive(Copy, Clone)]
 struct GetMessage<'a, Message> {
     task_view: &'a TaskView,
-    filter_tasks_by_single_tag: fn(&tag::Id) -> Message,
-    add_tag_to_multiple_tags: fn(&tag::Id) -> Message,
-    remove_tag_from_multiple_tags: fn(&tag::Id) -> Message,
+    tags: &'a tag::Map,
+    filter_tasks_by_single_tag: fn(tag::Index) -> Message,
+    add_tag_to_multiple_tags: fn(tag::Index) -> Message,
+    remove_tag_from_multiple_tags: fn(tag::Index) -> Message,
 }
 impl<'a, Message> Callable for GetMessage<'a, Message> {
-    type Input = &'a tag::Id;
+    type Input = tag::Index;
     type Output = Message;
     fn call(self, x: Self::Input) -> Self::Output {
         match self.task_view.filter_method {
             FilterMethod::All | FilterMethod::SingleTag => (self.filter_tasks_by_single_tag)(x),
-            FilterMethod::MultipleTags => (if self.task_view.multiple_tags.contains(x) {
-                self.remove_tag_from_multiple_tags
-            } else {
-                self.add_tag_to_multiple_tags
-            })(x),
+            FilterMethod::MultipleTags => {
+                if let Some(id) = self.tags.get_key_by_index(x) {
+                    (if self.task_view.multiple_tags.contains(id.as_ref()) {
+                        self.remove_tag_from_multiple_tags
+                    } else {
+                        self.add_tag_to_multiple_tags
+                    })(x)
+                } else {
+                    panic!("Invalid State: tag of {:?} does not exist", x)
+                }
+            }
         }
     }
 }

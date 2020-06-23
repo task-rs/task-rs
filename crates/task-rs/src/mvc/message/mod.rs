@@ -1,4 +1,4 @@
-use super::super::data::TagId;
+use super::super::data::TagMapIndex;
 use super::model::{details::TaskStatusFilter, view::tasks::FilterMethod};
 
 // TODO: Add 'Copy'
@@ -9,7 +9,7 @@ pub enum Message {
     SetTaskStatusFilter(TaskStatusFilter),
     SetDarkMode(bool),
     SetTaskFilterMethod(FilterMethod),
-    FilterTasksBySingleTag(TagId), // TODO: This is expensive, try replacing it with reference
-    AddTagToMultipleTags(TagId),
-    RemoveTagFromMultipleTags(TagId),
+    FilterTasksBySingleTag(TagMapIndex),
+    AddTagToMultipleTags(TagMapIndex),
+    RemoveTagFromMultipleTags(TagMapIndex),
 }
