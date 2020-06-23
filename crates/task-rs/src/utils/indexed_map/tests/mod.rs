@@ -4,7 +4,7 @@ use super::{
 };
 use core::fmt::{Debug, Display};
 use pipe_trait::*;
-use std::rc::Rc;
+use std::{collections::BTreeMap, rc::Rc};
 
 fn assert_eq<Type: PartialEq + Debug>(a: Type, msg: impl Display) -> impl Fn(Type) -> () {
     move |b: Type| assert_eq!(a, b, "{}", msg)
@@ -87,6 +87,23 @@ fn test_deserialize_after() {
         .with("jkl", 654)
         .to_yaml()
         .pipe(assert_eq(AFTER.trim_end().to_owned(), "yaml comparison"));
+}
+
+#[test]
+fn test_from_btreemap() {
+    let actual = [("abc", 123), ("def", 456), ("ghi", 789)]
+        .iter()
+        .cloned()
+        .map(|(key, value)| (key.to_owned(), value))
+        .collect::<BTreeMap<_, _>>()
+        .pipe(MyStruct::from);
+
+    let expected = MyStruct::default()
+        .with("ghi", 789)
+        .with("abc", 123)
+        .with("def", 456);
+
+    assert_eq!(actual, expected);
 }
 
 #[test]
