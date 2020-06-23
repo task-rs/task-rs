@@ -58,8 +58,7 @@ fn test_deserialize_before() {
         .with("def", 456)
         .with("mno", 456)
         .with("ghi", 789)
-        .pipe_ref(serde_yaml::to_string)
-        .unwrap()
+        .to_yaml()
         .pipe(assert_eq(BEFORE.trim_end().to_owned(), "yaml comparison"));
 }
 
@@ -71,8 +70,7 @@ fn test_deserialize_after() {
         .with("def", 456)
         .with("ghi", 789)
         .with("jkl", 654)
-        .pipe_ref(serde_yaml::to_string)
-        .unwrap()
+        .to_yaml()
         .pipe(assert_eq(AFTER.trim_end().to_owned(), "yaml comparison"));
 }
 
