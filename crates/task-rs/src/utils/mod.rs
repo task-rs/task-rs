@@ -1,9 +1,11 @@
 pub mod callable;
 pub mod data;
+pub mod indexed_map;
 pub mod xdg;
 
 pub use callable::Callable;
 pub use data::from_cfg_opt as load_data_from_cfg_opt;
+pub use indexed_map::IndexedMap;
 pub use xdg::{config_file, ui_state_file};
 
 use pipe_trait::*;
