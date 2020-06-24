@@ -22,6 +22,14 @@ where
         self.into()
     }
 
+    pub fn len(&self) -> usize {
+        self.entries.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.entries.is_empty()
+    }
+
     pub fn iter(&self) -> impl Iterator<Item = (&Key, &Value)> {
         self.entries
             .iter()

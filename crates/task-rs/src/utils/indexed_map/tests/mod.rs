@@ -117,6 +117,42 @@ fn test_into_btreemap() {
 }
 
 #[test]
+fn test_len() {
+    let mut map = MyStruct::default();
+    assert_eq!(map.len(), 0, "after construction");
+    map.insert_key(Rc::new("abc".to_owned()), 123);
+    assert_eq!(map.len(), 1, "after first insertion");
+    map.insert_key(Rc::new("def".to_owned()), 456);
+    assert_eq!(map.len(), 2, "after second insertion");
+    map.insert_key(Rc::new("abc".to_owned()), 789);
+    assert_eq!(map.len(), 2, "after a replacement");
+    map.remove_key(&Rc::new("def".to_owned()));
+    assert_eq!(map.len(), 1, "after first removal");
+    map.remove_key(&Rc::new("def".to_owned()));
+    assert_eq!(map.len(), 1, "after a pointless removal");
+    map.remove_key(&Rc::new("abc".to_owned()));
+    assert_eq!(map.len(), 0, "after last removal");
+}
+
+#[test]
+fn test_is_empty() {
+    let mut map = MyStruct::default();
+    assert_eq!(map.is_empty(), true, "after construction");
+    map.insert_key(Rc::new("abc".to_owned()), 123);
+    assert_eq!(map.is_empty(), false, "after first insertion");
+    map.insert_key(Rc::new("def".to_owned()), 456);
+    assert_eq!(map.is_empty(), false, "after second insertion");
+    map.insert_key(Rc::new("abc".to_owned()), 789);
+    assert_eq!(map.is_empty(), false, "after a replacement");
+    map.remove_key(&Rc::new("def".to_owned()));
+    assert_eq!(map.is_empty(), false, "after first removal");
+    map.remove_key(&Rc::new("def".to_owned()));
+    assert_eq!(map.is_empty(), false, "after a pointless removal");
+    map.remove_key(&Rc::new("abc".to_owned()));
+    assert_eq!(map.is_empty(), true, "after last removal");
+}
+
+#[test]
 fn test_iter() {
     let actual: Vec<_> = MyStruct::default()
         .with("ghi", 789)
