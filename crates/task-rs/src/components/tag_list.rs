@@ -1,5 +1,5 @@
 use super::super::{data::TagMapIndex, style, utils::Callable};
-use super::CheckboxButton;
+use super::IndentedButton;
 use iced::*;
 use std::collections::BTreeMap;
 
@@ -37,8 +37,8 @@ where
         for (index, state) in controls.0.iter_mut() {
             let index = *index;
             let activated = get_activated.clone().call(index);
-            let button: Button<'a, Message> = CheckboxButton {
-                checked: activated,
+            let button: Button<'a, Message> = IndentedButton {
+                prefix: if activated { "✓" } else { "" },
                 content: get_content.clone().call(index),
                 state,
             }
