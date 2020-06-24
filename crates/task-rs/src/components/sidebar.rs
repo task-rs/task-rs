@@ -47,10 +47,9 @@ where
 
         let tag_list = TagList {
             controls: self.tag_list_controls,
-            button_prefix: if self.task_view.filter_method == FilterMethod::MultipleTags {
-                "✓"
-            } else {
-                "‣"
+            button_prefix: match self.task_view.filter_method {
+                FilterMethod::All | FilterMethod::SingleTag => "‣",
+                FilterMethod::MultipleTags => "✓",
             },
             get_content: GetContent {
                 map: self.tags,
