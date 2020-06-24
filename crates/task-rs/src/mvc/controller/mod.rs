@@ -5,7 +5,7 @@ use super::{
 };
 use iced::*;
 use pipe_trait::*;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 pub fn new(mut model: Model) -> (Model, Command<Message>) {
     init_update(&mut model);
@@ -55,6 +55,30 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
             model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
             if let Some(id) = lookup_tag_id!(x) {
                 model.ui_state.view.tasks.multiple_tags.remove(id);
+            }
+        }
+        Message::CheckAllOfMultipleTags => {
+            model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
+            model
+                .ui_state
+                .view
+                .tasks
+                .multiple_tags
+                .extend(model.data.tags.iter().map(|(id, _)| id.clone()))
+        }
+        Message::UncheckAllOfMultipleTags => {
+            model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
+            model.ui_state.view.tasks.multiple_tags = BTreeSet::new();
+        }
+        Message::InvertAllOfMultipleTags => {
+            model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
+            for (id, _) in model.data.tags.iter() {
+                let multiple_tags = &mut model.ui_state.view.tasks.multiple_tags;
+                if multiple_tags.contains(id) {
+                    multiple_tags.remove(id);
+                } else {
+                    multiple_tags.insert(id.clone());
+                }
             }
         }
     }

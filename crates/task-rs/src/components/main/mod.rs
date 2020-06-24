@@ -17,6 +17,9 @@ pub struct Main<'a, Message> {
     pub filter_tasks_by_single_tag: fn(TagMapIndex) -> Message,
     pub add_tag_to_multiple_tags: fn(TagMapIndex) -> Message,
     pub remove_tag_from_multiple_tags: fn(TagMapIndex) -> Message,
+    pub check_all_of_multiple_tags: Message,
+    pub uncheck_all_of_multiple_tags: Message,
+    pub invert_all_of_multiple_tags: Message,
 }
 
 impl<'a, Message> Into<Element<'a, Message>> for Main<'a, Message>
@@ -54,6 +57,9 @@ where
                 filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
                 add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
                 remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
+                check_all_of_multiple_tags: self.check_all_of_multiple_tags,
+                uncheck_all_of_multiple_tags: self.uncheck_all_of_multiple_tags,
+                invert_all_of_multiple_tags: self.invert_all_of_multiple_tags,
                 tag_list_controls: &mut self.model.controls.tag_list,
                 theme,
             }))

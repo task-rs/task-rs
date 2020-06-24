@@ -5,4 +5,5 @@ pub struct Controls {
     pub filter_method_single_tag: button::State,
     pub filter_method_multiple_tags: button::State,
     pub all_button: button::State,
+    pub mass_check_button: (button::State, button::State, button::State),
 }

@@ -15,6 +15,9 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         filter_tasks_by_single_tag: Message::FilterTasksBySingleTag,
         add_tag_to_multiple_tags: Message::AddTagToMultipleTags,
         remove_tag_from_multiple_tags: Message::RemoveTagFromMultipleTags,
+        check_all_of_multiple_tags: Message::CheckAllOfMultipleTags,
+        uncheck_all_of_multiple_tags: Message::UncheckAllOfMultipleTags,
+        invert_all_of_multiple_tags: Message::InvertAllOfMultipleTags,
     }
     .into()
 }

@@ -12,4 +12,7 @@ pub enum Message {
     FilterTasksBySingleTag(TagMapIndex),
     AddTagToMultipleTags(TagMapIndex),
     RemoveTagFromMultipleTags(TagMapIndex),
+    CheckAllOfMultipleTags,
+    UncheckAllOfMultipleTags,
+    InvertAllOfMultipleTags,
 }

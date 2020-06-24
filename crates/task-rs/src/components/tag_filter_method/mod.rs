@@ -16,6 +16,9 @@ where
     pub all_message: Message,
     pub single_tag_message: Message,
     pub multiple_tags_message: Message,
+    pub check_all_tags: Message,
+    pub uncheck_all_tags: Message,
+    pub invert_all_tags: Message,
     pub theme: Theme,
 }
 
@@ -29,6 +32,7 @@ where
             ref mut filter_method_single_tag,
             ref mut filter_method_multiple_tags,
             ref mut all_button,
+            mass_check_button: (ref mut check_all, ref mut uncheck_all, ref mut invert_all),
         } = self.controls;
 
         Column::new()
@@ -66,7 +70,23 @@ where
                         activated: false,
                     })
                     .into(),
-                Value::MultipleTags => Button::new(all_button, Text::new("Select All")).into(),
+                Value::MultipleTags => Row::new()
+                    .push(
+                        Button::new(check_all, Text::new("all"))
+                            .on_press(self.check_all_tags)
+                            .style(style::SingleStateButton(self.theme.style())),
+                    )
+                    .push(
+                        Button::new(uncheck_all, Text::new("none"))
+                            .on_press(self.uncheck_all_tags)
+                            .style(style::SingleStateButton(self.theme.style())),
+                    )
+                    .push(
+                        Button::new(invert_all, Text::new("invert"))
+                            .on_press(self.invert_all_tags)
+                            .style(style::SingleStateButton(self.theme.style())),
+                    )
+                    .into(),
             })
             .into()
     }

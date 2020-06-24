@@ -20,6 +20,9 @@ pub struct Sidebar<'a, Theme, Message> {
     pub filter_tasks_by_single_tag: fn(tag::Index) -> Message,
     pub add_tag_to_multiple_tags: fn(tag::Index) -> Message,
     pub remove_tag_from_multiple_tags: fn(tag::Index) -> Message,
+    pub check_all_of_multiple_tags: Message,
+    pub uncheck_all_of_multiple_tags: Message,
+    pub invert_all_of_multiple_tags: Message,
     pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
     pub(crate) tag_list_controls: &'a mut controls::TagList,
 }
@@ -37,6 +40,9 @@ where
             all_message: self.set_task_filter_method_to_all,
             single_tag_message: self.set_task_filter_method_to_single_tag,
             multiple_tags_message: self.set_task_filter_method_to_multiple_tags,
+            check_all_tags: self.check_all_of_multiple_tags,
+            uncheck_all_tags: self.uncheck_all_of_multiple_tags,
+            invert_all_tags: self.invert_all_of_multiple_tags,
         });
 
         let tag_list = TagList {
