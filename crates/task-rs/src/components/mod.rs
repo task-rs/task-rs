@@ -1,4 +1,5 @@
 pub mod button_list;
+pub mod checkbox_button;
 pub mod controls;
 pub mod header;
 pub mod main;
@@ -9,6 +10,7 @@ pub mod task_status_filter;
 pub mod theme_switcher;
 
 pub use button_list::ButtonList;
+pub use checkbox_button::CheckboxButton;
 pub use controls::Controls;
 pub use header::Header;
 pub use main::Main;
