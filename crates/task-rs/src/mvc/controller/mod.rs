@@ -22,38 +22,42 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
     }
 
     match message {
-        Message::MultipleActions(x) => {
-            for x in x {
-                update(model, x);
+        Message::MultipleActions(messages) => {
+            for message in messages {
+                update(model, message);
             }
         }
-        Message::Warn(x) => println!("WARNING: {}", x),
-        Message::SetTaskStatusFilter(x) => model.ui_state.details.task_status_filter = x,
-        Message::SetDarkMode(x) => {
-            model.ui_state.theme = if x { Theme::Dark } else { Theme::Light }
+        Message::Warn(warning) => println!("WARNING: {}", warning),
+        Message::SetTaskStatusFilter(task_status_filter) => {
+            model.ui_state.details.task_status_filter = task_status_filter
         }
-        Message::SetTaskFilterMethod(x) => {
-            model.ui_state.view.tasks.filter_method = x;
-            if x == FilterMethod::All {
+        Message::SetDarkMode(dark_mode) => {
+            model.ui_state.theme = if dark_mode { Theme::Dark } else { Theme::Light }
+        }
+        Message::SetTaskFilterMethod(filter_method) => {
+            model.ui_state.view.tasks.filter_method = filter_method;
+            if filter_method == FilterMethod::All {
                 model.ui_state.view.tasks.single_tag = None;
             }
-            if model.ui_state.view.tasks.single_tag.is_none() && x != FilterMethod::MultipleTags {
+            if model.ui_state.view.tasks.single_tag.is_none()
+                && filter_method != FilterMethod::MultipleTags
+            {
                 model.ui_state.view.tasks.filter_method = FilterMethod::All;
             }
         }
-        Message::FilterTasksBySingleTag(x) => {
+        Message::FilterTasksBySingleTag(tag_index) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::SingleTag;
-            model.ui_state.view.tasks.single_tag = lookup_tag_id!(x).cloned();
+            model.ui_state.view.tasks.single_tag = lookup_tag_id!(tag_index).cloned();
         }
-        Message::AddTagToMultipleTags(x) => {
+        Message::AddTagToMultipleTags(tag_index) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
-            if let Some(id) = lookup_tag_id!(x) {
+            if let Some(id) = lookup_tag_id!(tag_index) {
                 model.ui_state.view.tasks.multiple_tags.insert(id.clone());
             }
         }
-        Message::RemoveTagFromMultipleTags(x) => {
+        Message::RemoveTagFromMultipleTags(tag_index) => {
             model.ui_state.view.tasks.filter_method = FilterMethod::MultipleTags;
-            if let Some(id) = lookup_tag_id!(x) {
+            if let Some(id) = lookup_tag_id!(tag_index) {
                 model.ui_state.view.tasks.multiple_tags.remove(id);
             }
         }
