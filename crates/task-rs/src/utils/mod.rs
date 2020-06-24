@@ -8,6 +8,7 @@ pub use data::from_cfg_opt as load_data_from_cfg_opt;
 pub use indexed_map::IndexedMap;
 pub use xdg::{config_file, ui_state_file};
 
+use iced::*;
 use pipe_trait::*;
 use serde::de::DeserializeOwned;
 use std::{fs::File, path::PathBuf};
@@ -18,4 +19,20 @@ pub fn deserialize_file<Output: DeserializeOwned>(filename: &PathBuf) -> Result<
         .pipe(serde_yaml::from_reader::<File, Output>)
         .map_err(|error| format!("Failed to parse {}: {}", filename.to_string_lossy(), error))?
         .pipe(Ok)
+}
+
+pub fn on_press_if<'a, Message>(
+    condition: bool,
+    message: Message,
+) -> impl FnOnce(Button<'a, Message>) -> Button<'a, Message>
+where
+    Message: 'a,
+{
+    move |button| {
+        if condition {
+            button.on_press(message)
+        } else {
+            button
+        }
+    }
 }
