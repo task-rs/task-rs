@@ -7,6 +7,16 @@ pub struct IndentedButton<'a, Prefix, Message> {
     pub content: Element<'a, Message>,
 }
 
+impl<'a, Prefix, Message> IndentedButton<'a, Prefix, Message> {
+    pub fn into_button(self) -> Button<'a, Message>
+    where
+        Message: 'a,
+        Prefix: Into<String>,
+    {
+        self.into()
+    }
+}
+
 impl<'a, Prefix, Message> Into<Button<'a, Message>> for IndentedButton<'a, Prefix, Message>
 where
     Message: 'a,
