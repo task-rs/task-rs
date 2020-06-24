@@ -97,5 +97,5 @@ fn init_update(model: &mut Model) {
         .iter_index()
         .map(|(index, _)| (index, button::State::default()))
         .collect::<BTreeMap<_, _>>()
-        .pipe(controls::TagList::new);
+        .pipe(controls::TagList);
 }

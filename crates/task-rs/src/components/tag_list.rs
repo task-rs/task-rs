@@ -1,9 +1,11 @@
 use super::super::{data::TagMapIndex, style, utils::Callable};
-use super::{button_list, ButtonList};
+use super::CheckboxButton;
 use iced::*;
 use pipe_trait::*;
+use std::collections::BTreeMap;
 
-pub type Controls = button_list::Controls<TagMapIndex>;
+#[derive(Debug, Default, Clone)]
+pub struct Controls(pub BTreeMap<TagMapIndex, button::State>);
 
 pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
     pub(crate) controls: &'a mut Controls,
@@ -31,17 +33,26 @@ where
             theme,
         } = self;
 
-        ButtonList {
-            controls,
-            get_content,
-            get_message,
-            get_style: GetStyle {
-                get_activated,
-                theme,
-            },
+        let mut button_list = Column::new();
+
+        for (index, state) in controls.0.iter_mut() {
+            let index = *index;
+            let activated = get_activated.clone().call(index);
+            let button: Button<'a, Message> = CheckboxButton {
+                checked: activated,
+                content: get_content.clone().call(index),
+                state,
+            }
+            .pipe(Into::<Button<'a, Message>>::into)
+            .on_press(get_message.clone().call(index))
+            .style(style::BinaryStateButton {
+                style: theme.style(),
+                activated,
+            });
+            button_list = button_list.push(button);
         }
-        .pipe(Into::<Column<'a, Message>>::into)
-        .into()
+
+        button_list.into()
     }
 }
 

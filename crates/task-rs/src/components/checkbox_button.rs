@@ -1,4 +1,5 @@
 use iced::*;
+use pipe_trait::*;
 
 pub struct CheckboxButton<'a, Message> {
     pub state: &'a mut button::State,
@@ -11,9 +12,11 @@ where
     Message: 'a,
 {
     fn into(self) -> Button<'a, Message> {
-        let content = Row::new()
-            .push(Text::new(if self.checked { "✓" } else { " " }))
-            .push(self.content);
+        let prefix = if self.checked { "✓" } else { "" }
+            .pipe(Text::new)
+            .pipe(Container::new)
+            .width(Length::Units(16));
+        let content = Row::new().push(prefix).push(self.content);
         Button::new(self.state, content)
     }
 }
