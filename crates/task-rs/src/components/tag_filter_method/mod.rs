@@ -13,7 +13,7 @@ pub struct TagFilterMethod<'a, Theme, Message>
 where
     Theme: style::Theme,
 {
-    pub(crate) controls: &'a mut Controls,
+    pub controls: &'a mut Controls,
     pub filter_method: Value,
     pub all_message: Message,
     pub single_tag_message: Message,

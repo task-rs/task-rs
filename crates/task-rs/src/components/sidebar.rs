@@ -23,8 +23,8 @@ pub struct Sidebar<'a, Theme, Message> {
     pub check_all_of_multiple_tags: Message,
     pub uncheck_all_of_multiple_tags: Message,
     pub invert_all_of_multiple_tags: Message,
-    pub(crate) tag_filter_method_controls: &'a mut controls::TagFilterMethod,
-    pub(crate) tag_list_controls: &'a mut controls::TagList,
+    pub tag_filter_method_controls: &'a mut controls::TagFilterMethod,
+    pub tag_list_controls: &'a mut controls::TagList,
 }
 
 impl<'a, Theme, Message> Into<Element<'a, Message>> for Sidebar<'a, Theme, Message>

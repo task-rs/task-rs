@@ -8,7 +8,7 @@ use super::super::style;
 use iced::*;
 
 pub struct TaskStatusFilter<'a, Theme, Message> {
-    pub(crate) controls: &'a mut Controls,
+    pub controls: &'a mut Controls,
     pub actual_value: Value,
     pub theme: Theme,
     pub get_message: fn(Value) -> Message,

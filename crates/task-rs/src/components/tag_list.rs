@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 pub struct Controls(pub BTreeMap<TagMapIndex, button::State>);
 
 pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
-    pub(crate) controls: &'a mut Controls,
+    pub controls: &'a mut Controls,
     pub button_prefix: &'a str,
     pub get_content: GetContent,
     pub get_message: GetMessage,
