@@ -1,7 +1,6 @@
 use super::super::{data::TagMapIndex, style, utils::Callable};
 use super::CheckboxButton;
 use iced::*;
-use pipe_trait::*;
 use std::collections::BTreeMap;
 
 #[derive(Debug, Default, Clone)]
@@ -43,7 +42,7 @@ where
                 content: get_content.clone().call(index),
                 state,
             }
-            .pipe(Into::<Button<'a, Message>>::into)
+            .into_button()
             .on_press(get_message.clone().call(index))
             .style(style::BinaryStateButton {
                 style: theme.style(),
