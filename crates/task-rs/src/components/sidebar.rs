@@ -1,6 +1,7 @@
 use super::super::{
     data::tag,
     mvc::model::view::tasks::{FilterMethod, Tasks as TaskView},
+    sizes::sidebar::*,
     style,
     utils::Callable,
 };
@@ -80,7 +81,10 @@ struct GetContent<'a, Message> {
     map: &'a tag::Map,
     _phantom_msg: PhantomData<Message>,
 }
-impl<'a, Message> Callable for GetContent<'a, Message> {
+impl<'a, Message> Callable for GetContent<'a, Message>
+where
+    Message: 'a,
+{
     type Input = tag::Index;
     type Output = Element<'a, Message>;
     fn call(self, x: Self::Input) -> Self::Output {
@@ -95,6 +99,8 @@ impl<'a, Message> Callable for GetContent<'a, Message> {
             id.0.clone()
         }
         .pipe(Text::new)
+        .pipe(Container::new)
+        .width(Length::Units(TAG_CONTENT_LENGTH))
         .into()
     }
 }

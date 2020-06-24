@@ -4,7 +4,7 @@ pub use controls::Controls;
 
 pub use super::super::mvc::model::view::tasks::FilterMethod as Value;
 
-use super::super::{style, utils::on_press_if};
+use super::super::{sizes::sidebar::*, style, utils::on_press_if};
 use super::IndentedButton;
 use iced::*;
 use pipe_trait::*;
@@ -39,14 +39,25 @@ where
             mass_check_button: (ref mut check_all, ref mut uncheck_all, ref mut invert_all),
         } = self.controls;
 
+        let centered_text = |text: &str| {
+            text.pipe(Text::new)
+                .pipe(Container::new)
+                .width(Length::Fill)
+                .center_x()
+        };
+
         macro_rules! all_button {
             ($activated:expr, $prefix:expr) => {
                 IndentedButton {
                     state: all_button,
                     prefix: $prefix,
-                    content: Text::new("All").into(),
+                    content: Text::new("All")
+                        .pipe(Container::new)
+                        .width(Length::Fill)
+                        .into(),
                 }
                 .into_button()
+                .width(Length::Units(SIDEBAR_LENGTH))
                 .on_press(self.all_message)
                 .style(style::BinaryStateButton {
                     style: self.theme.style(),
@@ -60,7 +71,8 @@ where
             .push(
                 Row::new()
                     .push(
-                        Button::new(filter_method_single_tag, Text::new("select"))
+                        Button::new(filter_method_single_tag, centered_text("select"))
+                            .width(Length::Units(FILTER_METHOD_BUTTON_LENGTH))
                             .on_press(self.single_tag_message)
                             .style(style::BinaryStateButton {
                                 style: self.theme.style(),
@@ -68,7 +80,8 @@ where
                             }),
                     )
                     .push(
-                        Button::new(filter_method_multiple_tags, Text::new("filter"))
+                        Button::new(filter_method_multiple_tags, centered_text("filter"))
+                            .width(Length::Units(FILTER_METHOD_BUTTON_LENGTH))
                             .on_press(self.multiple_tags_message)
                             .style(style::BinaryStateButton {
                                 style: self.theme.style(),
@@ -81,17 +94,20 @@ where
                 Value::SingleTag => all_button!(false, ""),
                 Value::MultipleTags => Row::new()
                     .push(
-                        Button::new(check_all, Text::new("all"))
+                        Button::new(check_all, centered_text("all"))
+                            .width(Length::Units(MASS_CHECK_BUTTON_LENGTH))
                             .pipe(on_press_if(self.enable_check_all, self.check_all_tags))
                             .style(style::SingleStateButton(self.theme.style())),
                     )
                     .push(
-                        Button::new(uncheck_all, Text::new("none"))
+                        Button::new(uncheck_all, centered_text("none"))
+                            .width(Length::Units(MASS_CHECK_BUTTON_LENGTH))
                             .pipe(on_press_if(self.enable_uncheck_all, self.uncheck_all_tags))
                             .style(style::SingleStateButton(self.theme.style())),
                     )
                     .push(
-                        Button::new(invert_all, Text::new("invert"))
+                        Button::new(invert_all, centered_text("invert"))
+                            .width(Length::Units(MASS_CHECK_BUTTON_LENGTH))
                             .on_press(self.invert_all_tags)
                             .style(style::SingleStateButton(self.theme.style())),
                     )

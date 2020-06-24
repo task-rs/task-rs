@@ -1,4 +1,4 @@
-use super::super::{data::TagMapIndex, style, utils::Callable};
+use super::super::{data::TagMapIndex, sizes::sidebar::*, style, utils::Callable};
 use super::IndentedButton;
 use iced::*;
 use std::collections::BTreeMap;
@@ -45,6 +45,7 @@ where
                 state,
             }
             .into_button()
+            .width(Length::Units(SIDEBAR_LENGTH))
             .on_press(get_message.clone().call(index))
             .style(style::BinaryStateButton {
                 style: theme.style(),
