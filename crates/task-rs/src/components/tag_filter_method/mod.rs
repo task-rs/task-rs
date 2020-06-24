@@ -5,6 +5,7 @@ pub use controls::Controls;
 pub use super::super::mvc::model::view::tasks::FilterMethod as Value;
 
 use super::super::style;
+use super::IndentedButton;
 use iced::*;
 
 pub struct TagFilterMethod<'a, Theme, Message>
@@ -35,6 +36,23 @@ where
             mass_check_button: (ref mut check_all, ref mut uncheck_all, ref mut invert_all),
         } = self.controls;
 
+        macro_rules! all_button {
+            ($activated:expr, $prefix:expr) => {
+                IndentedButton {
+                    state: all_button,
+                    prefix: $prefix,
+                    content: Text::new("All").into(),
+                }
+                .into_button()
+                .on_press(self.all_message)
+                .style(style::BinaryStateButton {
+                    style: self.theme.style(),
+                    activated: $activated,
+                })
+                .into()
+            };
+        }
+
         Column::new()
             .push(
                 Row::new()
@@ -56,20 +74,8 @@ where
                     ),
             )
             .push::<Element<'a, Message>>(match self.filter_method {
-                Value::All => Button::new(all_button, Text::new("All"))
-                    .on_press(self.all_message)
-                    .style(style::BinaryStateButton {
-                        style: self.theme.style(),
-                        activated: true,
-                    })
-                    .into(),
-                Value::SingleTag => Button::new(all_button, Text::new("All"))
-                    .on_press(self.all_message)
-                    .style(style::BinaryStateButton {
-                        style: self.theme.style(),
-                        activated: false,
-                    })
-                    .into(),
+                Value::All => all_button!(true, "‣"),
+                Value::SingleTag => all_button!(false, ""),
                 Value::MultipleTags => Row::new()
                     .push(
                         Button::new(check_all, Text::new("all"))
