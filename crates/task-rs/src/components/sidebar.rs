@@ -47,7 +47,11 @@ where
 
         let tag_list = TagList {
             controls: self.tag_list_controls,
-            button_prefix: "✓",
+            button_prefix: if self.task_view.filter_method == FilterMethod::MultipleTags {
+                "✓"
+            } else {
+                "‣"
+            },
             get_content: GetContent {
                 map: self.tags,
                 _phantom_msg: PhantomData,
