@@ -4,9 +4,10 @@ pub use controls::Controls;
 
 pub use super::super::mvc::model::view::tasks::FilterMethod as Value;
 
-use super::super::style;
+use super::super::{style, utils::on_press_if};
 use super::IndentedButton;
 use iced::*;
+use pipe_trait::*;
 
 pub struct TagFilterMethod<'a, Theme, Message>
 where
@@ -20,6 +21,8 @@ where
     pub check_all_tags: Message,
     pub uncheck_all_tags: Message,
     pub invert_all_tags: Message,
+    pub enable_check_all: bool,
+    pub enable_uncheck_all: bool,
     pub theme: Theme,
 }
 
@@ -79,12 +82,12 @@ where
                 Value::MultipleTags => Row::new()
                     .push(
                         Button::new(check_all, Text::new("all"))
-                            .on_press(self.check_all_tags)
+                            .pipe(on_press_if(self.enable_check_all, self.check_all_tags))
                             .style(style::SingleStateButton(self.theme.style())),
                     )
                     .push(
                         Button::new(uncheck_all, Text::new("none"))
-                            .on_press(self.uncheck_all_tags)
+                            .pipe(on_press_if(self.enable_uncheck_all, self.uncheck_all_tags))
                             .style(style::SingleStateButton(self.theme.style())),
                     )
                     .push(

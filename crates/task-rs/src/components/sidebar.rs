@@ -43,6 +43,8 @@ where
             check_all_tags: self.check_all_of_multiple_tags,
             uncheck_all_tags: self.uncheck_all_of_multiple_tags,
             invert_all_tags: self.invert_all_of_multiple_tags,
+            enable_check_all: self.task_view.multiple_tags.len() != self.tags.len(),
+            enable_uncheck_all: !self.task_view.multiple_tags.is_empty(),
         });
 
         let tag_list = TagList {
