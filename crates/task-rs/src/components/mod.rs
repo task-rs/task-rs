@@ -1,6 +1,7 @@
 pub mod checkbox_button;
 pub mod controls;
 pub mod header;
+pub mod indented_button;
 pub mod main;
 pub mod sidebar;
 pub mod tag_filter_method;
@@ -11,6 +12,7 @@ pub mod theme_switcher;
 pub use checkbox_button::CheckboxButton;
 pub use controls::Controls;
 pub use header::Header;
+pub use indented_button::IndentedButton;
 pub use main::Main;
 pub use sidebar::Sidebar;
 pub use tag_filter_method::TagFilterMethod;
