@@ -8,6 +8,7 @@ pub struct Controls(pub BTreeMap<TagMapIndex, button::State>);
 
 pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
     pub(crate) controls: &'a mut Controls,
+    pub button_prefix: &'a str,
     pub get_content: GetContent,
     pub get_message: GetMessage,
     pub get_activated: GetActivated,
@@ -26,6 +27,7 @@ where
     fn into(self) -> Element<'a, Message> {
         let TagList {
             controls,
+            button_prefix,
             get_activated,
             get_message,
             get_content,
@@ -38,7 +40,7 @@ where
             let index = *index;
             let activated = get_activated.clone().call(index);
             let button: Button<'a, Message> = IndentedButton {
-                prefix: if activated { "✓" } else { "" },
+                prefix: if activated { button_prefix } else { "" },
                 content: get_content.clone().call(index),
                 state,
             }

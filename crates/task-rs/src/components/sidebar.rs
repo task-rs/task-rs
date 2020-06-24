@@ -47,6 +47,7 @@ where
 
         let tag_list = TagList {
             controls: self.tag_list_controls,
+            button_prefix: "✓",
             get_content: GetContent {
                 map: self.tags,
                 _phantom_msg: PhantomData,
