@@ -1,3 +1,4 @@
+use super::super::sizes::indent_square;
 use iced::*;
 use pipe_trait::*;
 
@@ -27,7 +28,7 @@ where
             .prefix
             .pipe(Text::new)
             .pipe(Container::new)
-            .width(Length::Units(16));
+            .width(Length::Units(indent_square::SIZE));
         let content = Row::new().push(prefix).push(self.content);
         Button::new(self.state, content)
     }
