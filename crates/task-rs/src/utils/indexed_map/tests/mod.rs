@@ -35,7 +35,7 @@ impl MyStruct {
 }
 
 #[test]
-fn test_serialize_before() {
+fn serialize_before() {
     let actual = MyStruct::from_yaml(BEFORE);
     let expected = MyStruct::default()
         .with("abc", 123)
@@ -47,7 +47,7 @@ fn test_serialize_before() {
 }
 
 #[test]
-fn test_serialize_after() {
+fn serialize_after() {
     let actual = MyStruct::from_yaml(AFTER);
     let expected = MyStruct::default()
         .with("foo", 321)
@@ -59,7 +59,7 @@ fn test_serialize_after() {
 }
 
 #[test]
-fn test_deserialize_before() {
+fn deserialize_before() {
     MyStruct::default()
         .with("abc", 123)
         .with("jkl", 123)
@@ -71,7 +71,7 @@ fn test_deserialize_before() {
 }
 
 #[test]
-fn test_deserialize_after() {
+fn deserialize_after() {
     MyStruct::default()
         .with("foo", 321)
         .with("abc", 123)
@@ -83,7 +83,7 @@ fn test_deserialize_after() {
 }
 
 #[test]
-fn test_from_btreemap() {
+fn from_btreemap() {
     let actual = [("abc", 123), ("def", 456), ("ghi", 789)]
         .iter()
         .cloned()
@@ -100,7 +100,7 @@ fn test_from_btreemap() {
 }
 
 #[test]
-fn test_into_btreemap() {
+fn into_btreemap() {
     let actual: BTreeMap<_, _> = MyStruct::default()
         .with("ghi", 789)
         .with("abc", 123)
@@ -117,7 +117,7 @@ fn test_into_btreemap() {
 }
 
 #[test]
-fn test_len() {
+fn len() {
     let mut map = MyStruct::default();
     assert_eq!(map.len(), 0, "after construction");
     map.insert_key(Rc::new("abc".to_owned()), 123);
@@ -135,7 +135,7 @@ fn test_len() {
 }
 
 #[test]
-fn test_is_empty() {
+fn is_empty() {
     let mut map = MyStruct::default();
     assert_eq!(map.is_empty(), true, "after construction");
     map.insert_key(Rc::new("abc".to_owned()), 123);
@@ -153,7 +153,7 @@ fn test_is_empty() {
 }
 
 #[test]
-fn test_iter() {
+fn iter() {
     let actual: Vec<_> = MyStruct::default()
         .with("ghi", 789)
         .with("abc", 123)
@@ -172,7 +172,7 @@ fn test_iter() {
 }
 
 #[test]
-fn test_iter_mut() {
+fn iter_mut() {
     let mut actual_map = MyStruct::default()
         .with("ghi", 789)
         .with("abc", 123)
@@ -195,7 +195,7 @@ fn test_iter_mut() {
 }
 
 #[test]
-fn test_iter_index() {
+fn iter_index() {
     let actual: Vec<_> = MyStruct::default()
         .with("ghi", 789)
         .with("abc", 123)
@@ -214,7 +214,7 @@ fn test_iter_index() {
 }
 
 #[test]
-fn test_insert_remove_key() {
+fn insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
         .remove_key(&Rc::new("mno".to_owned()))
@@ -234,7 +234,7 @@ fn test_insert_remove_key() {
 }
 
 #[test]
-fn test_replace_index() {
+fn replace_index() {
     let mut actual = MyStruct::default()
         .with("abc", 123)
         .with("def", 456)
@@ -267,7 +267,7 @@ fn test_replace_index() {
 }
 
 #[test]
-fn test_remove_index() {
+fn remove_index() {
     let mut actual = MyStruct::default()
         .with("abc", 123)
         .with("def", 456)
