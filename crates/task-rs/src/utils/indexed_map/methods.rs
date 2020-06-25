@@ -1,4 +1,5 @@
 use super::{Index, IndexedMap};
+use core::borrow::Borrow;
 use std::{collections::BTreeMap, rc::Rc};
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
@@ -49,8 +50,8 @@ where
             .map(|(key, index)| (**index, key.as_ref()))
     }
 
-    pub fn get_value_by_key(&self, key: &Rc<Key>) -> Option<&Value> {
-        self.entries.get(key)
+    pub fn get_value_by_key(&self, key: &impl Borrow<Key>) -> Option<&Value> {
+        self.entries.get(key.borrow())
     }
 
     pub fn get_value_by_index(&self, index: Index) -> Option<&Value> {
@@ -62,10 +63,10 @@ where
         self.indices.right_to_left_map().get(&index)
     }
 
-    pub fn get_index_by_key(&self, key: &Rc<Key>) -> Option<Index> {
+    pub fn get_index_by_key(&self, key: &impl Borrow<Key>) -> Option<Index> {
         self.indices
             .left_to_right_map()
-            .get(key)
+            .get(key.borrow())
             .map(|index| **index)
     }
 
@@ -80,11 +81,11 @@ where
         }
     }
 
-    pub fn remove_key(&mut self, key: &Rc<Key>) -> RemoveResult<Index, Value> {
-        if let Some(value) = self.entries.remove(key) {
+    pub fn remove_key(&mut self, key: &impl Borrow<Key>) -> RemoveResult<Index, Value> {
+        if let Some(value) = self.entries.remove(key.borrow()) {
             let index = self
                 .indices
-                .remove_by_left(key.clone())
+                .remove_by_left(key)
                 .expect("remove (key, index) from indices");
             RemoveResult::Removed(*index, value)
         } else {
