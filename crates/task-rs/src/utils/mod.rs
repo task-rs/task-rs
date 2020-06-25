@@ -1,8 +1,10 @@
+pub mod bidirectional_map;
 pub mod callable;
 pub mod data;
 pub mod indexed_map;
 pub mod xdg;
 
+pub use bidirectional_map::BidirectionalMap;
 pub use callable::Callable;
 pub use data::from_cfg_opt as load_data_from_cfg_opt;
 pub use indexed_map::IndexedMap;
