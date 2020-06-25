@@ -32,8 +32,8 @@ where
 
     fn prv_remove(
         &mut self,
-        left: impl Borrow<Left>,
-        right: impl Borrow<Right>,
+        left: &impl Borrow<Left>,
+        right: &impl Borrow<Right>,
     ) -> Overwritten<Left, Right> {
         match (
             self.lr.remove(left.borrow()),
@@ -62,12 +62,12 @@ where
     }
 
     pub fn insert(&mut self, left: Rc<Left>, right: Rc<Right>) -> Overwritten<Left, Right> {
-        let result = self.prv_remove(left.clone(), right.clone());
+        let result = self.prv_remove(&left, &right);
         self.prv_insert_unchecked(left, right);
         result
     }
 
-    pub fn remove_by_left(&mut self, left: impl Borrow<Left>) -> Option<Rc<Right>> {
+    pub fn remove_by_left(&mut self, left: &impl Borrow<Left>) -> Option<Rc<Right>> {
         if let Some(removed_right) = self.lr.remove(left.borrow()) {
             self.rl.remove(&removed_right);
             Some(removed_right)
@@ -76,7 +76,7 @@ where
         }
     }
 
-    pub fn remove_by_right(&mut self, right: impl Borrow<Right>) -> Option<Rc<Left>> {
+    pub fn remove_by_right(&mut self, right: &impl Borrow<Right>) -> Option<Rc<Left>> {
         if let Some(removed_left) = self.rl.remove(right.borrow()) {
             self.lr.remove(&removed_left);
             Some(removed_left)
