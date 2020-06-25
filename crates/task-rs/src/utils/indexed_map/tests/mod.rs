@@ -43,7 +43,7 @@ fn serialize_before() {
         .with("def", 456)
         .with("mno", 456)
         .with("ghi", 789);
-    assert_eq!(&actual, &expected);
+    assert_eq!(actual, expected);
 }
 
 #[test]
@@ -55,7 +55,7 @@ fn serialize_after() {
         .with("def", 456)
         .with("ghi", 789)
         .with("jkl", 654);
-    assert_eq!(&actual, &expected);
+    assert_eq!(actual, expected);
 }
 
 #[test]
