@@ -34,8 +34,8 @@ where
 {
     fn into(self) -> BTreeMap<Key, Value> {
         self.entries
-            .iter()
-            .map(|(key, value)| (key.as_ref().clone(), value.clone()))
+            .into_iter()
+            .map(|(key, value)| (key.as_ref().clone(), value))
             .collect()
     }
 }
