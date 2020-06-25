@@ -272,6 +272,72 @@ fn remove() {
             ('j', 9),
         ])
     );
+
+    assert_eq!(
+        map.remove_by_left(&Rc::new('d')),
+        Some(Rc::new(3)),
+        "removed by left: 'd'"
+    );
+    assert_eq_map!(
+        map,
+        BidirectionalMap::from_iter(vec![
+            ('a', 0),
+            ('b', 1),
+            ('e', 4),
+            ('f', 5),
+            ('g', 6),
+            ('i', 8),
+            ('j', 9),
+        ])
+    );
+
+    assert_eq!(
+        map.remove_by_left(&Rc::new('d')),
+        None,
+        "removed by left: 'd' (again)"
+    );
+    assert_eq_map!(
+        map,
+        BidirectionalMap::from_iter(vec![
+            ('a', 0),
+            ('b', 1),
+            ('e', 4),
+            ('f', 5),
+            ('g', 6),
+            ('i', 8),
+            ('j', 9),
+        ])
+    );
+
+    assert_eq!(
+        map.remove_by_right(&Rc::new(5)),
+        Some(Rc::new('f')),
+        "removed by left: 5"
+    );
+    assert_eq_map!(
+        map,
+        BidirectionalMap::from_iter(vec![
+            ('a', 0),
+            ('b', 1),
+            ('e', 4),
+            ('g', 6),
+            ('i', 8),
+            ('j', 9),
+        ])
+    );
+
+    assert_eq!(map.remove_by_right(&Rc::new(5)), None, "removed by left: 5");
+    assert_eq_map!(
+        map,
+        BidirectionalMap::from_iter(vec![
+            ('a', 0),
+            ('b', 1),
+            ('e', 4),
+            ('g', 6),
+            ('i', 8),
+            ('j', 9),
+        ])
+    );
 }
 
 #[test]
