@@ -214,6 +214,104 @@ fn iter_index() {
 }
 
 #[test]
+fn get_value_by_key() {
+    let map = MyStruct::default()
+        .with("abc", 123)
+        .with("def", 456)
+        .with("ghi", 789);
+
+    assert_eq!(
+        map.get_value_by_key(&String::from("def")),
+        Some(&456),
+        "reference that exists",
+    );
+    assert_eq!(
+        map.get_value_by_key(&Rc::new("def".to_owned())),
+        Some(&456),
+        "reference counter that exists",
+    );
+    assert_eq!(
+        map.get_value_by_key(&String::from("xxx")),
+        None,
+        "reference that does not exist",
+    );
+    assert_eq!(
+        map.get_value_by_key(&Rc::new("xxx".to_owned())),
+        None,
+        "reference counter that does not exist",
+    );
+}
+
+#[test]
+fn get_index_by_key() {
+    let map = MyStruct::default()
+        .with("abc", 123)
+        .with("def", 456)
+        .with("ghi", 789);
+
+    assert_eq!(
+        map.get_index_by_key(&String::from("def")),
+        Some(Index::from(1)),
+        "reference that exists",
+    );
+    assert_eq!(
+        map.get_index_by_key(&Rc::new("def".to_owned())),
+        Some(Index::from(1)),
+        "reference counter that exists",
+    );
+    assert_eq!(
+        map.get_index_by_key(&String::from("xxx")),
+        None,
+        "reference that does not exist",
+    );
+    assert_eq!(
+        map.get_index_by_key(&Rc::new("xxx".to_owned())),
+        None,
+        "reference counter that does not exist",
+    );
+}
+
+#[test]
+fn get_value_by_index() {
+    let map = MyStruct::default()
+        .with("abc", 123)
+        .with("def", 456)
+        .with("ghi", 789);
+
+    assert_eq!(
+        "def"
+            .to_owned()
+            .pipe_ref(|key| map.get_index_by_key(key))
+            .unwrap()
+            .pipe(|index| map.get_value_by_index(index)),
+        Some(&456),
+        "exist",
+    );
+
+    assert_eq!(map.get_value_by_index(Index::from(999)), None, "not exist");
+}
+
+#[test]
+fn get_key_by_index() {
+    let map = MyStruct::default()
+        .with("abc", 123)
+        .with("def", 456)
+        .with("ghi", 789);
+
+    assert_eq!(
+        "def"
+            .to_owned()
+            .pipe_ref(|key| map.get_index_by_key(key))
+            .unwrap()
+            .pipe(|index| map.get_key_by_index(index)),
+        "def".to_owned().pipe(Rc::new).pipe_ref(Some),
+        "exist",
+    );
+
+    assert_eq!(map.get_key_by_index(Index::from(999)), None, "not exist");
+}
+
+#[test]
 fn insert_remove_key() {
     let mut actual = MyStruct::from_yaml(BEFORE);
     actual
