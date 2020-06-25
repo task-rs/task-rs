@@ -44,8 +44,9 @@ where
 
     pub fn iter_index(&mut self) -> impl Iterator<Item = (Index, &Key)> {
         self.indices
+            .left_to_right_map()
             .iter()
-            .map(|(key, index)| (*index, key.as_ref()))
+            .map(|(key, index)| (**index, key.as_ref()))
     }
 
     pub fn get_value_by_key(&self, key: &Rc<Key>) -> Option<&Value> {
@@ -58,11 +59,14 @@ where
     }
 
     pub fn get_key_by_index(&self, index: Index) -> Option<&Rc<Key>> {
-        self.indices.get_by_right(&index)
+        self.indices.right_to_left_map().get(&index)
     }
 
     pub fn get_index_by_key(&self, key: &Rc<Key>) -> Option<Index> {
-        self.indices.get_by_left(key).cloned()
+        self.indices
+            .left_to_right_map()
+            .get(key)
+            .map(|index| **index)
     }
 
     pub fn insert_key(&mut self, key: Rc<Key>, value: Value) -> InsertResult<Value> {
@@ -71,18 +75,18 @@ where
         } else {
             let index = self.counter;
             *self.counter.as_mut() += 1;
-            self.indices.insert(key, index);
+            self.indices.insert(key, Rc::new(index));
             InsertResult::Added(index)
         }
     }
 
     pub fn remove_key(&mut self, key: &Rc<Key>) -> RemoveResult<Index, Value> {
         if let Some(value) = self.entries.remove(key) {
-            let (_, index) = self
+            let index = self
                 .indices
-                .remove_by_left(key)
+                .remove_by_left(key.clone())
                 .expect("remove (key, index) from indices");
-            RemoveResult::Removed(index, value)
+            RemoveResult::Removed(*index, value)
         } else {
             RemoveResult::Unchanged
         }

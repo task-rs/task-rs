@@ -4,7 +4,7 @@ pub mod methods;
 pub use index::Index;
 pub use methods::{InsertResult, RemoveResult};
 
-use bimap::BiBTreeMap;
+use super::BidirectionalMap;
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, rc::Rc};
 
@@ -16,7 +16,7 @@ where
     Value: Clone,
 {
     entries: BTreeMap<Rc<Key>, Value>,
-    indices: BiBTreeMap<Rc<Key>, Index>,
+    indices: BidirectionalMap<Key, Index>,
     counter: Index,
 }
 
