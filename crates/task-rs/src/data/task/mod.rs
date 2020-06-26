@@ -7,7 +7,10 @@ use std::collections::BTreeSet;
 pub struct Task {
     pub status: Status,
     pub summary: String,
+    #[serde(default, skip_serializing_if = "String::is_empty")]
     pub details: String,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub sub: Vec<Task>,
+    #[serde(default, skip_serializing_if = "BTreeSet::is_empty")]
     pub tags: BTreeSet<TagId>,
 }
