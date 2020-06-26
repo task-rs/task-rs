@@ -45,9 +45,9 @@ where
 
     pub fn iter_index(&mut self) -> impl Iterator<Item = (Index, &Key)> {
         self.indices
-            .left_to_right_map()
+            .right_to_left_map()
             .iter()
-            .map(|(key, index)| (**index, key.as_ref()))
+            .map(|(index, key)| (**index, key.as_ref()))
     }
 
     pub fn get_value_by_key(&self, key: &impl Borrow<Key>) -> Option<&Value> {

@@ -205,9 +205,9 @@ fn iter_index() {
         .collect();
 
     let expected = vec![
+        (Index::from(0), "ghi".to_owned()),
         (Index::from(1), "abc".to_owned()),
         (Index::from(2), "def".to_owned()),
-        (Index::from(0), "ghi".to_owned()),
     ];
 
     assert_eq!(actual, expected);
