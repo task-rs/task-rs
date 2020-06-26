@@ -53,7 +53,11 @@ where
                 set_task_filter_method_to_multiple_tags:
                     self.set_task_filter_method_to_multiple_tags,
                 tag_filter_method_controls: &mut self.model.controls.tag_filter_method,
-                single_tag: self.model.ui_state.view.tasks.single_tag.clone(), // TODO: optimize
+                single_tag: if let Some(id) = &self.model.ui_state.view.tasks.single_tag {
+                    self.model.data.tags.get_index_by_key(id)
+                } else {
+                    None
+                },
                 filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
                 add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
                 remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,

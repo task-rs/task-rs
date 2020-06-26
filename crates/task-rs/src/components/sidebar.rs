@@ -13,7 +13,7 @@ use pipe_trait::*;
 pub struct Sidebar<'a, Theme, Message> {
     pub tags: &'a tag::Map,
     pub task_view: &'a TaskView,
-    pub single_tag: Option<tag::Id>,
+    pub single_tag: Option<tag::Index>,
     pub theme: Theme,
     pub set_task_filter_method_to_all: Message,
     pub set_task_filter_method_to_single_tag: Message,
