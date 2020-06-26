@@ -14,6 +14,8 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "kebab-case")]
 pub struct Data {
     pub manifest_version: ManifestVersion,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub tasks: Vec<Task>,
+    #[serde(default, skip_serializing_if = "TagMap::is_empty")]
     pub tags: TagMap,
 }
