@@ -1,7 +1,6 @@
 use super::super::data::TagMapIndex;
 use super::model::{details::TaskStatusFilter, view::tasks::FilterMethod};
 
-// TODO: Add 'Copy'
 #[derive(Debug, Clone)]
 pub enum Message {
     MultipleActions(Vec<Message>),
