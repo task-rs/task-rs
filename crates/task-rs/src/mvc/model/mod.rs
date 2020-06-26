@@ -22,7 +22,7 @@ use serde::{Deserialize, Serialize};
 pub struct Model {
     pub ui_state: UiState,
     pub data: Data,
-    #[serde(skip_serializing, skip_deserializing)]
+    #[serde(skip)]
     pub controls: Controls,
 }
 
@@ -30,7 +30,7 @@ pub struct Model {
 #[serde(rename_all = "kebab-case")]
 pub struct UiState {
     pub title: Title,
-    #[serde(skip_serializing, skip_deserializing)]
+    #[serde(skip)]
     pub progress: Progress,
     pub view: View,
     pub config: Option<(Config, CfgSrc)>,
