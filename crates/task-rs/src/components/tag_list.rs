@@ -1,4 +1,9 @@
-use super::super::{data::TagMapIndex, sizes::sidebar::*, style, utils::Callable};
+use super::super::{
+    data::TagMapIndex,
+    sizes::sidebar::*,
+    style::{self, Theme},
+    utils::Callable,
+};
 use super::IndentedButton;
 use iced::*;
 use std::collections::BTreeMap;
@@ -6,25 +11,25 @@ use std::collections::BTreeMap;
 #[derive(Debug, Default, Clone)]
 pub struct Controls(pub BTreeMap<TagMapIndex, button::State>);
 
-pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
-    pub controls: &'a mut Controls,
-    pub button_prefix: &'a str,
-    pub get_content: GetContent,
-    pub get_message: GetMessage,
-    pub get_activated: GetActivated,
-    pub theme: Theme,
+pub trait TagListParams<'a> {
+    type Message: Clone + 'a;
+    type Theme: style::Theme + Copy;
+    type GetContent: Callable<Input = TagMapIndex, Output = Element<'a, Self::Message>> + Clone;
+    type GetMessage: Callable<Input = TagMapIndex, Output = Self::Message> + Clone;
+    type GetActivated: Callable<Input = TagMapIndex, Output = bool> + Clone;
 }
 
-impl<'a, Theme, Message, GetContent, GetMessage, GetActivated> Into<Element<'a, Message>>
-    for TagList<'a, Theme, GetContent, GetMessage, GetActivated>
-where
-    Message: Clone + 'a,
-    Theme: style::Theme + Copy,
-    GetContent: Callable<Input = TagMapIndex, Output = Element<'a, Message>> + Clone,
-    GetMessage: Callable<Input = TagMapIndex, Output = Message> + Clone,
-    GetActivated: Callable<Input = TagMapIndex, Output = bool> + Clone,
-{
-    fn into(self) -> Element<'a, Message> {
+pub struct TagList<'a, Params: TagListParams<'a>> {
+    pub controls: &'a mut Controls,
+    pub button_prefix: &'a str,
+    pub get_content: Params::GetContent,
+    pub get_message: Params::GetMessage,
+    pub get_activated: Params::GetActivated,
+    pub theme: Params::Theme,
+}
+
+impl<'a, Params: TagListParams<'a>> Into<Element<'a, Params::Message>> for TagList<'a, Params> {
+    fn into(self) -> Element<'a, Params::Message> {
         let TagList {
             controls,
             button_prefix,
@@ -39,7 +44,7 @@ where
         for (index, state) in controls.0.iter_mut() {
             let index = *index;
             let activated = get_activated.clone().call(index);
-            let button: Button<'a, Message> = IndentedButton {
+            let button: Button<'a, Params::Message> = IndentedButton {
                 prefix: if activated { button_prefix } else { "" },
                 content: get_content.clone().call(index),
                 state,
