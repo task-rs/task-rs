@@ -13,7 +13,7 @@ pub use xdg::{config_file, ui_state_file};
 use iced::*;
 use pipe_trait::*;
 use serde::de::DeserializeOwned;
-use std::{fs::File, path::PathBuf};
+use std::{fs::File, iter::FromIterator, path::PathBuf};
 
 pub fn deserialize_file<Output: DeserializeOwned>(filename: &PathBuf) -> Result<Output, String> {
     File::open(filename)
@@ -37,4 +37,10 @@ where
             button
         }
     }
+}
+
+pub fn collect<Result: FromIterator<Item>, Item>(
+    iter: impl IntoIterator<Item = impl Into<Item>>,
+) -> Result {
+    iter.into_iter().map(Into::into).collect()
 }
