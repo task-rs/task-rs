@@ -8,4 +8,5 @@ pub mod style;
 pub mod utils;
 pub use iced;
 pub use serde;
+pub use serde_yaml;
 pub use structopt;
