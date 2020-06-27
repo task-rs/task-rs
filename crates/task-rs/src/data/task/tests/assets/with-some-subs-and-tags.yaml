@@ -1,0 +1,11 @@
+---
+status: completed
+summary: Completed task
+details: details of a completed task
+sub:
+  - status: active
+    summary: Task title
+tags:
+  - bar
+  - baz
+  - foo

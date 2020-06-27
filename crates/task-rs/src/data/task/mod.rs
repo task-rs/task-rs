@@ -14,3 +14,6 @@ pub struct Task {
     #[serde(default, skip_serializing_if = "BTreeSet::is_empty")]
     pub tags: BTreeSet<TagId>,
 }
+
+#[cfg(test)]
+mod tests;
