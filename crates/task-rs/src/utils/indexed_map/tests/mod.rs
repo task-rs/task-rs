@@ -35,7 +35,7 @@ impl MyStruct {
 }
 
 #[test]
-fn serialize_before() {
+fn deserialize_before() {
     let actual = MyStruct::from_yaml(BEFORE);
     let expected = MyStruct::default()
         .with("abc", 123)
@@ -47,7 +47,7 @@ fn serialize_before() {
 }
 
 #[test]
-fn serialize_after() {
+fn deserialize_after() {
     let actual = MyStruct::from_yaml(AFTER);
     let expected = MyStruct::default()
         .with("foo", 321)
@@ -59,7 +59,7 @@ fn serialize_after() {
 }
 
 #[test]
-fn deserialize_before() {
+fn serialize_before() {
     MyStruct::default()
         .with("abc", 123)
         .with("jkl", 123)
@@ -71,7 +71,7 @@ fn deserialize_before() {
 }
 
 #[test]
-fn deserialize_after() {
+fn serialize_after() {
     MyStruct::default()
         .with("foo", 321)
         .with("abc", 123)
