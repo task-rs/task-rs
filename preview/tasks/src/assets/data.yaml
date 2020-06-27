@@ -1,0 +1,14 @@
+manifest-version: 0
+tags:
+  abc: {}
+  def: {}
+  ghi:
+    name: GHI Tag
+  jkl:
+    description: This is a tag with id 'jkl'
+  mno:
+    name: MNO Tag
+    description: This is a tag with id 'mno'
+tasks:
+  - status: active
+    summary: first task

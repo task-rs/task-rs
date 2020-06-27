@@ -5,7 +5,7 @@ description = "Preview widgets"
 edition = "2018"
 
 [dependencies]
-maplit = "^1.0.2"
+pipe-trait = "^0.2.0"
 
 [dependencies.task-rs]
 path = "../../crates/task-rs/"
