@@ -22,7 +22,7 @@ where
 
         let mut column = Column::new();
 
-        for (task, index) in tasks.iter().zip(0..) {
+        for (index, task) in tasks.iter().enumerate() {
             let Task {
                 status, summary, ..
             } = task;
