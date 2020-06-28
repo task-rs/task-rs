@@ -4,7 +4,10 @@ use super::super::{
 };
 use iced::*;
 
-pub struct TaskList<'a, GetMessage: 'static> {
+pub struct TaskList<'a, GetMessage>
+where
+    GetMessage: Callable<Input = (Vec<usize>, Status)> + Copy + 'static,
+{
     pub tasks: &'a Vec<Task>,
     pub get_message: GetMessage,
 }
