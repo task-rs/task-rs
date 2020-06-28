@@ -5,6 +5,7 @@ pub mod main;
 pub mod sidebar;
 pub mod tag_filter_method;
 pub mod tag_list;
+pub mod task_list;
 pub mod task_status_filter;
 pub mod theme_switcher;
 
@@ -15,5 +16,6 @@ pub use main::Main;
 pub use sidebar::Sidebar;
 pub use tag_filter_method::TagFilterMethod;
 pub use tag_list::TagList;
+pub use task_list::TaskList;
 pub use task_status_filter::TaskStatusFilter;
 pub use theme_switcher::ThemeSwitcher;
