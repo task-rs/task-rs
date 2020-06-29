@@ -20,6 +20,13 @@ impl TaskItem {
             task_tags: task.tags.clone(),
         }
     }
+
+    pub fn update(&mut self, message: Message) {
+        match message {
+            Message::Check => self.task_status = Status::Completed,
+            Message::Uncheck => self.task_status = Status::Active,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
