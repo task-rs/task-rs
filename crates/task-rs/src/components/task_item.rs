@@ -22,7 +22,7 @@ impl TaskItem {
     }
 }
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub enum Message {
     Check,
     Uncheck,
