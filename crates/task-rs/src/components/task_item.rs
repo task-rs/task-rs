@@ -1,14 +1,11 @@
-use super::super::data::{Status, TagId, Task};
+use super::super::data::{Status, Task};
 use iced::*;
-use std::collections::BTreeSet;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct TaskItem {
     pub task_address: Vec<usize>,
     pub task_status: Status,
     pub task_summary: String,
-    pub task_details: String,
-    pub task_tags: BTreeSet<TagId>,
 }
 
 impl TaskItem {
@@ -17,8 +14,6 @@ impl TaskItem {
             task_address,
             task_status: task.status,
             task_summary: task.summary.clone(),
-            task_details: task.details.clone(),
-            task_tags: task.tags.clone(),
         }
     }
 
