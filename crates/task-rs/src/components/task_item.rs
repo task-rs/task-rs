@@ -24,8 +24,7 @@ impl TaskItem {
 
     pub fn update(&mut self, message: Message) {
         match message {
-            Message::Check => self.task_status = Status::Completed,
-            Message::Uncheck => self.task_status = Status::Active,
+            Message::SetStatus(status) => self.task_status = status,
         }
     }
 
@@ -37,11 +36,11 @@ impl TaskItem {
             },
             &self.task_summary,
             |is_checked| {
-                if is_checked {
-                    Message::Check
+                Message::SetStatus(if is_checked {
+                    Status::Completed
                 } else {
-                    Message::Uncheck
-                }
+                    Status::Active
+                })
             },
         )
         .into()
@@ -50,6 +49,5 @@ impl TaskItem {
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum Message {
-    Check,
-    Uncheck,
+    SetStatus(Status),
 }
