@@ -1,4 +1,5 @@
 use super::super::data::{Status, TagId, Task};
+use iced::*;
 use std::collections::BTreeSet;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -26,6 +27,24 @@ impl TaskItem {
             Message::Check => self.task_status = Status::Completed,
             Message::Uncheck => self.task_status = Status::Active,
         }
+    }
+
+    pub fn view(&mut self) -> Element<'_, Message> {
+        Checkbox::new(
+            match self.task_status {
+                Status::Active => false,
+                Status::Completed => true,
+            },
+            &self.task_summary,
+            |is_checked| {
+                if is_checked {
+                    Message::Check
+                } else {
+                    Message::Uncheck
+                }
+            },
+        )
+        .into()
     }
 }
 
