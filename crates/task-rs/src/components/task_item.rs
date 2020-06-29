@@ -28,7 +28,7 @@ impl TaskItem {
         }
     }
 
-    pub fn view(&mut self) -> Element<'_, Message> {
+    pub fn view(&self) -> Element<'_, Message> {
         Checkbox::new(
             match self.task_status {
                 Status::Active => false,
