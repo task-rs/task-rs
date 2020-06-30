@@ -3,7 +3,9 @@ use super::super::{
     mvc::{model, Model},
     style::Theme,
 };
-use super::{task_status_filter, Header, Sidebar, TaskStatusFilter, ThemeSwitcher};
+use super::{
+    task_status_filter, Header, Sidebar, TaskListMessage, TaskStatusFilter, ThemeSwitcher,
+};
 use iced::*;
 use pipe_trait::*;
 
@@ -45,28 +47,41 @@ where
                     theme,
                 },
             })
-            .push(Row::new().push(Sidebar {
-                tags: &self.model.data.tags,
-                task_view: &self.model.ui_state.view.tasks,
-                set_task_filter_method_to_all: self.set_tag_filter_method_to_all,
-                set_task_filter_method_to_single_tag: self.set_task_filter_method_to_single_tag,
-                set_task_filter_method_to_multiple_tags:
-                    self.set_task_filter_method_to_multiple_tags,
-                tag_filter_method_controls: &mut self.model.controls.tag_filter_method,
-                single_tag: if let Some(id) = &self.model.ui_state.view.tasks.single_tag {
-                    self.model.data.tags.get_index_by_key(id)
-                } else {
-                    None
-                },
-                filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
-                add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
-                remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
-                check_all_of_multiple_tags: self.check_all_of_multiple_tags,
-                uncheck_all_of_multiple_tags: self.uncheck_all_of_multiple_tags,
-                invert_all_of_multiple_tags: self.invert_all_of_multiple_tags,
-                tag_list_controls: &mut self.model.controls.tag_list,
-                theme,
-            }))
+            .push(
+                Row::new()
+                    .push(Sidebar {
+                        tags: &self.model.data.tags,
+                        task_view: &self.model.ui_state.view.tasks,
+                        set_task_filter_method_to_all: self.set_tag_filter_method_to_all,
+                        set_task_filter_method_to_single_tag: self
+                            .set_task_filter_method_to_single_tag,
+                        set_task_filter_method_to_multiple_tags: self
+                            .set_task_filter_method_to_multiple_tags,
+                        tag_filter_method_controls: &mut self.model.controls.tag_filter_method,
+                        single_tag: if let Some(id) = &self.model.ui_state.view.tasks.single_tag {
+                            self.model.data.tags.get_index_by_key(id)
+                        } else {
+                            None
+                        },
+                        filter_tasks_by_single_tag: self.filter_tasks_by_single_tag,
+                        add_tag_to_multiple_tags: self.add_tag_to_multiple_tags,
+                        remove_tag_from_multiple_tags: self.remove_tag_from_multiple_tags,
+                        check_all_of_multiple_tags: self.check_all_of_multiple_tags,
+                        uncheck_all_of_multiple_tags: self.uncheck_all_of_multiple_tags,
+                        invert_all_of_multiple_tags: self.invert_all_of_multiple_tags,
+                        tag_list_controls: &mut self.model.controls.tag_list,
+                        theme,
+                    })
+                    .push(
+                        self.model
+                            .controls
+                            .task_list
+                            .view()
+                            .map(|message| match message {
+                                TaskListMessage::SetStatus(_address, _status) => unimplemented!(),
+                            }),
+                    ),
+            )
             .pipe(Container::new)
             .width(Length::Fill)
             .height(Length::Fill)
