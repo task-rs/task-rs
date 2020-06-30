@@ -98,4 +98,17 @@ fn init_update(model: &mut Model) {
         .map(|(index, _)| (index, button::State::default()))
         .collect::<BTreeMap<_, _>>()
         .pipe(controls::TagList);
+
+    model.controls.task_list = model
+        .data
+        .tasks
+        .iter()
+        .enumerate()
+        .map(|(index, task)| controls::TaskItem {
+            task_address: vec![index],
+            task_status: task.status,
+            task_summary: task.summary.clone(),
+        })
+        .collect::<Vec<_>>()
+        .pipe(|tasks| controls::TaskList { tasks });
 }
