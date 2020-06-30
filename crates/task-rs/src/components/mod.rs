@@ -18,6 +18,6 @@ pub use sidebar::Sidebar;
 pub use tag_filter_method::TagFilterMethod;
 pub use tag_list::TagList;
 pub use task_item::{Message as TaskItemMessage, TaskItem};
-pub use task_list::TaskList;
+pub use task_list::{Message as TaskListMessage, TaskList};
 pub use task_status_filter::TaskStatusFilter;
 pub use theme_switcher::ThemeSwitcher;
