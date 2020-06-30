@@ -18,6 +18,7 @@ pub fn view(model: &mut Model) -> Element<'_, Message> {
         check_all_of_multiple_tags: Message::CheckAllOfMultipleTags,
         uncheck_all_of_multiple_tags: Message::UncheckAllOfMultipleTags,
         invert_all_of_multiple_tags: Message::InvertAllOfMultipleTags,
+        set_task_status: Message::SetTaskStatus,
     }
     .into()
 }

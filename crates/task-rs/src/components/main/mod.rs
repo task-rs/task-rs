@@ -1,5 +1,5 @@
 use super::super::{
-    data::TagMapIndex,
+    data::{Status, TagMapIndex},
     mvc::{model, Model},
     style::Theme,
 };
@@ -22,6 +22,7 @@ pub struct Main<'a, Message> {
     pub check_all_of_multiple_tags: Message,
     pub uncheck_all_of_multiple_tags: Message,
     pub invert_all_of_multiple_tags: Message,
+    pub set_task_status: fn(Vec<usize>, Status) -> Message,
 }
 
 impl<'a, Message> Into<Element<'a, Message>> for Main<'a, Message>
@@ -31,6 +32,7 @@ where
     fn into(self) -> Element<'a, Message> {
         let theme = &self.model.ui_state.theme;
         let task_status_filter = self.model.ui_state.details.task_status_filter;
+        let set_task_status = self.set_task_status;
 
         Column::new()
             .push(Header {
@@ -77,8 +79,10 @@ where
                             .controls
                             .task_list
                             .view()
-                            .map(|message| match message {
-                                TaskListMessage::SetStatus(_address, _status) => unimplemented!(),
+                            .map(move |message| match message {
+                                TaskListMessage::SetStatus(address, status) => {
+                                    set_task_status(address, status)
+                                }
                             }),
                     ),
             )

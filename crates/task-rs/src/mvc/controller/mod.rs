@@ -85,6 +85,9 @@ pub fn update(model: &mut Model, message: Message) -> Command<Message> {
                 }
             }
         }
+        Message::SetTaskStatus(address, status) => {
+            println!("set task status {:?} {:?}", address, status);
+        }
     }
 
     Command::none()

@@ -1,4 +1,4 @@
-use super::super::data::TagMapIndex;
+use super::super::data::{Status, TagMapIndex};
 use super::model::{details::TaskStatusFilter, view::tasks::FilterMethod};
 
 #[derive(Debug, Clone)]
@@ -14,4 +14,5 @@ pub enum Message {
     CheckAllOfMultipleTags,
     UncheckAllOfMultipleTags,
     InvertAllOfMultipleTags,
+    SetTaskStatus(Vec<usize>, Status),
 }
