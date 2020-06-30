@@ -2,6 +2,7 @@ use super::super::data::Status;
 use super::{TaskItem, TaskItemMessage};
 use iced::*;
 
+#[derive(Debug, Default, Clone)]
 pub struct TaskList {
     pub tasks: Vec<TaskItem>,
 }
