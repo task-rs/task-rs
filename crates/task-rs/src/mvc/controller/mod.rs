@@ -104,11 +104,7 @@ fn init_update(model: &mut Model) {
         .tasks
         .iter()
         .enumerate()
-        .map(|(index, task)| controls::TaskItem {
-            task_address: vec![index],
-            task_status: task.status,
-            task_summary: task.summary.clone(),
-        })
+        .map(|(index, task)| controls::TaskItem::from_task_ref(vec![index], task))
         .collect::<Vec<_>>()
         .pipe(|tasks| controls::TaskList { tasks });
 }
