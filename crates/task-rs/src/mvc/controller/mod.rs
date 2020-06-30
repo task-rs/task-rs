@@ -106,5 +106,5 @@ fn init_update(model: &mut Model) {
         .enumerate()
         .map(|(index, task)| controls::TaskItem::from_task_ref(vec![index], task))
         .collect::<Vec<_>>()
-        .pipe(|tasks| controls::TaskList { tasks });
+        .pipe(controls::TaskList);
 }

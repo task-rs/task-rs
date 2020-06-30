@@ -3,15 +3,13 @@ use super::{TaskItem, TaskItemMessage};
 use iced::*;
 
 #[derive(Debug, Default, Clone)]
-pub struct TaskList {
-    pub tasks: Vec<TaskItem>,
-}
+pub struct TaskList(pub Vec<TaskItem>);
 
 impl TaskList {
     pub fn update(&mut self, message: Message) {
         match message {
             Message::SetStatus(address, status) => {
-                for task in self.tasks.iter_mut() {
+                for task in self.0.iter_mut() {
                     if task.task_address == address {
                         task.task_status = status;
                         break;
@@ -22,7 +20,7 @@ impl TaskList {
     }
 
     pub fn view(&self) -> Element<'_, Message> {
-        let TaskList { tasks } = self;
+        let TaskList(tasks) = self;
 
         let mut column = Column::new();
 
