@@ -1,14 +1,12 @@
-use super::super::{
-    data::{Status, Task},
-    utils::Callable,
-};
+use super::super::{data::Status, utils::Callable};
+use super::{TaskItem, TaskItemMessage};
 use iced::*;
 
 pub struct TaskList<'a, GetMessage>
 where
     GetMessage: Callable<Input = (Vec<usize>, Status)> + Copy + 'static,
 {
-    pub tasks: &'a Vec<Task>,
+    pub tasks: &'a Vec<TaskItem>,
     pub get_message: GetMessage,
 }
 
@@ -22,22 +20,11 @@ where
 
         let mut column = Column::new();
 
-        for (index, task) in tasks.iter().enumerate() {
-            let Task {
-                status, summary, ..
-            } = task;
-
-            let checkbox =
-                Checkbox::new(*status == Status::Completed, summary, move |is_checked| {
-                    let status = if is_checked {
-                        Status::Completed
-                    } else {
-                        Status::Active
-                    };
-                    get_message.call((vec![index], status))
-                });
-
-            column = column.push(checkbox);
+        for (index, item) in tasks.iter().enumerate() {
+            let element = item.view().map(move |message| match message {
+                TaskItemMessage::SetStatus(status) => get_message.call((vec![index], status)),
+            });
+            column = column.push(element);
         }
 
         column.into()
