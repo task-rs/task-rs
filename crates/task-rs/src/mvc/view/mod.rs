@@ -1,24 +1,26 @@
-use super::super::components::Main;
+use super::super::components::{Main, MainMessage};
 use super::{model::view::tasks::FilterMethod, Message, Model};
 use iced::*;
 
 pub fn view(model: &mut Model) -> Element<'_, Message> {
-    Main {
-        model,
-        set_task_status_filter: Message::SetTaskStatusFilter,
-        set_dark_mode: Message::SetDarkMode,
-        set_task_filter_method_to_all: Message::SetTaskFilterMethod(FilterMethod::All),
-        set_task_filter_method_to_single_tag: Message::SetTaskFilterMethod(FilterMethod::SingleTag),
-        set_task_filter_method_to_multiple_tags: Message::SetTaskFilterMethod(
-            FilterMethod::MultipleTags,
-        ),
-        filter_tasks_by_single_tag: Message::FilterTasksBySingleTag,
-        add_tag_to_multiple_tags: Message::AddTagToMultipleTags,
-        remove_tag_from_multiple_tags: Message::RemoveTagFromMultipleTags,
-        check_all_of_multiple_tags: Message::CheckAllOfMultipleTags,
-        uncheck_all_of_multiple_tags: Message::UncheckAllOfMultipleTags,
-        invert_all_of_multiple_tags: Message::InvertAllOfMultipleTags,
-        set_task_status: Message::SetTaskStatus,
-    }
-    .into()
+    Main { model }.view().map(|message| match message {
+        MainMessage::SetTaskStatusFilter(filter_method) => {
+            Message::SetTaskStatusFilter(filter_method)
+        }
+        MainMessage::SetDarkMode(dark_mode) => Message::SetDarkMode(dark_mode),
+        MainMessage::SetTaskFilterMethodToAll => Message::SetTaskFilterMethod(FilterMethod::All),
+        MainMessage::SetTaskFilterMethodToSingleTag => {
+            Message::SetTaskFilterMethod(FilterMethod::SingleTag)
+        }
+        MainMessage::SetTaskFilterMethodToMultipleTags => {
+            Message::SetTaskFilterMethod(FilterMethod::MultipleTags)
+        }
+        MainMessage::FilterTasksBySingleTag(index) => Message::FilterTasksBySingleTag(index),
+        MainMessage::AddTagToMultipleTags(index) => Message::AddTagToMultipleTags(index),
+        MainMessage::RemoveTagFromMultipleTags(index) => Message::RemoveTagFromMultipleTags(index),
+        MainMessage::CheckAllOfMultipleTags => Message::CheckAllOfMultipleTags,
+        MainMessage::UncheckAllOfMultipleTags => Message::UncheckAllOfMultipleTags,
+        MainMessage::InvertAllOfMultipleTags => Message::InvertAllOfMultipleTags,
+        MainMessage::SetTaskStatus(address, status) => Message::SetTaskStatus(address, status),
+    })
 }
