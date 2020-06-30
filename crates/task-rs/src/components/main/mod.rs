@@ -13,7 +13,7 @@ pub struct Main<'a, Message> {
     pub model: &'a mut Model,
     pub set_task_status_filter: fn(task_status_filter::Value) -> Message,
     pub set_dark_mode: fn(bool) -> Message,
-    pub set_tag_filter_method_to_all: Message,
+    pub set_task_filter_method_to_all: Message,
     pub set_task_filter_method_to_single_tag: Message,
     pub set_task_filter_method_to_multiple_tags: Message,
     pub filter_tasks_by_single_tag: fn(TagMapIndex) -> Message,
@@ -54,7 +54,7 @@ where
                     .push(Sidebar {
                         tags: &self.model.data.tags,
                         task_view: &self.model.ui_state.view.tasks,
-                        set_task_filter_method_to_all: self.set_tag_filter_method_to_all,
+                        set_task_filter_method_to_all: self.set_task_filter_method_to_all,
                         set_task_filter_method_to_single_tag: self
                             .set_task_filter_method_to_single_tag,
                         set_task_filter_method_to_multiple_tags: self
