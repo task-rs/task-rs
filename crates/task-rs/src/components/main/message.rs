@@ -1,5 +1,6 @@
 use super::super::super::data::{Status, TagMapIndex};
-use super::{model::view::tasks::FilterMethod, task_status_filter::Value as TaskStatusFilter};
+use super::super::task_status_filter::Value as TaskStatusFilter;
+use super::model::view::tasks::FilterMethod;
 
 #[derive(Debug, Clone)]
 pub enum Message {
