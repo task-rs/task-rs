@@ -7,7 +7,7 @@ pub use model::Model;
 
 use iced::*;
 
-pub use Model as Main;
+pub type Main = Model;
 
 impl Main {
     pub fn view(&mut self) -> Element<'_, Message> {
