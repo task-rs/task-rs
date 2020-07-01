@@ -17,23 +17,13 @@ use super::super::super::{
 use super::super::Controls;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub struct Model {
     pub ui_state: UiState,
     pub data: Data,
     #[serde(skip)]
     pub controls: Controls,
-}
-
-impl Clone for Model {
-    fn clone(&self) -> Self {
-        Model {
-            data: self.data.clone(),
-            ui_state: self.ui_state.clone(),
-            controls: Controls::default(),
-        }
-    }
 }
 
 #[derive(Debug, Default, Serialize, Deserialize, Clone)]
