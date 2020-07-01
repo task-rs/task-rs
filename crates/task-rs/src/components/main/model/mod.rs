@@ -26,7 +26,17 @@ pub struct Model {
     pub controls: Controls,
 }
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+impl Clone for Model {
+    fn clone(&self) -> Self {
+        Model {
+            data: self.data.clone(),
+            ui_state: self.ui_state.clone(),
+            controls: Controls::default(),
+        }
+    }
+}
+
+#[derive(Debug, Default, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub struct UiState {
     pub title: Title,

@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use smart_default::SmartDefault;
 use std::collections::BTreeSet;
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize, Clone)]
 pub struct Tasks {
     pub filter_method: FilterMethod,
     pub single_tag: Option<TagId>,

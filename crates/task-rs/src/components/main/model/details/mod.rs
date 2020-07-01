@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize, Copy, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub struct Details {
     pub task_status_filter: TaskStatusFilter,
