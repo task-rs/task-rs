@@ -1,6 +1,8 @@
 use super::super::super::{
-    components::Controls,
-    mvc::model::{Model, UiState},
+    components::{
+        main::model::{Model, UiState},
+        Controls,
+    },
     utils::{deserialize_file, load_data_from_cfg_opt, ui_state_file},
 };
 use super::App;

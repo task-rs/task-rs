@@ -1,9 +1,25 @@
-pub mod model;
-pub mod view;
+use super::components::{Main, MainMessage};
+use iced::{executor, Application, Command, Element};
 
-pub use message::Message;
-pub use model::{Model, UiState};
+impl Application for Main {
+    type Message = MainMessage;
+    type Flags = Main;
+    type Executor = executor::Default;
 
-mod assemble;
-mod controller;
-mod message;
+    fn new(mut flags: Self::Flags) -> (Self, Command<Self::Message>) {
+        flags.refresh();
+        (flags, Command::none())
+    }
+
+    fn title(&self) -> String {
+        self.ui_state.title.to_string()
+    }
+
+    fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
+        self.update(message)
+    }
+
+    fn view(&mut self) -> Element<'_, Self::Message> {
+        self.view()
+    }
+}

@@ -1,7 +1,7 @@
 use pipe_trait::*;
 use task_rs::{
+    components::Main,
     iced::{Application, Settings},
-    mvc::Model,
     serde_yaml,
 };
 
@@ -11,12 +11,12 @@ fn main() {
         .unwrap();
 
     let settings = Settings {
-        flags: Model {
+        flags: Main {
             data,
-            ..Model::default()
+            ..Main::default()
         },
         ..Settings::default()
     };
 
-    Model::run(settings);
+    Main::run(settings);
 }
