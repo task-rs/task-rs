@@ -6,4 +6,4 @@ pub struct Details {
     pub task_status_filter: TaskStatusFilter,
 }
 
-pub use super::super::super::components::task_status_filter::Value as TaskStatusFilter;
+pub use super::super::super::task_status_filter::Value as TaskStatusFilter;

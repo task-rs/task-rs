@@ -2,7 +2,7 @@ pub mod controls;
 
 pub use controls::Controls;
 
-pub use super::super::mvc::model::view::tasks::FilterMethod as Value;
+pub use super::main::model::view::tasks::FilterMethod as Value;
 
 use super::super::{sizes::sidebar::*, style, utils::on_press_if};
 use super::IndentedButton;

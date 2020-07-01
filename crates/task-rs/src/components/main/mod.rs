@@ -1,6 +1,9 @@
+pub mod model;
+
+pub use model::Model;
+
 use super::super::{
     data::{Status, TagMapIndex},
-    mvc::{model, Model},
     style::Theme,
 };
 use super::{

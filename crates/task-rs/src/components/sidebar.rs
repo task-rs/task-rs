@@ -1,11 +1,9 @@
-use super::super::{
-    data::tag,
-    mvc::model::view::tasks::{FilterMethod, Tasks as TaskView},
-    sizes::sidebar::*,
-    style,
-    utils::Callable,
+use super::super::{data::tag, sizes::sidebar::*, style, utils::Callable};
+use super::{
+    controls,
+    main::model::view::tasks::{FilterMethod, Tasks as TaskView},
+    TagFilterMethod, TagList,
 };
-use super::{controls, TagFilterMethod, TagList};
 use core::marker::PhantomData;
 use iced::*;
 use pipe_trait::*;
