@@ -1,16 +1,16 @@
 pub mod message;
 pub mod model;
 
-pub use message::*;
-pub use model::*;
+pub use message::Message;
+pub use model::Model;
 
 use super::super::style::Theme;
 use super::{
     task_status_filter, Header, Sidebar, TaskListMessage, TaskStatusFilter, ThemeSwitcher,
 };
 use iced::*;
+use model::view::tasks::FilterMethod;
 use pipe_trait::*;
-use view::tasks::FilterMethod;
 
 pub use Model as Main;
 
