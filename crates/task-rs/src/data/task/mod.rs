@@ -2,7 +2,7 @@ use super::{Status, TagId};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 
-#[derive(Debug, Default, Serialize, Deserialize, Eq, PartialEq)]
+#[derive(Debug, Default, Serialize, Deserialize, Eq, PartialEq, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub struct Task {
     pub status: Status,

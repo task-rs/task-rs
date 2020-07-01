@@ -10,7 +10,7 @@ pub use task::Task;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "kebab-case")]
 pub struct Data {
     pub manifest_version: ManifestVersion,
