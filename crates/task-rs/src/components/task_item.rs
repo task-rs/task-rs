@@ -17,12 +17,6 @@ impl TaskItem {
         }
     }
 
-    pub fn update(&mut self, message: Message) {
-        match message {
-            Message::SetStatus(status) => self.task_status = status,
-        }
-    }
-
     pub fn view(&self) -> Element<'_, Message> {
         Checkbox::new(
             match self.task_status {
