@@ -1,11 +1,10 @@
+pub mod message;
 pub mod model;
 
+pub use message::*;
 pub use model::*;
 
-use super::super::{
-    data::{Status, TagMapIndex},
-    style::Theme,
-};
+use super::super::style::Theme;
 use super::{
     task_status_filter, Header, Sidebar, TaskListMessage, TaskStatusFilter, ThemeSwitcher,
 };
@@ -81,22 +80,6 @@ impl Main {
             .style(stylesheets::Container(theme.style()))
             .into()
     }
-}
-
-#[derive(Debug, Clone)]
-pub enum Message {
-    MultipleActions(Vec<Message>),
-    Warn(String),
-    SetTaskStatusFilter(task_status_filter::Value),
-    SetDarkMode(bool),
-    SetTaskFilterMethod(FilterMethod),
-    FilterTasksBySingleTag(TagMapIndex),
-    AddTagToMultipleTags(TagMapIndex),
-    RemoveTagFromMultipleTags(TagMapIndex),
-    CheckAllOfMultipleTags,
-    UncheckAllOfMultipleTags,
-    InvertAllOfMultipleTags,
-    SetTaskStatus(Vec<usize>, Status),
 }
 
 mod stylesheets;
