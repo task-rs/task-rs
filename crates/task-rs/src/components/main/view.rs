@@ -45,7 +45,7 @@ impl Main {
                             theme,
                         }
                         .view()
-                        .map(move |message| match message {
+                        .map(|message| match message {
                             SidebarMessage::SetTaskFilterMethodToAll => {
                                 Message::SetTaskFilterMethod(FilterMethod::All)
                             }
@@ -75,16 +75,11 @@ impl Main {
                             }
                         }),
                     )
-                    .push(
-                        self.controls
-                            .task_list
-                            .view()
-                            .map(move |message| match message {
-                                TaskListMessage::SetStatus(address, status) => {
-                                    Message::SetTaskStatus(address, status)
-                                }
-                            }),
-                    ),
+                    .push(self.controls.task_list.view().map(|message| match message {
+                        TaskListMessage::SetStatus(address, status) => {
+                            Message::SetTaskStatus(address, status)
+                        }
+                    })),
             )
             .pipe(Container::new)
             .width(Length::Fill)

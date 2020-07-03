@@ -30,7 +30,7 @@ where
                 enable_uncheck_all: !self.task_view.multiple_tags.is_empty(),
             }
             .view()
-            .map(move |message| match message {
+            .map(|message| match message {
                 TagFilterMethodMessage::All => Message::SetTaskFilterMethodToAll,
                 TagFilterMethodMessage::SingleTag => Message::SetTaskFilterMethodToSingleTag,
                 TagFilterMethodMessage::MultipleTags => Message::SetTaskFilterMethodToMultipleTags,
