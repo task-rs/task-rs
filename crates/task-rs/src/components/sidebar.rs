@@ -2,7 +2,7 @@ use super::super::{data::tag, sizes::sidebar::*, style, utils::Callable};
 use super::{
     controls,
     main::model::view::tasks::{FilterMethod, Tasks as TaskView},
-    TagFilterMethod, TagList,
+    TagFilterMethod, TagFilterMethodMessage, TagList,
 };
 use iced::*;
 use pipe_trait::*;
@@ -21,19 +21,24 @@ where
     Theme: style::Theme + Copy,
 {
     pub fn view(self) -> Element<'a, Message> {
-        let sidebar = Column::<'a, Message>::new().push(TagFilterMethod {
-            controls: self.tag_filter_method_controls,
-            filter_method: self.task_view.filter_method,
-            theme: self.theme,
-            all_message: Message::SetTaskFilterMethodToAll,
-            single_tag_message: Message::SetTaskFilterMethodToSingleTag,
-            multiple_tags_message: Message::SetTaskFilterMethodToMultipleTags,
-            check_all_tags: Message::CheckAllOfMultipleTags,
-            uncheck_all_tags: Message::UncheckAllOfMultipleTags,
-            invert_all_tags: Message::InvertAllOfMultipleTags,
-            enable_check_all: self.task_view.multiple_tags.len() != self.tags.len(),
-            enable_uncheck_all: !self.task_view.multiple_tags.is_empty(),
-        });
+        let sidebar = Column::<'a, Message>::new().push(
+            TagFilterMethod {
+                controls: self.tag_filter_method_controls,
+                filter_method: self.task_view.filter_method,
+                theme: self.theme,
+                enable_check_all: self.task_view.multiple_tags.len() != self.tags.len(),
+                enable_uncheck_all: !self.task_view.multiple_tags.is_empty(),
+            }
+            .view()
+            .map(move |message| match message {
+                TagFilterMethodMessage::All => Message::SetTaskFilterMethodToAll,
+                TagFilterMethodMessage::SingleTag => Message::SetTaskFilterMethodToSingleTag,
+                TagFilterMethodMessage::MultipleTags => Message::SetTaskFilterMethodToMultipleTags,
+                TagFilterMethodMessage::CheckAll => Message::CheckAllOfMultipleTags,
+                TagFilterMethodMessage::UncheckAll => Message::UncheckAllOfMultipleTags,
+                TagFilterMethodMessage::InvertAll => Message::InvertAllOfMultipleTags,
+            }),
+        );
 
         let tag_list = TagList {
             controls: self.tag_list_controls,
