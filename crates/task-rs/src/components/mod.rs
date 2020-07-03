@@ -14,7 +14,7 @@ pub use controls::Controls;
 pub use header::Header;
 pub use indented_button::IndentedButton;
 pub use main::{Main, Message as MainMessage};
-pub use sidebar::Sidebar;
+pub use sidebar::{Message as SidebarMessage, Sidebar};
 pub use tag_filter_method::TagFilterMethod;
 pub use tag_list::TagList;
 pub use task_item::{Message as TaskItemMessage, TaskItem};

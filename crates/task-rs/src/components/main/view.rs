@@ -1,5 +1,7 @@
 use super::super::super::style::Theme;
-use super::super::{Header, Sidebar, TaskListMessage, TaskStatusFilter, ThemeSwitcher};
+use super::super::{
+    Header, Sidebar, SidebarMessage, TaskListMessage, TaskStatusFilter, ThemeSwitcher,
+};
 use super::{
     model::{self, view::tasks::FilterMethod},
     stylesheets, Main, Message,
@@ -29,33 +31,50 @@ impl Main {
             })
             .push(
                 Row::new()
-                    .push(Sidebar {
-                        tags: &self.data.tags,
-                        task_view: &self.ui_state.view.tasks,
-                        set_task_filter_method_to_all: Message::SetTaskFilterMethod(
-                            FilterMethod::All,
-                        ),
-                        set_task_filter_method_to_single_tag: Message::SetTaskFilterMethod(
-                            FilterMethod::SingleTag,
-                        ),
-                        set_task_filter_method_to_multiple_tags: Message::SetTaskFilterMethod(
-                            FilterMethod::MultipleTags,
-                        ),
-                        tag_filter_method_controls: &mut self.controls.tag_filter_method,
-                        single_tag: if let Some(id) = &self.ui_state.view.tasks.single_tag {
-                            self.data.tags.get_index_by_key(id)
-                        } else {
-                            None
-                        },
-                        filter_tasks_by_single_tag: Message::FilterTasksBySingleTag,
-                        add_tag_to_multiple_tags: Message::AddTagToMultipleTags,
-                        remove_tag_from_multiple_tags: Message::RemoveTagFromMultipleTags,
-                        check_all_of_multiple_tags: Message::CheckAllOfMultipleTags,
-                        uncheck_all_of_multiple_tags: Message::UncheckAllOfMultipleTags,
-                        invert_all_of_multiple_tags: Message::InvertAllOfMultipleTags,
-                        tag_list_controls: &mut self.controls.tag_list,
-                        theme,
-                    })
+                    .push(
+                        Sidebar {
+                            tags: &self.data.tags,
+                            task_view: &self.ui_state.view.tasks,
+                            tag_filter_method_controls: &mut self.controls.tag_filter_method,
+                            single_tag: if let Some(id) = &self.ui_state.view.tasks.single_tag {
+                                self.data.tags.get_index_by_key(id)
+                            } else {
+                                None
+                            },
+                            tag_list_controls: &mut self.controls.tag_list,
+                            theme,
+                        }
+                        .view()
+                        .map(move |message| match message {
+                            SidebarMessage::SetTaskFilterMethodToAll => {
+                                Message::SetTaskFilterMethod(FilterMethod::All)
+                            }
+                            SidebarMessage::SetTaskFilterMethodToSingleTag => {
+                                Message::SetTaskFilterMethod(FilterMethod::SingleTag)
+                            }
+                            SidebarMessage::SetTaskFilterMethodToMultipleTags => {
+                                Message::SetTaskFilterMethod(FilterMethod::MultipleTags)
+                            }
+                            SidebarMessage::FilterTaskBySingleTag(index) => {
+                                Message::FilterTasksBySingleTag(index)
+                            }
+                            SidebarMessage::AddTagToMultipleTags(index) => {
+                                Message::AddTagToMultipleTags(index)
+                            }
+                            SidebarMessage::RemoveTagFromMultipleTags(index) => {
+                                Message::RemoveTagFromMultipleTags(index)
+                            }
+                            SidebarMessage::CheckAllOfMultipleTags => {
+                                Message::CheckAllOfMultipleTags
+                            }
+                            SidebarMessage::UncheckAllOfMultipleTags => {
+                                Message::UncheckAllOfMultipleTags
+                            }
+                            SidebarMessage::InvertAllOfMultipleTags => {
+                                Message::InvertAllOfMultipleTags
+                            }
+                        }),
+                    )
                     .push(
                         self.controls
                             .task_list
