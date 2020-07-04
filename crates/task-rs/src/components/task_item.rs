@@ -17,19 +17,22 @@ impl TaskItem {
         }
     }
 
-    pub fn view(&self) -> Element<'_, Message> {
+    pub fn view(self) -> Element<'static, Message> {
         Checkbox::new(
             match self.task_status {
                 Status::Active => false,
                 Status::Completed => true,
             },
-            &self.task_summary,
-            |is_checked| {
-                Message::SetStatus(if is_checked {
-                    Status::Completed
-                } else {
-                    Status::Active
-                })
+            self.task_summary.clone(),
+            move |is_checked| {
+                Message::SetStatus(
+                    self.task_address.clone(),
+                    if is_checked {
+                        Status::Completed
+                    } else {
+                        Status::Active
+                    },
+                )
             },
         )
         .into()
@@ -38,5 +41,5 @@ impl TaskItem {
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum Message {
-    SetStatus(Status),
+    SetStatus(Vec<usize>, Status),
 }

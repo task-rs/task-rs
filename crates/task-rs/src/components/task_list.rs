@@ -24,9 +24,9 @@ impl TaskList {
 
         let mut column = Column::new();
 
-        for (index, item) in tasks.iter().enumerate() {
-            let element = item.view().map(move |message| match message {
-                TaskItemMessage::SetStatus(status) => Message::SetStatus(vec![index], status),
+        for item in tasks {
+            let element = item.clone().view().map(move |message| match message {
+                TaskItemMessage::SetStatus(address, status) => Message::SetStatus(address, status),
             });
             column = column.push(element);
         }
