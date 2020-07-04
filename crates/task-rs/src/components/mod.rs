@@ -11,7 +11,7 @@ pub mod task_status_filter;
 pub mod theme_switcher;
 
 pub use controls::Controls;
-pub use header::Header;
+pub use header::{Header, Message as HeaderMessage};
 pub use indented_button::IndentedButton;
 pub use main::{Main, Message as MainMessage};
 pub use sidebar::{Message as SidebarMessage, Sidebar};
@@ -19,5 +19,5 @@ pub use tag_filter_method::{Message as TagFilterMethodMessage, TagFilterMethod};
 pub use tag_list::TagList;
 pub use task_item::{Message as TaskItemMessage, TaskItem};
 pub use task_list::{Message as TaskListMessage, TaskList};
-pub use task_status_filter::TaskStatusFilter;
-pub use theme_switcher::ThemeSwitcher;
+pub use task_status_filter::{Message as TaskStatusFilterMessage, TaskStatusFilter};
+pub use theme_switcher::{Message as ThemeSwitcherMessage, ThemeSwitcher};

@@ -1,6 +1,7 @@
 use super::super::super::style::Theme;
 use super::super::{
-    Header, Sidebar, SidebarMessage, TaskListMessage, TaskStatusFilter, ThemeSwitcher,
+    Header, HeaderMessage, Sidebar, SidebarMessage, TaskListMessage, TaskStatusFilter,
+    ThemeSwitcher,
 };
 use super::{
     model::{self, view::tasks::FilterMethod},
@@ -15,20 +16,27 @@ impl Main {
         let task_status_filter = self.ui_state.details.task_status_filter;
 
         Column::new()
-            .push(Header {
-                task_status_filter: TaskStatusFilter {
-                    controls: &mut self.controls.task_status_filter,
-                    actual_value: task_status_filter,
-                    get_message: Message::SetTaskStatusFilter,
-                    theme,
-                },
-                theme_switcher: ThemeSwitcher {
-                    dark_mode: self.ui_state.theme == model::Theme::Dark,
-                    get_message: Message::SetDarkMode,
-                    controls: &mut self.controls.theme_switcher,
-                    theme,
-                },
-            })
+            .push(
+                Header {
+                    task_status_filter: TaskStatusFilter {
+                        controls: &mut self.controls.task_status_filter,
+                        actual_value: task_status_filter,
+                        theme,
+                    },
+                    theme_switcher: ThemeSwitcher {
+                        dark_mode: self.ui_state.theme == model::Theme::Dark,
+                        controls: &mut self.controls.theme_switcher,
+                        theme,
+                    },
+                }
+                .view()
+                .map(|message| match message {
+                    HeaderMessage::SetTaskStatusFilter(message) => {
+                        Message::SetTaskStatusFilter(message.0)
+                    }
+                    HeaderMessage::SetDarkMode(message) => Message::SetDarkMode(message.0),
+                }),
+            )
             .push(
                 Row::new()
                     .push(

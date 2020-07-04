@@ -1,23 +1,20 @@
 use super::super::super::style;
-use super::Controls;
+use super::{Controls, Message};
 use iced::*;
 
-pub struct ThemeSwitcher<'a, Theme, Message> {
+pub struct ThemeSwitcher<'a, Theme> {
     pub dark_mode: bool,
     pub theme: Theme,
-    pub get_message: fn(bool) -> Message,
     pub controls: &'a mut Controls,
 }
 
-impl<'a, Theme, Message> Into<Element<'a, Message>> for ThemeSwitcher<'a, Theme, Message>
+impl<'a, Theme> ThemeSwitcher<'a, Theme>
 where
     Theme: style::Theme + Copy,
-    Message: Clone + 'static,
 {
-    fn into(self) -> Element<'a, Message> {
+    pub fn view(self) -> Element<'a, Message> {
         let ThemeSwitcher {
             dark_mode,
-            get_message,
             controls,
             theme,
         } = self;
@@ -25,7 +22,7 @@ where
         let label = if dark_mode { "Light Mode" } else { "Dark Mode" };
 
         Button::new(&mut controls.0, Text::new(label))
-            .on_press(get_message(!dark_mode))
+            .on_press(Message(!dark_mode))
             .style(style::SingleStateButton(theme.style()))
             .into()
     }
