@@ -10,7 +10,7 @@ impl TaskList {
         match message {
             Message::SetStatus(address, status) => {
                 for task in self.0.iter_mut() {
-                    if task.task_address == address {
+                    if task.task_address.as_ref() == &address {
                         task.task_status = status;
                         break;
                     }
