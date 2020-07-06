@@ -1,8 +1,6 @@
 use super::super::controls;
 use super::Main;
-use iced::*;
 use pipe_trait::*;
-use std::collections::BTreeMap;
 
 pub trait Refresh<'a> {
     fn refresh(main: &'a mut Main) -> Self;
@@ -10,13 +8,7 @@ pub trait Refresh<'a> {
 
 impl<'a> Refresh<'a> for &'a mut Main {
     fn refresh(main: &'a mut Main) -> Self {
-        main.controls.tag_list = main
-            .data
-            .tags
-            .iter_index()
-            .map(|(index, _)| (index, button::State::default()))
-            .collect::<BTreeMap<_, _>>()
-            .pipe(controls::TagList);
+        main.controls.tag_list = Refresh::refresh(main);
 
         main.controls.task_list = main
             .data

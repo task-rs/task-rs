@@ -1,10 +1,22 @@
 use super::super::{data::TagMapIndex, sizes::sidebar::*, style, utils::Callable};
-use super::IndentedButton;
+use super::{IndentedButton, Main, Refresh};
 use iced::*;
+use pipe_trait::*;
 use std::collections::BTreeMap;
 
 #[derive(Debug, Default, Clone)]
 pub struct Controls(pub BTreeMap<TagMapIndex, button::State>);
+
+impl<'a> Refresh<'a> for Controls {
+    fn refresh(main: &'a mut Main) -> Self {
+        main.data
+            .tags
+            .iter_index()
+            .map(|(index, _)| (index, button::State::default()))
+            .collect::<BTreeMap<_, _>>()
+            .pipe(Controls)
+    }
+}
 
 pub struct TagList<'a, Theme, GetContent, GetMessage, GetActivated> {
     pub controls: &'a mut Controls,
