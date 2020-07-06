@@ -4,9 +4,13 @@ use iced::*;
 use pipe_trait::*;
 use std::collections::BTreeMap;
 
-impl Main {
-    pub fn refresh(&mut self) {
-        self.controls.tag_list = self
+pub trait Refresh<'a> {
+    fn refresh(main: &'a mut Main) -> Self;
+}
+
+impl<'a> Refresh<'a> for &'a mut Main {
+    fn refresh(main: &'a mut Main) -> Self {
+        main.controls.tag_list = main
             .data
             .tags
             .iter_index()
@@ -14,7 +18,7 @@ impl Main {
             .collect::<BTreeMap<_, _>>()
             .pipe(controls::TagList);
 
-        self.controls.task_list = self
+        main.controls.task_list = main
             .data
             .tasks
             .iter()
@@ -22,5 +26,13 @@ impl Main {
             .map(|(index, task)| controls::TaskItem::from_task_ref(vec![index], task))
             .collect::<Vec<_>>()
             .pipe(controls::TaskList);
+
+        main
+    }
+}
+
+impl Main {
+    pub fn refresh(&mut self) {
+        <&mut Main as Refresh>::refresh(self);
     }
 }
