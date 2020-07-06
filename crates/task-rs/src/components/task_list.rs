@@ -6,19 +6,6 @@ use iced::*;
 pub struct TaskList(pub Vec<TaskItem>);
 
 impl TaskList {
-    pub fn update(&mut self, message: Message) {
-        match message {
-            Message::SetStatus(address, status) => {
-                for task in self.0.iter_mut() {
-                    if task.task_address.as_ref() == &address {
-                        task.task_status = status;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     pub fn view(&self) -> Element<'_, Message> {
         let TaskList(tasks) = self;
 
