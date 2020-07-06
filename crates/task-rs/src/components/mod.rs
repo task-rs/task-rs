@@ -13,7 +13,7 @@ pub mod theme_switcher;
 pub use controls::Controls;
 pub use header::{Header, Message as HeaderMessage};
 pub use indented_button::IndentedButton;
-pub use main::{Main, Message as MainMessage};
+pub use main::{Main, Message as MainMessage, Refresh};
 pub use sidebar::{Message as SidebarMessage, Sidebar};
 pub use tag_filter_method::{Message as TagFilterMethodMessage, TagFilterMethod};
 pub use tag_list::TagList;
