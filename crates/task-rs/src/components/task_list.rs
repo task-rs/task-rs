@@ -1,6 +1,7 @@
 use super::super::data::Status;
-use super::{TaskItem, TaskItemMessage};
+use super::{controls, Main, Refresh, TaskItem, TaskItemMessage};
 use iced::*;
+use pipe_trait::*;
 
 #[derive(Debug, Default, Clone)]
 pub struct TaskList(pub Vec<TaskItem>);
@@ -24,4 +25,16 @@ impl TaskList {
 
 pub enum Message {
     SetStatus(Vec<usize>, Status),
+}
+
+impl<'a> Refresh<'a> for TaskList {
+    fn refresh(main: &'a mut Main) -> Self {
+        main.data
+            .tasks
+            .iter()
+            .enumerate()
+            .map(|(index, task)| controls::TaskItem::from_task_ref(vec![index], task))
+            .collect::<Vec<_>>()
+            .pipe(controls::TaskList)
+    }
 }
