@@ -38,4 +38,4 @@ tasks:
         summary: deep sub task levels 2
         sub:
           - status: active
-            summary: deep sub task level 2a
+            summary: deep sub task levels 2a
