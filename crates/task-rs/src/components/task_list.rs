@@ -32,9 +32,9 @@ impl<'a> Refresh<'a> for TaskList {
 
         fn extend(target: &mut Vec<TaskItem>, tasks: &[Task], address_prefix: &[usize]) {
             for (index, task) in tasks.iter().enumerate() {
-                let prefix = [address_prefix, &[index]].concat();
-                target.push(TaskItem::from_task_ref(prefix.clone(), task));
-                extend(target, &task.sub, prefix.as_slice());
+                let prefix = || [address_prefix, &[index]].concat();
+                target.push(TaskItem::from_task_ref(prefix(), task));
+                extend(target, &task.sub, &prefix());
             }
         }
 
