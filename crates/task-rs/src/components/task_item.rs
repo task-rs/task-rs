@@ -30,7 +30,7 @@ impl TaskItem {
             .pipe(|x| x as u16 * SUB_TASK_INDENT)
             .pipe(Length::Units);
 
-        let indentation = Container::new(Text::new(""))
+        let indentation = Text::new("")
             .width(indent_size)
             .height(Length::Units(SUB_TASK_INDENT));
 
