@@ -1,7 +1,6 @@
-use super::super::data::Status;
-use super::{controls, Main, Refresh, TaskItem, TaskItemMessage};
+use super::super::data::{Status, Task};
+use super::{Main, Refresh, TaskItem, TaskItemMessage};
 use iced::*;
-use pipe_trait::*;
 
 #[derive(Debug, Default, Clone)]
 pub struct TaskList(pub Vec<TaskItem>);
@@ -29,12 +28,18 @@ pub enum Message {
 
 impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
-        main.data
-            .tasks
-            .iter()
-            .enumerate()
-            .map(|(index, task)| controls::TaskItem::from_task_ref(vec![index], task))
-            .collect::<Vec<_>>()
-            .pipe(controls::TaskList)
+        let mut items = Vec::new();
+
+        fn extend(target: &mut Vec<TaskItem>, tasks: &[Task], address_prefix: &[usize]) {
+            for (index, task) in tasks.iter().enumerate() {
+                let prefix = [address_prefix, &[index]].concat();
+                target.push(TaskItem::from_task_ref(prefix.clone(), task));
+                extend(target, &task.sub, prefix.as_slice());
+            }
+        }
+
+        extend(&mut items, &main.data.tasks, &[]);
+
+        TaskList(items)
     }
 }
