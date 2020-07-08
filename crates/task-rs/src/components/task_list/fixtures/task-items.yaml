@@ -1,0 +1,14 @@
+- status: active
+  summary: first task
+- status: active
+  summary: task with a sub
+  sub:
+    - status: active
+      summary: first sub task
+- status: active
+  summary: task with 2 subs
+  sub:
+    - status: completed
+      summary: completed sub task
+    - status: active
+      summary: active sub task
