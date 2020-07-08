@@ -30,6 +30,12 @@ fn test_extend_task_item_list() {
         (&[2], "task with 2 subs"),
         (&[2, 0], "completed sub task"),
         (&[2, 1], "active sub task"),
+        (&[3], "deep sub task levels"),
+        (&[3, 0], "deep sub task levels 1"),
+        (&[3, 0, 0], "deep sub task levels 1a"),
+        (&[3, 0, 1], "deep sub task levels 1b"),
+        (&[3, 1], "deep sub task levels 2"),
+        (&[3, 1, 0], "deep sub task levels 2a"),
     ];
     assert_eq!(actual, expected);
 }
