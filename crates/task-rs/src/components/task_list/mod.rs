@@ -1,4 +1,4 @@
-use super::super::data::{Status, Task};
+use super::super::data::Status;
 use super::{Main, Refresh, TaskItem, TaskItemMessage};
 use iced::*;
 
@@ -29,17 +29,9 @@ pub enum Message {
 impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
         let mut items = Vec::new();
-
-        fn extend(target: &mut Vec<TaskItem>, tasks: &[Task], address_prefix: &[usize]) {
-            for (index, task) in tasks.iter().enumerate() {
-                let prefix = || [address_prefix, &[index]].concat();
-                target.push(TaskItem::from_task_ref(prefix(), task));
-                extend(target, &task.sub, &prefix());
-            }
-        }
-
-        extend(&mut items, &main.data.tasks, &[]);
-
+        utils::extend_task_item_list(&mut items, &main.data.tasks, &[]);
         TaskList(items)
     }
 }
+
+mod utils;
