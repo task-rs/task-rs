@@ -24,3 +24,18 @@ tasks:
         summary: completed sub task
       - status: active
         summary: active sub task
+  - status: active
+    summary: deep sub task levels
+    sub:
+      - status: active
+        summary: deep sub task levels 1
+        sub:
+          - status: completed
+            summary: deep sub task levels 1a
+          - status: active
+            summary: deep sub task levels 1b
+      - status: completed
+        summary: deep sub task levels 2
+        sub:
+          - status: active
+            summary: deep sub task level 2a
