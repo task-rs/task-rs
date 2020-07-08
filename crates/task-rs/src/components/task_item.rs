@@ -1,5 +1,9 @@
-use super::super::data::{Status, Task};
+use super::super::{
+    data::{Status, Task},
+    sizes::main::SUB_TASK_INDENT,
+};
 use iced::*;
+use pipe_trait::*;
 use std::rc::Rc;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -19,7 +23,18 @@ impl TaskItem {
     }
 
     pub fn view(self) -> Element<'static, Message> {
-        Checkbox::new(
+        let indent_size = self
+            .task_address
+            .as_ref()
+            .len()
+            .pipe(|x| x as u16 * SUB_TASK_INDENT)
+            .pipe(Length::Units);
+
+        let indentation = Container::new(Text::new(""))
+            .width(indent_size)
+            .height(Length::Units(SUB_TASK_INDENT));
+
+        let checkbox = Checkbox::new(
             match self.task_status {
                 Status::Active => false,
                 Status::Completed => true,
@@ -35,8 +50,9 @@ impl TaskItem {
                     },
                 )
             },
-        )
-        .into()
+        );
+
+        Row::new().push(indentation).push(checkbox).into()
     }
 }
 
