@@ -4,6 +4,7 @@ use super::super::{
 };
 use iced::*;
 use pipe_trait::*;
+use smart_default::SmartDefault;
 use std::rc::Rc;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -11,14 +12,22 @@ pub struct TaskItem {
     pub task_address: Rc<Vec<usize>>,
     pub task_status: Status,
     pub task_summary: String,
+    pub task_status_accumulation: StatusAccumulation,
 }
 
 impl TaskItem {
-    pub fn from_task_ref(task_address: Vec<usize>, task: &Task) -> Self {
+    pub fn from_task_ref(
+        task_address: Vec<usize>,
+        task: &Task,
+        task_status_accumulation: StatusAccumulation,
+    ) -> Self {
         TaskItem {
             task_address: Rc::new(task_address),
             task_status: task.status,
             task_summary: task.summary.clone(),
+            task_status_accumulation: task_status_accumulation
+                .join_all_active(task.status == Status::Active)
+                .join_some_completed(task.status == Status::Completed),
         }
     }
 
@@ -59,4 +68,44 @@ impl TaskItem {
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum Message {
     SetStatus(Vec<usize>, Status),
+}
+
+#[derive(Debug, SmartDefault, Copy, Clone, Eq, PartialEq)]
+pub struct StatusAccumulation {
+    #[default(true)]
+    all_active: bool,
+    #[default(false)]
+    some_completed: bool,
+}
+
+#[test]
+fn test_recursive_status_default() {
+    assert_eq!(
+        StatusAccumulation::default(),
+        StatusAccumulation {
+            all_active: true,
+            some_completed: false,
+        }
+    )
+}
+
+impl StatusAccumulation {
+    pub fn join(self, other: Self) -> Self {
+        self.join_all_active(other.all_active)
+            .join_some_completed(other.some_completed)
+    }
+
+    pub fn join_all_active(self, other: bool) -> Self {
+        StatusAccumulation {
+            all_active: self.all_active && other,
+            ..self
+        }
+    }
+
+    pub fn join_some_completed(self, other: bool) -> Self {
+        StatusAccumulation {
+            some_completed: self.some_completed && other,
+            ..self
+        }
+    }
 }
