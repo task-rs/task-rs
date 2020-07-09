@@ -23,7 +23,7 @@ impl StatusAccumulation {
 
     pub fn join_some_completed(self, other: bool) -> Self {
         StatusAccumulation {
-            some_completed: self.some_completed && other,
+            some_completed: self.some_completed || other,
             ..self
         }
     }
