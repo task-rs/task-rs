@@ -1,6 +1,6 @@
 use super::super::super::super::data::Task;
 
-pub fn find_task<'task>(
+pub(crate) fn find_task<'task>(
     target: &'task mut Vec<Task>,
     address: &[usize],
 ) -> Option<&'task mut Task> {
