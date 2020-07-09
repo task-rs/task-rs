@@ -8,8 +8,6 @@ use std::collections::BTreeSet;
 
 impl Main {
     pub fn update(&mut self, message: Message) -> Command<Message> {
-        self.refresh();
-
         macro_rules! lookup_tag_id {
             ($index:ident) => {
                 self.data.tags.get_key_by_index($index).map(AsRef::as_ref)
@@ -81,9 +79,10 @@ impl Main {
             }
             Message::SetTaskStatus(address, status) => {
                 set_task_status(&mut self.data.tasks, &address, status);
-                self.refresh();
             }
         }
+
+        self.refresh();
 
         Command::none()
     }
