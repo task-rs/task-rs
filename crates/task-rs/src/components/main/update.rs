@@ -1,3 +1,4 @@
+use super::super::super::data::{Status, Task};
 use super::{
     model::{view::tasks::FilterMethod, Theme},
     Main, Message,
@@ -79,10 +80,40 @@ impl Main {
                 }
             }
             Message::SetTaskStatus(address, status) => {
-                println!("set task status {:?} {:?}", address, status);
+                set_task_status(&mut self.data.tasks, &address, status);
+                self.refresh();
             }
         }
 
         Command::none()
+    }
+}
+
+fn find_task<'task>(target: &'task mut Vec<Task>, address: &[usize]) -> Option<&'task mut Task> {
+    if address.is_empty() {
+        panic!("address is empty");
+    }
+
+    let head = address[0];
+    let tail = &address[1..];
+
+    if let Some(task) = target.get_mut(head) {
+        if tail.is_empty() {
+            return Some(task);
+        }
+
+        if task.sub.is_empty() {
+            return None;
+        }
+
+        return find_task(&mut task.sub, tail);
+    }
+
+    None
+}
+
+fn set_task_status(target: &mut Vec<Task>, address: &[usize], status: Status) {
+    if let Some(task) = find_task(target, address) {
+        task.status = status;
     }
 }
