@@ -23,8 +23,8 @@ pub fn extend_task_item_list(
     }
 }
 
-#[test]
-fn test_extend_task_item_list() {
+#[cfg(test)]
+fn load() -> Vec<TaskItem> {
     use pipe_trait::*;
     let tasks: Vec<_> = include_str!("./fixtures/task-items.yaml")
         .pipe(serde_yaml::from_str)
@@ -32,6 +32,13 @@ fn test_extend_task_item_list() {
     let mut task_items = Vec::new();
 
     extend_task_item_list(&mut task_items, &tasks, &[], Default::default());
+
+    task_items
+}
+
+#[test]
+fn test_extend_task_item_list() {
+    let task_items = load();
 
     let actual: Vec<_> = task_items
         .iter()
