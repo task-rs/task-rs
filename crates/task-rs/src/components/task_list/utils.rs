@@ -30,7 +30,6 @@ fn load() -> Vec<TaskItem> {
         .pipe(serde_yaml::from_str)
         .unwrap();
     let mut task_items = Vec::new();
-
     extend_task_item_list(&mut task_items, &tasks, &[], Default::default());
 
     task_items
@@ -44,6 +43,7 @@ fn test_extend_task_item_list() {
         .iter()
         .map(|item| (item.task_address.as_slice(), item.task_summary.as_str()))
         .collect();
+
     let expected: Vec<(&[usize], &str)> = vec![
         (&[0], "first task"),
         (&[1], "task with a sub"),
@@ -58,6 +58,7 @@ fn test_extend_task_item_list() {
         (&[3, 1], "deep sub task levels 2"),
         (&[3, 1, 0], "deep sub task levels 2a"),
     ];
+
     assert_eq!(actual, expected);
 }
 
@@ -75,6 +76,7 @@ fn task_status_accumulation() {
             )
         })
         .collect();
+
     let expected: Vec<(&[usize], bool, bool)> = vec![
         (&[0], true, false),
         (&[1], true, false),
@@ -89,5 +91,6 @@ fn task_status_accumulation() {
         (&[3, 1], false, true),
         (&[3, 1, 0], false, true),
     ];
+
     assert_eq!(actual, expected);
 }
