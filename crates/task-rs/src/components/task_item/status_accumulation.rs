@@ -2,7 +2,7 @@ use super::super::super::data::{Status, Task};
 use smart_default::SmartDefault;
 
 // NOTE:
-//   The fact that `all_active` always equal `!some_completed` is merely a coincidence
+//   The fact that `all_active` always equal to `!some_completed` is merely a coincidence
 //   that would stop being true once `Status` get a third variant.
 //   Recommended Action: Leave it alone.
 
