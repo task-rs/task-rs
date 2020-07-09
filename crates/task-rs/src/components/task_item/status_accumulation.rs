@@ -1,3 +1,4 @@
+use super::super::super::data::{Status, Task};
 use smart_default::SmartDefault;
 
 #[derive(Debug, SmartDefault, Copy, Clone, Eq, PartialEq)]
@@ -26,5 +27,10 @@ impl StatusAccumulation {
             some_completed: self.some_completed || other,
             ..self
         }
+    }
+
+    pub fn join_task(self, task: &Task) -> Self {
+        self.join_all_active(task.status == Status::Active)
+            .join_some_completed(task.status == Status::Completed)
     }
 }

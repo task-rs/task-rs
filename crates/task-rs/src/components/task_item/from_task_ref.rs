@@ -1,4 +1,4 @@
-use super::super::super::data::{Status, Task};
+use super::super::super::data::Task;
 use super::{StatusAccumulation, TaskItem};
 use std::rc::Rc;
 
@@ -12,9 +12,7 @@ impl TaskItem {
             task_address: Rc::new(task_address),
             task_status: task.status,
             task_summary: task.summary.clone(),
-            task_status_accumulation: task_status_accumulation
-                .join_all_active(task.status == Status::Active)
-                .join_some_completed(task.status == Status::Completed),
+            task_status_accumulation: task_status_accumulation.join_task(task),
         }
     }
 }
