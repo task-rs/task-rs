@@ -60,3 +60,34 @@ fn test_extend_task_item_list() {
     ];
     assert_eq!(actual, expected);
 }
+
+#[test]
+fn task_status_accumulation() {
+    let task_items = load();
+
+    let actual: Vec<_> = task_items
+        .iter()
+        .map(|item| {
+            (
+                item.task_address.as_slice(),
+                item.task_status_accumulation.all_active,
+                item.task_status_accumulation.some_completed,
+            )
+        })
+        .collect();
+    let expected: Vec<(&[usize], bool, bool)> = vec![
+        (&[0], true, false),
+        (&[1], true, false),
+        (&[1, 0], true, false),
+        (&[2], true, false),
+        (&[2, 0], false, true),
+        (&[2, 1], true, false),
+        (&[3], true, false),
+        (&[3, 0], true, false),
+        (&[3, 0, 0], false, true),
+        (&[3, 0, 1], true, false),
+        (&[3, 1], false, true),
+        (&[3, 1, 0], false, true),
+    ];
+    assert_eq!(actual, expected);
+}
