@@ -4,9 +4,9 @@ use smart_default::SmartDefault;
 #[derive(Debug, SmartDefault, Copy, Clone, Eq, PartialEq)]
 pub struct StatusAccumulation {
     #[default(true)]
-    all_active: bool,
+    pub all_active: bool,
     #[default(false)]
-    some_completed: bool,
+    pub some_completed: bool,
 }
 
 impl StatusAccumulation {
