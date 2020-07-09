@@ -1,15 +1,16 @@
 use super::super::data::Status;
-use super::{Main, Refresh, TaskItem, TaskItemMessage};
+use super::{task_status_filter, Main, Refresh, TaskItem, TaskItemMessage};
 use iced::*;
 
 #[derive(Debug, Default, Clone)]
 pub struct TaskList {
     pub tasks: Vec<TaskItem>,
+    pub task_status_filter: task_status_filter::Value,
 }
 
 impl TaskList {
     pub fn view(&self) -> Element<'_, Message> {
-        let TaskList { tasks } = self;
+        let TaskList { tasks, .. } = self;
 
         let mut column = Column::new();
 
@@ -32,7 +33,10 @@ impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
         let mut tasks = Vec::new();
         utils::extend_task_item_list(&mut tasks, &main.data.tasks, &[], Default::default());
-        TaskList { tasks }
+        TaskList {
+            task_status_filter: main.ui_state.details.task_status_filter,
+            tasks,
+        }
     }
 }
 
