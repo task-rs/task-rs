@@ -3,11 +3,13 @@ use super::{Main, Refresh, TaskItem, TaskItemMessage};
 use iced::*;
 
 #[derive(Debug, Default, Clone)]
-pub struct TaskList(pub Vec<TaskItem>);
+pub struct TaskList {
+    pub tasks: Vec<TaskItem>,
+}
 
 impl TaskList {
     pub fn view(&self) -> Element<'_, Message> {
-        let TaskList(tasks) = self;
+        let TaskList { tasks } = self;
 
         let mut column = Column::new();
 
@@ -28,9 +30,9 @@ pub enum Message {
 
 impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
-        let mut items = Vec::new();
-        utils::extend_task_item_list(&mut items, &main.data.tasks, &[], Default::default());
-        TaskList(items)
+        let mut tasks = Vec::new();
+        utils::extend_task_item_list(&mut tasks, &main.data.tasks, &[], Default::default());
+        TaskList { tasks }
     }
 }
 
