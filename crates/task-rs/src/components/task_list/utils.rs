@@ -1,11 +1,25 @@
 use super::super::super::data::Task;
-use super::super::TaskItem;
+use super::super::task_item::{StatusAccumulation, TaskItem};
 
-pub fn extend_task_item_list(target: &mut Vec<TaskItem>, tasks: &[Task], address_prefix: &[usize]) {
+pub fn extend_task_item_list(
+    target: &mut Vec<TaskItem>,
+    tasks: &[Task],
+    address_prefix: &[usize],
+    task_status_accumulation: StatusAccumulation,
+) {
     for (index, task) in tasks.iter().enumerate() {
         let prefix = || [address_prefix, &[index]].concat();
-        target.push(TaskItem::from_task_ref(prefix(), task, Default::default()));
-        extend_task_item_list(target, &task.sub, &prefix());
+        target.push(TaskItem::from_task_ref(
+            prefix(),
+            task,
+            task_status_accumulation,
+        ));
+        extend_task_item_list(
+            target,
+            &task.sub,
+            &prefix(),
+            task_status_accumulation.join_task(task),
+        );
     }
 }
 
@@ -17,7 +31,7 @@ fn test_extend_task_item_list() {
         .unwrap();
     let mut task_items = Vec::new();
 
-    extend_task_item_list(&mut task_items, &tasks, &[]);
+    extend_task_item_list(&mut task_items, &tasks, &[], Default::default());
 
     let actual: Vec<_> = task_items
         .iter()

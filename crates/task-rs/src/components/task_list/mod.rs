@@ -29,7 +29,7 @@ pub enum Message {
 impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
         let mut items = Vec::new();
-        utils::extend_task_item_list(&mut items, &main.data.tasks, &[]);
+        utils::extend_task_item_list(&mut items, &main.data.tasks, &[], Default::default());
         TaskList(items)
     }
 }
