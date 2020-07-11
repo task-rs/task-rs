@@ -1,7 +1,7 @@
-use super::super::super::data::Task;
+use super::super::super::data::{Status, Task};
 use super::super::task_item::{StatusAccumulation, TaskItem};
 
-pub fn extend_task_item_list(
+fn extend_task_item_list(
     target: &mut Vec<TaskItem>,
     tasks: &[Task],
     address_prefix: &[usize],
@@ -23,16 +23,42 @@ pub fn extend_task_item_list(
     }
 }
 
+fn calculate_contains_completed(target: &mut [TaskItem]) {
+    let len = target.len();
+    for i in 0..len {
+        // `i..len` instead of `(i + 1)..len` so that it skips when `target[i]` "contains completed"
+        for j in i..len {
+            // if `i`'s address is not prefix of `j`'s address, end loop
+            if !target[j]
+                .task_address
+                .starts_with(target[i].task_address.as_slice())
+            {
+                break;
+            }
+
+            // if `j` is completed, mark `i` as "contains completed" and end loop
+            if target[j].task_status == Status::Completed {
+                target[i].task_status_accumulation.contains_completed = true;
+                break;
+            }
+        }
+    }
+}
+
+pub fn create_task_item_list(tasks: &[Task]) -> Vec<TaskItem> {
+    let mut result = Vec::new();
+    extend_task_item_list(&mut result, tasks, &[], Default::default());
+    calculate_contains_completed(&mut result);
+    result
+}
+
 #[cfg(test)]
 fn load() -> Vec<TaskItem> {
     use pipe_trait::*;
-    let tasks: Vec<_> = include_str!("./fixtures/task-items.yaml")
-        .pipe(serde_yaml::from_str)
-        .unwrap();
-    let mut task_items = Vec::new();
-    extend_task_item_list(&mut task_items, &tasks, &[], Default::default());
-
-    task_items
+    include_str!("./fixtures/task-items.yaml")
+        .pipe(serde_yaml::from_str::<Vec<Task>>)
+        .unwrap()
+        .pipe_ref(|x| create_task_item_list(x))
 }
 
 #[test]
@@ -73,23 +99,24 @@ fn task_status_accumulation() {
                 item.task_address.as_slice(),
                 item.task_status_accumulation.all_active,
                 item.task_status_accumulation.some_completed,
+                item.task_status_accumulation.contains_completed,
             )
         })
         .collect();
 
-    let expected: Vec<(&[usize], bool, bool)> = vec![
-        (&[0], true, false),
-        (&[1], true, false),
-        (&[1, 0], true, false),
-        (&[2], true, false),
-        (&[2, 0], false, true),
-        (&[2, 1], true, false),
-        (&[3], true, false),
-        (&[3, 0], true, false),
-        (&[3, 0, 0], false, true),
-        (&[3, 0, 1], true, false),
-        (&[3, 1], false, true),
-        (&[3, 1, 0], false, true),
+    let expected: Vec<(&[usize], bool, bool, bool)> = vec![
+        (&[0], true, false, false),
+        (&[1], true, false, false),
+        (&[1, 0], true, false, false),
+        (&[2], true, false, true),
+        (&[2, 0], false, true, true),
+        (&[2, 1], true, false, false),
+        (&[3], true, false, true),
+        (&[3, 0], true, false, true),
+        (&[3, 0, 0], false, true, true),
+        (&[3, 0, 1], true, false, false),
+        (&[3, 1], false, true, true),
+        (&[3, 1, 0], false, true, false),
     ];
 
     assert_eq!(actual, expected);

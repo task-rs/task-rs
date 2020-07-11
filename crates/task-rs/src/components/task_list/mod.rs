@@ -45,11 +45,9 @@ pub enum Message {
 
 impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
-        let mut tasks = Vec::new();
-        utils::extend_task_item_list(&mut tasks, &main.data.tasks, &[], Default::default());
         TaskList {
+            tasks: utils::create_task_item_list(&main.data.tasks),
             task_status_filter: main.ui_state.details.task_status_filter,
-            tasks,
         }
     }
 }

@@ -12,6 +12,8 @@ pub struct StatusAccumulation {
     pub all_active: bool,
     #[default(false)]
     pub some_completed: bool,
+    #[default(false)]
+    pub contains_completed: bool,
 }
 
 impl StatusAccumulation {
