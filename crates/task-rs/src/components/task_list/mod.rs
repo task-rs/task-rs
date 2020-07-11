@@ -24,7 +24,10 @@ impl TaskList {
             if match task_status_filter {
                 All => false,
                 ActiveOnly => !item.task_status_accumulation.all_active,
-                CompletedOnly => !item.task_status_accumulation.some_completed,
+                CompletedOnly => {
+                    let acc = item.task_status_accumulation;
+                    !acc.some_completed && !acc.contains_completed
+                }
             } {
                 continue;
             }
