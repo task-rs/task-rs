@@ -23,9 +23,9 @@ impl TaskList {
         for item in tasks {
             if match task_status_filter {
                 All => false,
-                ActiveOnly => !item.task_status_accumulation.all_active,
+                ActiveOnly => !item.status_accumulation.all_active,
                 CompletedOnly => {
-                    let acc = item.task_status_accumulation;
+                    let acc = item.status_accumulation;
                     !acc.some_completed && !acc.contains_completed
                 }
             } {

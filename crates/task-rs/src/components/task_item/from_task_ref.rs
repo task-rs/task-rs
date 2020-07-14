@@ -6,13 +6,13 @@ impl TaskItem {
     pub fn from_task_ref(
         task_address: Vec<usize>,
         task: &Task,
-        task_status_accumulation: StatusAccumulation,
+        status_accumulation: StatusAccumulation,
     ) -> Self {
         TaskItem {
-            task_address: Rc::new(task_address),
-            task_status: task.status,
-            task_summary: task.summary.clone(),
-            task_status_accumulation: task_status_accumulation.join_task(task),
+            address: Rc::new(task_address),
+            status: task.status,
+            summary: task.summary.clone(),
+            status_accumulation: status_accumulation.join_task(task),
         }
     }
 }

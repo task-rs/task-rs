@@ -5,20 +5,16 @@ fn extend_task_item_list(
     target: &mut Vec<TaskItem>,
     tasks: &[Task],
     address_prefix: &[usize],
-    task_status_accumulation: StatusAccumulation,
+    status_accumulation: StatusAccumulation,
 ) {
     for (index, task) in tasks.iter().enumerate() {
         let prefix = || [address_prefix, &[index]].concat();
-        target.push(TaskItem::from_task_ref(
-            prefix(),
-            task,
-            task_status_accumulation,
-        ));
+        target.push(TaskItem::from_task_ref(prefix(), task, status_accumulation));
         extend_task_item_list(
             target,
             &task.sub,
             &prefix(),
-            task_status_accumulation.join_task(task),
+            status_accumulation.join_task(task),
         );
     }
 }
@@ -29,16 +25,13 @@ fn calculate_contains_completed(target: &mut [TaskItem]) {
         // `i..len` instead of `(i + 1)..len` so that it skips when `target[i]` "contains completed"
         for j in i..len {
             // if `i`'s address is not prefix of `j`'s address, end loop
-            if !target[j]
-                .task_address
-                .starts_with(target[i].task_address.as_slice())
-            {
+            if !target[j].address.starts_with(target[i].address.as_slice()) {
                 break;
             }
 
             // if `j` is completed, mark `i` as "contains completed" and end loop
-            if target[j].task_status == Status::Completed {
-                target[i].task_status_accumulation.contains_completed = true;
+            if target[j].status == Status::Completed {
+                target[i].status_accumulation.contains_completed = true;
                 break;
             }
         }
@@ -67,7 +60,7 @@ fn test_extend_task_item_list() {
 
     let actual: Vec<_> = task_items
         .iter()
-        .map(|item| (item.task_address.as_slice(), item.task_summary.as_str()))
+        .map(|item| (item.address.as_slice(), item.summary.as_str()))
         .collect();
 
     let expected: Vec<(&[usize], &str)> = vec![
@@ -96,10 +89,10 @@ fn task_status_accumulation() {
         .iter()
         .map(|item| {
             (
-                item.task_address.as_slice(),
-                item.task_status_accumulation.all_active,
-                item.task_status_accumulation.some_completed,
-                item.task_status_accumulation.contains_completed,
+                item.address.as_slice(),
+                item.status_accumulation.all_active,
+                item.status_accumulation.some_completed,
+                item.status_accumulation.contains_completed,
             )
         })
         .collect();

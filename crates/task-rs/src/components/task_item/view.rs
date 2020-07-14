@@ -6,7 +6,7 @@ use pipe_trait::*;
 impl TaskItem {
     pub fn view(self) -> Element<'static, Message> {
         let indent_size = self
-            .task_address
+            .address
             .as_ref()
             .len()
             .pipe(|x| x as u16 * SUB_TASK_INDENT)
@@ -17,14 +17,14 @@ impl TaskItem {
             .height(Length::Units(SUB_TASK_INDENT));
 
         let checkbox = Checkbox::new(
-            match self.task_status {
+            match self.status {
                 Status::Active => false,
                 Status::Completed => true,
             },
-            self.task_summary.clone(),
+            self.summary.clone(),
             move |is_checked| {
                 Message::SetStatus(
-                    self.task_address.as_ref().clone(),
+                    self.address.as_ref().clone(),
                     if is_checked {
                         Status::Completed
                     } else {
