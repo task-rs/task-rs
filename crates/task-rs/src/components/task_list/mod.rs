@@ -49,7 +49,7 @@ pub enum Message {
 impl<'a> Refresh<'a> for TaskList {
     fn refresh(main: &'a mut Main) -> Self {
         TaskList {
-            tasks: utils::create_task_item_list(&main.data.tasks),
+            tasks: utils::create_task_item_list(&main.data.tasks, &None),
             task_status_filter: main.ui_state.details.task_status_filter,
         }
     }

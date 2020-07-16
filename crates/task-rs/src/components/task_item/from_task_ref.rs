@@ -13,6 +13,7 @@ impl TaskItem {
             status: task.status,
             summary: task.summary.clone(),
             status_accumulation: status_accumulation.join_task(task),
+            tag_accumulation: Default::default(),
         }
     }
 }
