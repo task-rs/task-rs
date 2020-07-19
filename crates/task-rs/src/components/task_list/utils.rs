@@ -226,4 +226,15 @@ fn tag_accumulation_filter_tags() {
             (&[3, 0], "deep sub task levels 1"),
         ]
     );
+
+    test!(
+        &["def"],
+        vec![
+            (&[0], "first task"),
+            (&[1], "task with a sub"),
+            (&[1, 0], "first sub task"),
+            (&[3], "deep sub task levels"),
+            (&[3, 1], "deep sub task levels 2"),
+        ]
+    );
 }
