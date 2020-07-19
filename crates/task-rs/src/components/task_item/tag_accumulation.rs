@@ -10,10 +10,4 @@ impl TagAccumulation {
     pub fn from_bool(satisfaction: bool) -> Self {
         TagAccumulation { satisfaction }
     }
-
-    pub fn join_satisfaction_func(self, func: impl FnOnce() -> bool) -> Self {
-        TagAccumulation {
-            satisfaction: self.satisfaction || func(),
-        }
-    }
 }
