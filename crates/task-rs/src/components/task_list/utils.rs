@@ -58,7 +58,7 @@ fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem], tags: &BTreeSet
         if let Some((x0, _)) = left.split_last_mut() {
             x0.tag_accumulation.compare(tags);
             if x0.tag_accumulation.is_satisfied() {
-                break;
+                continue;
             }
 
             for x1 in right {
