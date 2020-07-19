@@ -8,7 +8,7 @@ use pipe_trait::*;
 fn extend_task_item_list(
     target: &mut Vec<TaskItem>,
     tasks: &[Task],
-    tags: &Option<BTreeSet<TagId>>, // None when filter does not apply (i.e. "Show All")
+    tags: &Option<BTreeSet<TagId>>, // `None` when filter does not apply (i.e. "Show All")
     address_prefix: &[usize],
     status_accumulation: StatusAccumulation,
 ) {
