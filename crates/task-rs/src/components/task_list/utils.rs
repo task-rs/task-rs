@@ -167,3 +167,30 @@ fn tag_accumulation_no_filter() {
         );
     }
 }
+
+#[test]
+fn tag_accumulation_filter_no_tags() {
+    let task_items = load(&Some(Default::default()));
+
+    let actual: Vec<_> = task_items
+        .iter()
+        .map(|item| (item.address.as_slice(), item.tag_accumulation.satisfaction))
+        .collect();
+
+    let expected: Vec<(&[usize], bool)> = vec![
+        (&[0], false),
+        (&[1], false),
+        (&[1, 0], false),
+        (&[2], false),
+        (&[2, 0], false),
+        (&[2, 1], false),
+        (&[3], false),
+        (&[3, 0], false),
+        (&[3, 0, 0], false),
+        (&[3, 0, 1], false),
+        (&[3, 1], false),
+        (&[3, 1, 0], false),
+    ];
+
+    assert_eq!(actual, expected);
+}
