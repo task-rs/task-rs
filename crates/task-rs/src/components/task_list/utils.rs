@@ -16,7 +16,7 @@ fn extend_task_item_list(
         let prefix = || [address_prefix, &[index]].concat();
         let mut item = TaskItem::from_task_ref(prefix(), task, status_accumulation);
         let tag_accumulation = if let Some(tags) = tags {
-            TagAccumulation::from_bool(!task.tags.is_disjoint(tags))
+            TagAccumulation::from_bool(task.tags.is_superset(tags))
         } else {
             Default::default() // <- this value can be whatever, it is irrelevant
         };
@@ -179,18 +179,18 @@ fn tag_accumulation_filter_no_tags() {
         .collect();
 
     let expected: Vec<(&[usize], bool)> = vec![
-        (&[0], false),
-        (&[1], false),
-        (&[1, 0], false),
-        (&[2], false),
-        (&[2, 0], false),
-        (&[2, 1], false),
-        (&[3], false),
-        (&[3, 0], false),
-        (&[3, 0, 0], false),
-        (&[3, 0, 1], false),
-        (&[3, 1], false),
-        (&[3, 1, 0], false),
+        (&[0], true),
+        (&[1], true),
+        (&[1, 0], true),
+        (&[2], true),
+        (&[2, 0], true),
+        (&[2, 1], true),
+        (&[3], true),
+        (&[3, 0], true),
+        (&[3, 0, 0], true),
+        (&[3, 0, 1], true),
+        (&[3, 1], true),
+        (&[3, 1, 0], true),
     ];
 
     assert_eq!(actual, expected);
@@ -212,7 +212,23 @@ fn tag_accumulation_filter_tags() {
         assert_eq!(actual, expected, "tags = {:?}", tags);
     }
 
-    test(&[], &[]);
+    test(
+        &[],
+        &[
+            (&[0], "first task"),
+            (&[1], "task with a sub"),
+            (&[1, 0], "first sub task"),
+            (&[2], "task with 2 subs"),
+            (&[2, 0], "completed sub task"),
+            (&[2, 1], "active sub task"),
+            (&[3], "deep sub task levels"),
+            (&[3, 0], "deep sub task levels 1"),
+            (&[3, 0, 0], "deep sub task levels 1a"),
+            (&[3, 0, 1], "deep sub task levels 1b"),
+            (&[3, 1], "deep sub task levels 2"),
+            (&[3, 1, 0], "deep sub task levels 2a"),
+        ],
+    );
 
     test(
         &["abc"],
@@ -245,16 +261,5 @@ fn tag_accumulation_filter_tags() {
         ],
     );
 
-    test(
-        &["abc", "def", "ghi"],
-        &[
-            (&[0], "first task"),
-            (&[1], "task with a sub"),
-            (&[1, 0], "first sub task"),
-            (&[3], "deep sub task levels"),
-            (&[3, 0], "deep sub task levels 1"),
-            (&[3, 1], "deep sub task levels 2"),
-            (&[3, 1, 0], "deep sub task levels 2a"),
-        ],
-    );
+    test(&["abc", "def", "ghi"], &[(&[0], "first task")]);
 }
