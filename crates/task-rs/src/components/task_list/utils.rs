@@ -181,7 +181,7 @@ fn tag_accumulation_no_filter() {
 
 #[test]
 fn tag_accumulation_filter_no_tags() {
-    let task_items = load_with_tags(&[] as &[&str]);
+    let task_items = load_with_tags(&[]);
 
     let actual: Vec<_> = task_items
         .iter()
