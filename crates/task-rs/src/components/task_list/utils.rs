@@ -17,9 +17,7 @@ fn extend_task_item_list(
         let prefix = || [address_prefix, &[index]].concat();
         let mut item = TaskItem::from_task_ref(prefix(), task, status_accumulation);
         let tag_accumulation = if let Some(tags) = tags {
-            tag_accumulation.join_satisfaction_func(|| {
-                tag_accumulation.satisfaction || !task.tags.is_disjoint(tags)
-            })
+            tag_accumulation.join_satisfaction_func(|| !task.tags.is_disjoint(tags))
         } else {
             Default::default() // <- this value can be whatever, it is irrelevant
         };
