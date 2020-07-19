@@ -96,6 +96,16 @@ fn load(tags: &Option<BTreeSet<TagId>>) -> Vec<TaskItem> {
         .pipe_ref(|x| create_task_item_list(x, tags))
 }
 
+#[cfg(test)]
+fn load_with_tags(tags: &[&str]) -> Vec<TaskItem> {
+    use pipe_trait::*;
+    tags.iter()
+        .map(TagId::from)
+        .collect::<BTreeSet<_>>()
+        .pipe(Some)
+        .pipe_ref(load)
+}
+
 #[test]
 fn test_extend_task_item_list() {
     let task_items = load(&None);
@@ -170,7 +180,7 @@ fn tag_accumulation_no_filter() {
 
 #[test]
 fn tag_accumulation_filter_no_tags() {
-    let task_items = load(&Some(Default::default()));
+    let task_items = load_with_tags(&[] as &[&str]);
 
     let actual: Vec<_> = task_items
         .iter()
