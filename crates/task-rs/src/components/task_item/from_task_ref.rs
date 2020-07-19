@@ -12,6 +12,7 @@ impl TaskItem {
             address: Rc::new(task_address),
             status: task.status,
             summary: task.summary.clone(),
+            tags: task.tags.clone(),
             status_accumulation: status_accumulation.join_task(task),
             tag_accumulation: Default::default(),
         }

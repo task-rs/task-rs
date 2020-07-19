@@ -1,36 +1,33 @@
 use super::super::super::data::{Status, TagId, Task};
-use super::super::task_item::{StatusAccumulation, TaskItem};
+use super::super::task_item::{StatusAccumulation, TagAccumulation, TaskItem};
 use std::collections::BTreeSet;
-
-fn accumulate_tags(mut target: BTreeSet<TagId>, addend: &BTreeSet<TagId>) -> BTreeSet<TagId> {
-    for item in addend {
-        if !target.contains(item) {
-            target.insert(item.clone());
-        }
-    }
-
-    target
-}
 
 fn extend_task_item_list(
     target: &mut Vec<TaskItem>,
     tasks: &[Task],
+    tags: &Option<BTreeSet<TagId>>, // None when filter does not apply (i.e. "Show All")
     address_prefix: &[usize],
     status_accumulation: StatusAccumulation,
-    tag_accumulation: BTreeSet<TagId>,
+    tag_accumulation: TagAccumulation,
 ) {
     for (index, task) in tasks.iter().enumerate() {
         let prefix = || [address_prefix, &[index]].concat();
-        let tag_accumulation = accumulate_tags(tag_accumulation.clone(), &task.tags);
         let mut item = TaskItem::from_task_ref(prefix(), task, status_accumulation);
-        item.tag_accumulation.tags = tag_accumulation.clone();
+        item.tag_accumulation = tag_accumulation;
         target.push(item);
         extend_task_item_list(
             target,
             &task.sub,
+            tags,
             &prefix(),
             status_accumulation.join_task(task),
-            tag_accumulation,
+            if let Some(tags) = tags {
+                tag_accumulation.join_satisfaction_func(|| {
+                    tag_accumulation.satisfaction || task.tags.is_disjoint(tags)
+                })
+            } else {
+                Default::default() // <- this value can be whatever, it is irrelevant
+            },
         );
     }
 }
@@ -54,7 +51,7 @@ fn calculate_contains_completed(target: &mut [TaskItem]) {
     }
 }
 
-fn accumulate_tags_bottom_up(target: &mut [TaskItem]) {
+fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem]) {
     let len = target.len();
     for i in 0..len {
         for j in i..len {
@@ -62,17 +59,11 @@ fn accumulate_tags_bottom_up(target: &mut [TaskItem]) {
                 break;
             }
 
-            target[i].tag_accumulation.tags = accumulate_tags(
-                target[i].tag_accumulation.tags.clone(),
-                &target[j].tag_accumulation.tags,
-            );
+            if target[j].tag_accumulation.satisfaction {
+                target[i].tag_accumulation.satisfaction = true;
+                break;
+            }
         }
-    }
-}
-
-fn calculate_tag_satisfaction(target: &mut [TaskItem], tags: &BTreeSet<TagId>) {
-    for item in target.iter_mut() {
-        item.tag_accumulation.satisfy = !tags.is_disjoint(&item.tag_accumulation.tags);
     }
 }
 
@@ -81,14 +72,14 @@ pub fn create_task_item_list(tasks: &[Task], tags: &Option<BTreeSet<TagId>>) -> 
     extend_task_item_list(
         &mut result,
         tasks,
+        tags,
         &[],
         Default::default(),
         Default::default(),
     );
     calculate_contains_completed(&mut result);
-    accumulate_tags_bottom_up(&mut result);
-    if let Some(tags) = tags {
-        calculate_tag_satisfaction(&mut result, tags);
+    if tags.is_some() {
+        calculate_tag_satisfaction_bottom_up(&mut result);
     }
     result
 }

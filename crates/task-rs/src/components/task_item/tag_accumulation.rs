@@ -1,10 +1,15 @@
-use super::super::super::data::TagId;
 use smart_default::SmartDefault;
-use std::collections::BTreeSet;
 
-#[derive(Debug, SmartDefault, Clone, Eq, PartialEq)]
+#[derive(Debug, SmartDefault, Clone, Copy, Eq, PartialEq)]
 pub struct TagAccumulation {
-    pub tags: BTreeSet<TagId>,
     #[default(false)]
-    pub satisfy: bool,
+    pub satisfaction: bool,
+}
+
+impl TagAccumulation {
+    pub fn join_satisfaction_func(self, func: impl FnOnce() -> bool) -> Self {
+        TagAccumulation {
+            satisfaction: self.satisfaction || func(),
+        }
+    }
 }
