@@ -23,7 +23,7 @@ fn extend_task_item_list(
             status_accumulation.join_task(task),
             if let Some(tags) = tags {
                 tag_accumulation.join_satisfaction_func(|| {
-                    tag_accumulation.satisfaction || task.tags.is_disjoint(tags)
+                    tag_accumulation.satisfaction || !task.tags.is_disjoint(tags)
                 })
             } else {
                 Default::default() // <- this value can be whatever, it is irrelevant
