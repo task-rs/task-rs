@@ -11,7 +11,6 @@ fn extend_task_item_list(
     tags: &Option<BTreeSet<TagId>>, // None when filter does not apply (i.e. "Show All")
     address_prefix: &[usize],
     status_accumulation: StatusAccumulation,
-    tag_accumulation: TagAccumulation,
 ) {
     for (index, task) in tasks.iter().enumerate() {
         let prefix = || [address_prefix, &[index]].concat();
@@ -29,7 +28,6 @@ fn extend_task_item_list(
             tags,
             &prefix(),
             status_accumulation.join_task(task),
-            tag_accumulation,
         );
     }
 }
@@ -74,14 +72,7 @@ fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem]) {
 
 pub fn create_task_item_list(tasks: &[Task], tags: &Option<BTreeSet<TagId>>) -> Vec<TaskItem> {
     let mut result = Vec::new();
-    extend_task_item_list(
-        &mut result,
-        tasks,
-        tags,
-        &[],
-        Default::default(),
-        Default::default(),
-    );
+    extend_task_item_list(&mut result, tasks, tags, &[], Default::default());
     calculate_contains_completed(&mut result);
     if tags.is_some() {
         calculate_tag_satisfaction_bottom_up(&mut result);
