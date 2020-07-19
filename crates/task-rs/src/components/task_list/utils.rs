@@ -15,11 +15,11 @@ fn extend_task_item_list(
     for (index, task) in tasks.iter().enumerate() {
         let prefix = || [address_prefix, &[index]].concat();
         let mut item = TaskItem::from_task_ref(prefix(), task, status_accumulation);
-        let tag_accumulation = if let Some(tags) = tags {
-            TagAccumulation::calculate(task, tags)
-        } else {
-            Default::default() // <- this value can be whatever, it is irrelevant
-        };
+        let mut tag_accumulation = TagAccumulation::default();
+        if let Some(tags) = tags {
+            tag_accumulation.join_task(task);
+            tag_accumulation.compare(tags);
+        }
         item.tag_accumulation = tag_accumulation;
         target.push(item);
         extend_task_item_list(
@@ -51,20 +51,26 @@ fn calculate_contains_completed(target: &mut [TaskItem]) {
     }
 }
 
-fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem]) {
+fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem], tags: &BTreeSet<TagId>) {
     let len = target.len();
     for i in 0..len {
-        // `i..len` instead of `(i + 1)..len` so that it skips when `target[i]` satisfies
-        for j in i..len {
-            // if `i`'s address is not prefix of `j`'s address, end loop
-            if !target[j].address.starts_with(target[i].address.as_slice()) {
+        let (left, right) = target.split_at_mut(i);
+        if let Some((x0, _)) = left.split_last_mut() {
+            x0.tag_accumulation.compare(tags);
+            if x0.tag_accumulation.is_satisfied() {
                 break;
             }
 
-            // if `j` satisfies, mark `i` as "satisfied" and end loop
-            if target[j].tag_accumulation.satisfaction {
-                target[i].tag_accumulation.satisfaction = true;
-                break;
+            for x1 in right {
+                if !x1.address.starts_with(x0.address.as_slice()) {
+                    break;
+                }
+
+                x0.tag_accumulation.join(&x1.tag_accumulation);
+                x0.tag_accumulation.compare(tags);
+                if x0.tag_accumulation.is_satisfied() {
+                    break;
+                }
             }
         }
     }
@@ -74,8 +80,8 @@ pub fn create_task_item_list(tasks: &[Task], tags: &Option<BTreeSet<TagId>>) -> 
     let mut result = Vec::new();
     extend_task_item_list(&mut result, tasks, tags, &[], Default::default());
     calculate_contains_completed(&mut result);
-    if tags.is_some() {
-        calculate_tag_satisfaction_bottom_up(&mut result);
+    if let Some(tags) = tags {
+        calculate_tag_satisfaction_bottom_up(&mut result, tags);
     }
     result
 }
@@ -162,7 +168,8 @@ fn task_status_accumulation() {
 fn tag_accumulation_no_filter() {
     for item in load(&None) {
         assert_eq!(
-            item.tag_accumulation.satisfaction, false,
+            item.tag_accumulation.is_satisfied(),
+            false,
             "address = {:?}",
             item.address
         );
@@ -175,7 +182,12 @@ fn tag_accumulation_filter_no_tags() {
 
     let actual: Vec<_> = task_items
         .iter()
-        .map(|item| (item.address.as_slice(), item.tag_accumulation.satisfaction))
+        .map(|item| {
+            (
+                item.address.as_slice(),
+                item.tag_accumulation.is_satisfied(),
+            )
+        })
         .collect();
 
     let expected: Vec<(&[usize], bool)> = vec![
@@ -205,7 +217,7 @@ fn tag_accumulation_filter_tags() {
 
         let actual: Vec<_> = task_items
             .iter()
-            .filter(|item| item.tag_accumulation.satisfaction)
+            .filter(|item| item.tag_accumulation.is_satisfied())
             .map(|item| (item.address.as_slice(), item.summary.as_str()))
             .collect();
 

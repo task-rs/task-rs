@@ -2,12 +2,14 @@ pub mod bidirectional_map;
 pub mod callable;
 pub mod data;
 pub mod indexed_map;
+pub mod merge;
 pub mod xdg;
 
 pub use bidirectional_map::BidirectionalMap;
 pub use callable::Callable;
 pub use data::from_cfg_opt as load_data_from_cfg_opt;
 pub use indexed_map::IndexedMap;
+pub use merge::merge_sets_with_minimal_cloning;
 pub use xdg::{config_file, ui_state_file};
 
 use iced::*;
