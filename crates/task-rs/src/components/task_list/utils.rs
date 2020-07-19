@@ -205,3 +205,35 @@ fn tag_accumulation_filter_no_tags() {
 
     assert_eq!(actual, expected);
 }
+
+#[test]
+fn tag_accumulation_filter_tags() {
+    macro_rules! test {
+        ($tags:expr, $expected:expr) => {
+            let tags = $tags;
+            let task_items = load_with_tags(tags);
+
+            let actual: Vec<_> = task_items
+                .iter()
+                .filter(|item| item.tag_accumulation.satisfaction)
+                .map(|item| (item.address.as_slice(), item.summary.as_str()))
+                .collect();
+
+            let expected: Vec<(&[usize], &str)> = $expected;
+
+            assert_eq!(actual, expected, "tags = {:?}", tags);
+        };
+    }
+
+    test!(&[], vec![]);
+
+    test!(
+        &["abc"],
+        vec![
+            (&[0], "first task"),
+            (&[1], "task with a sub"),
+            (&[3], "deep sub task levels"),
+            (&[3, 0], "deep sub task levels 1"),
+        ]
+    );
+}
