@@ -69,6 +69,7 @@ fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem], tags: &BTreeSet
                 x0.tag_accumulation.join(&x1.tag_accumulation);
                 x0.tag_accumulation.compare(tags);
                 if x0.tag_accumulation.is_satisfied() {
+                    x1.tag_accumulation = TagAccumulation::Satisfied;
                     break;
                 }
             }
