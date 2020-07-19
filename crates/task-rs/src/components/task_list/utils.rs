@@ -198,7 +198,7 @@ fn tag_accumulation_filter_no_tags() {
 
 #[test]
 fn tag_accumulation_filter_tags() {
-    fn test(tags: &[&str], expected: Vec<(&[usize], &str)>) {
+    fn test(tags: &[&str], expected: &[(&[usize], &str)]) {
         let task_items = load_with_tags(tags);
 
         let actual: Vec<_> = task_items
@@ -210,11 +210,11 @@ fn tag_accumulation_filter_tags() {
         assert_eq!(actual, expected, "tags = {:?}", tags);
     }
 
-    test(&[], vec![]);
+    test(&[], &[]);
 
     test(
         &["abc"],
-        vec![
+        &[
             (&[0], "first task"),
             (&[1], "task with a sub"),
             (&[3], "deep sub task levels"),
@@ -224,7 +224,7 @@ fn tag_accumulation_filter_tags() {
 
     test(
         &["def"],
-        vec![
+        &[
             (&[0], "first task"),
             (&[1], "task with a sub"),
             (&[1, 0], "first sub task"),
