@@ -54,11 +54,14 @@ fn calculate_contains_completed(target: &mut [TaskItem]) {
 fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem]) {
     let len = target.len();
     for i in 0..len {
+        // `i..len` instead of `(i + 1)..len` so that it skips when `target[i]` satisfies
         for j in i..len {
+            // if `i`'s address is not prefix of `j`'s address, end loop
             if !target[j].address.starts_with(target[i].address.as_slice()) {
                 break;
             }
 
+            // if `j` satisfies, mark `i` as "satisfied" and end loop
             if target[j].tag_accumulation.satisfaction {
                 target[i].tag_accumulation.satisfaction = true;
                 break;
