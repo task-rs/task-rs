@@ -156,3 +156,14 @@ fn task_status_accumulation() {
 
     assert_eq!(actual, expected);
 }
+
+#[test]
+fn tag_accumulation_no_filter() {
+    for item in load(&None) {
+        assert_eq!(
+            item.tag_accumulation.satisfaction, false,
+            "address = {:?}",
+            item.address
+        );
+    }
+}
