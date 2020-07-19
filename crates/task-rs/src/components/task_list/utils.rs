@@ -2,6 +2,9 @@ use super::super::super::data::{Status, TagId, Task};
 use super::super::task_item::{StatusAccumulation, TagAccumulation, TaskItem};
 use std::collections::BTreeSet;
 
+#[cfg(test)]
+use pipe_trait::*;
+
 fn extend_task_item_list(
     target: &mut Vec<TaskItem>,
     tasks: &[Task],
@@ -89,7 +92,6 @@ pub fn create_task_item_list(tasks: &[Task], tags: &Option<BTreeSet<TagId>>) -> 
 
 #[cfg(test)]
 fn load(tags: &Option<BTreeSet<TagId>>) -> Vec<TaskItem> {
-    use pipe_trait::*;
     include_str!("./fixtures/task-items.yaml")
         .pipe(serde_yaml::from_str::<Vec<Task>>)
         .unwrap()
@@ -98,7 +100,6 @@ fn load(tags: &Option<BTreeSet<TagId>>) -> Vec<TaskItem> {
 
 #[cfg(test)]
 fn load_with_tags(tags: &[&str]) -> Vec<TaskItem> {
-    use pipe_trait::*;
     tags.iter()
         .map(TagId::from)
         .collect::<BTreeSet<_>>()
