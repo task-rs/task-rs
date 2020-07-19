@@ -16,6 +16,13 @@ fn extend_task_item_list(
     for (index, task) in tasks.iter().enumerate() {
         let prefix = || [address_prefix, &[index]].concat();
         let mut item = TaskItem::from_task_ref(prefix(), task, status_accumulation);
+        let tag_accumulation = if let Some(tags) = tags {
+            tag_accumulation.join_satisfaction_func(|| {
+                tag_accumulation.satisfaction || !task.tags.is_disjoint(tags)
+            })
+        } else {
+            Default::default() // <- this value can be whatever, it is irrelevant
+        };
         item.tag_accumulation = tag_accumulation;
         target.push(item);
         extend_task_item_list(
@@ -24,13 +31,7 @@ fn extend_task_item_list(
             tags,
             &prefix(),
             status_accumulation.join_task(task),
-            if let Some(tags) = tags {
-                tag_accumulation.join_satisfaction_func(|| {
-                    tag_accumulation.satisfaction || !task.tags.is_disjoint(tags)
-                })
-            } else {
-                Default::default() // <- this value can be whatever, it is irrelevant
-            },
+            tag_accumulation,
         );
     }
 }
