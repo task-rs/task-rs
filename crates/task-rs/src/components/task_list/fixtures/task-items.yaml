@@ -1,10 +1,18 @@
 - status: active
   summary: first task
+  tags:
+    - abc
+    - def
+    - ghi
 - status: active
   summary: task with a sub
+  tags:
+    - abc
   sub:
     - status: active
       summary: first sub task
+      tags:
+        - def
 - status: active
   summary: task with 2 subs
   sub:
@@ -17,6 +25,8 @@
   sub:
     - status: active
       summary: deep sub task levels 1
+      tags:
+        - abc
       sub:
         - status: completed
           summary: deep sub task levels 1a
@@ -24,6 +34,10 @@
           summary: deep sub task levels 1b
     - status: completed
       summary: deep sub task levels 2
+      tags:
+        - def
       sub:
         - status: active
           summary: deep sub task levels 2a
+          tags:
+            - ghi
