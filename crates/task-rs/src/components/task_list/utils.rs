@@ -16,7 +16,7 @@ fn extend_task_item_list(
         let prefix = || [address_prefix, &[index]].concat();
         let mut item = TaskItem::from_task_ref(prefix(), task, status_accumulation);
         let tag_accumulation = if let Some(tags) = tags {
-            TagAccumulation::from_bool(task.tags.is_superset(tags))
+            TagAccumulation::calculate(task, tags)
         } else {
             Default::default() // <- this value can be whatever, it is irrelevant
         };
