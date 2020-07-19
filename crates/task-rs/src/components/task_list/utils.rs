@@ -199,6 +199,8 @@ fn tag_accumulation_filter_no_tags() {
 #[test]
 fn tag_accumulation_filter_tags() {
     fn test(tags: &[&str], expected: &[(&[usize], &str)]) {
+        println!("tags = {:?}", tags);
+
         let task_items = load_with_tags(tags);
 
         let actual: Vec<_> = task_items
