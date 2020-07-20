@@ -40,25 +40,28 @@ impl TaskItem {
             },
         );
 
-        let summary = Text::new(summary);
+        let middle = {
+            let summary = Text::new(summary);
 
-        let tags = {
-            let mut row = Row::new();
+            let tags = {
+                let mut row = Row::new();
 
-            for tag in &tags {
-                let label = format!("#{}", &tag.0);
-                let label = Text::new(label);
-                row = row.push(label);
-            }
+                for tag in &tags {
+                    let label = format!("#{}", &tag.0);
+                    let label = Text::new(label);
+                    row = row.push(label);
+                }
 
-            row
+                row
+            };
+
+            Column::new().push(summary).push(tags)
         };
 
         Row::new()
             .push(indentation)
             .push(checkbox)
-            .push(summary)
-            .push(tags)
+            .push(middle)
             .into()
     }
 }
