@@ -5,8 +5,14 @@ use pipe_trait::*;
 
 impl TaskItem {
     pub fn view(self) -> Element<'static, Message> {
-        let indent_size = self
-            .address
+        let TaskItem {
+            tags,
+            summary,
+            address,
+            ..
+        } = self;
+
+        let indent_size = address
             .as_ref()
             .len()
             .pipe(|x| x as u16 * SUB_TASK_INDENT)
@@ -16,18 +22,18 @@ impl TaskItem {
             .width(indent_size)
             .height(Length::Units(SUB_TASK_INDENT));
 
-        let summary = Text::new(self.summary.clone());
+        let summary = Text::new(summary);
 
         let tags = {
-            let mut tags = Row::new();
+            let mut row = Row::new();
 
-            for tag in &self.tags {
+            for tag in &tags {
                 let label = format!("#{}", &tag.0);
                 let label = Text::new(label);
-                tags = tags.push(label);
+                row = row.push(label);
             }
 
-            tags
+            row
         };
 
         let checkbox = Checkbox::new(
@@ -38,7 +44,7 @@ impl TaskItem {
             "",
             move |is_checked| {
                 Message::SetStatus(
-                    self.address.as_ref().clone(),
+                    address.as_ref().clone(),
                     if is_checked {
                         Status::Completed
                     } else {
