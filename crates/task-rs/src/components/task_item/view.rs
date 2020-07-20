@@ -16,12 +16,26 @@ impl TaskItem {
             .width(indent_size)
             .height(Length::Units(SUB_TASK_INDENT));
 
+        let summary = Text::new(self.summary.clone());
+
+        let tags = {
+            let mut tags = Row::new();
+
+            for tag in &self.tags {
+                let label = format!("#{}", &tag.0);
+                let label = Text::new(label);
+                tags = tags.push(label);
+            }
+
+            tags
+        };
+
         let checkbox = Checkbox::new(
             match self.status {
                 Status::Active => false,
                 Status::Completed => true,
             },
-            self.summary.clone(),
+            "",
             move |is_checked| {
                 Message::SetStatus(
                     self.address.as_ref().clone(),
@@ -34,6 +48,11 @@ impl TaskItem {
             },
         );
 
-        Row::new().push(indentation).push(checkbox).into()
+        Row::new()
+            .push(indentation)
+            .push(checkbox)
+            .push(summary)
+            .push(tags)
+            .into()
     }
 }
