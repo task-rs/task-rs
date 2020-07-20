@@ -288,6 +288,15 @@ fn tag_accumulation_filter_tags() {
     );
 
     test(
+        &["abc", "def"],
+        &[
+            (&[0], "first task"),
+            (&[1], "task with a sub"),
+            (&[3], "deep sub task levels"),
+        ],
+    );
+
+    test(
         &["abc", "def", "ghi"],
         &[(&[0], "first task"), (&[3], "deep sub task levels")],
     );
