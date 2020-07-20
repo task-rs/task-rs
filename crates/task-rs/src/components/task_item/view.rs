@@ -22,20 +22,6 @@ impl TaskItem {
             .width(indent_size)
             .height(Length::Units(SUB_TASK_INDENT));
 
-        let summary = Text::new(summary);
-
-        let tags = {
-            let mut row = Row::new();
-
-            for tag in &tags {
-                let label = format!("#{}", &tag.0);
-                let label = Text::new(label);
-                row = row.push(label);
-            }
-
-            row
-        };
-
         let checkbox = Checkbox::new(
             match self.status {
                 Status::Active => false,
@@ -53,6 +39,20 @@ impl TaskItem {
                 )
             },
         );
+
+        let summary = Text::new(summary);
+
+        let tags = {
+            let mut row = Row::new();
+
+            for tag in &tags {
+                let label = format!("#{}", &tag.0);
+                let label = Text::new(label);
+                row = row.push(label);
+            }
+
+            row
+        };
 
         Row::new()
             .push(indentation)
