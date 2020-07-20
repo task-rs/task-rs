@@ -69,7 +69,6 @@ fn calculate_tag_satisfaction_bottom_up(target: &mut [TaskItem], tags: &BTreeSet
                 x0.tag_accumulation.join(&x1.tag_accumulation);
                 x0.tag_accumulation.compare(tags);
                 if x0.tag_accumulation.is_satisfied() {
-                    x1.tag_accumulation = TagAccumulation::Satisfied;
                     break;
                 }
             }
@@ -280,7 +279,6 @@ fn tag_accumulation_filter_tags() {
             (&[0], "first task"),
             (&[3], "deep sub task levels"),
             (&[3, 1], "deep sub task levels 2"),
-            (&[3, 1, 0], "deep sub task levels 2a"),
         ],
     );
 
