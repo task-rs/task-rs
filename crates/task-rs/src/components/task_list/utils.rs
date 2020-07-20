@@ -300,4 +300,6 @@ fn tag_accumulation_filter_tags() {
         &["abc", "def", "ghi"],
         &[(&[0], "first task"), (&[3], "deep sub task levels")],
     );
+
+    test(&["tag-that-does-not-exist"], &[]);
 }
